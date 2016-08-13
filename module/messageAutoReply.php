@@ -90,6 +90,21 @@ switch(MESSAGE_TYPE)
                     $messageManager->responseMsg( 'text' );
                     break;
     			}
+    			case '申情三宝好吃有料' :
+    			{
+                    include('class/CardMessager.class.php');
+                    $cardMessager = new CardMessager();
+                    $remainQuantity = $cardMessager->getBaseInfo("pkV_gjiEHPU4oRTe9JjOPbU9L7mY")->sku->quantity;
+                    if( $remainQuantity > 0 )
+                    {
+                        
+                        $cardMessager->sendCard('pkV_gjiEHPU4oRTe9JjOPbU9L7mY');
+                        break;
+                    }                    
+                    define("CONTENT", '今日对暗号福利已经领完！亲亲，明天早上7:00红房子小票暗号更新，新的暗号，新的福利等着你！（小票暗号每2天更新一次，请在当日购物小票最下方查看）');
+                    $messageManager->responseMsg( 'text' );
+                    break;
+    			}
     			case '帝王酥好好吃' :
     			{
                     include('class/CardMessager.class.php');
