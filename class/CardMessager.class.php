@@ -27,6 +27,21 @@ class CardMessager
         $messageManager->responseMsg( 'null' );
     }
 
+    //关键词回复卡券，领完后再发送关键词回复文字消息
+    //参数分别为卡券id，领完再发送关键词回复的提示消息文本和$messageManager实例对象
+    public function getCardByKeyWords( $card_id, $outReplayText, $messageManager)
+    {
+        $remainQuantity = $this->getBaseInfo($card_id)->sku->quantity;
+        if( $remainQuantity > 0 )
+        {
+            $this->sendCard($card_id);
+        }    
+        else
+        {
+            define("CONTENT", $outReplayText);
+            $messageManager->responseMsg( 'text' );
+        }              
+    }
     //修改卡券数量
     //之前测试无效，返回的是空
     /*public function changeQuantity( $card_id, $increase_stock_value=0, $reduce_stock_value=0 )
