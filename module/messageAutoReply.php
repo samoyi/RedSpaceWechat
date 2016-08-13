@@ -92,42 +92,58 @@ switch(MESSAGE_TYPE)
     			}
     			case '帝王酥好好吃' :
     			{
-    				$messageManager->sendCard('pkV_gjnv7cGQJD_Z3x2T9wf9xsNM');
+                    include('class/CardMessager.class.php');
+                    $cardMessager = new CardMessager();
+                    $cardMessager->getCardByKeyWords( 'pkV_gjnv7cGQJD_Z3x2T9wf9xsNM', '今日对暗号福利已经领完！亲亲，明天早上7:00红房子小票暗号更新，新的暗号，新的福利等着你！（小票暗号每2天更新一次，请在当日购物小票最下方查看）', $messageManager);
     				break;
     			}
     			case '五仁月饼果仁多' :
     			{
-    				$messageManager->sendCard('pkV_gjklcvQ9lEZtps78_r_hnGGw');
+                    include('class/CardMessager.class.php');
+                    $cardMessager = new CardMessager();
+                    $cardMessager->getCardByKeyWords( 'pkV_gjklcvQ9lEZtps78_r_hnGGw', '今日对暗号福利已经领完！亲亲，明天早上7:00红房子小票暗号更新，新的暗号，新的福利等着你！（小票暗号每2天更新一次，请在当日购物小票最下方查看）', $messageManager);
     				break;
     			}
     			case '蛋黄莲蓉，料胜一筹' :
     			{
-    				$messageManager->sendCard('pkV_gjk_3BCNFIwTOO7kYRJRhKVw');
+                    include('class/CardMessager.class.php');
+                    $cardMessager = new CardMessager();
+                    $cardMessager->getCardByKeyWords( 'pkV_gjk_3BCNFIwTOO7kYRJRhKVw', '今日对暗号福利已经领完！亲亲，明天早上7:00红房子小票暗号更新，新的暗号，新的福利等着你！（小票暗号每2天更新一次，请在当日购物小票最下方查看）', $messageManager);
     				break;
     			}
     			case '三宝萌萌哒' :
     			{
-    				$messageManager->sendCard('pkV_gjupHgxWpv1MfNxSeRmxn9Fg');
+                    include('class/CardMessager.class.php');
+                    $cardMessager = new CardMessager();
+                    $cardMessager->getCardByKeyWords( 'pkV_gjupHgxWpv1MfNxSeRmxn9Fg', '今日对暗号福利已经领完！亲亲，明天早上7:00红房子小票暗号更新，新的暗号，新的福利等着你！（小票暗号每2天更新一次，请在当日购物小票最下方查看）', $messageManager);
     				break;
     			}
     			case '红房子月饼好好吃' :
     			{
-    				$messageManager->sendCard('pkV_gjs7im22p3QG5BzpWpJ1Er6Y');
+                    include('class/CardMessager.class.php');
+                    $cardMessager = new CardMessager();
+                    $cardMessager->getCardByKeyWords( 'pkV_gjs7im22p3QG5BzpWpJ1Er6Y', '今日对暗号福利已经领完！亲亲，明天早上7:00红房子小票暗号更新，新的暗号，新的福利等着你！（小票暗号每2天更新一次，请在当日购物小票最下方查看）', $messageManager);
     				break;
     			}
     			case '甜甜的红房子' :
     			{
-    				$messageManager->sendCard('pkV_gjhx1Z3vGs8wsVSUrZ5EaUGI');
+                    include('class/CardMessager.class.php');
+                    $cardMessager = new CardMessager();
+                    $cardMessager->getCardByKeyWords( 'pkV_gjhx1Z3vGs8wsVSUrZ5EaUGI', '今日对暗号福利已经领完！亲亲，明天早上7:00红房子小票暗号更新，新的暗号，新的福利等着你！（小票暗号每2天更新一次，请在当日购物小票最下方查看）', $messageManager);
     				break;
     			}
     			case '料你难挡诱惑' :
     			{
-    				$messageManager->sendCard('pkV_gjmVjPoPqYSfdITt_dOhdLaw');
+                    include('class/CardMessager.class.php');
+                    $cardMessager = new CardMessager();
+                    $cardMessager->getCardByKeyWords( 'pkV_gjmVjPoPqYSfdITt_dOhdLaw', '今日对暗号福利已经领完！亲亲，明天早上7:00红房子小票暗号更新，新的暗号，新的福利等着你！（小票暗号每2天更新一次，请在当日购物小票最下方查看）', $messageManager);
     				break;
     			}
     			case '吃申情三宝，过有料中秋' :
     			{
-    				$messageManager->sendCard('pkV_gjrbqqVizE3t9bKKIhraHA2s');
+                    include('class/CardMessager.class.php');
+                    $cardMessager = new CardMessager();
+                    $cardMessager->getCardByKeyWords( 'pkV_gjrbqqVizE3t9bKKIhraHA2s', '今日对暗号福利已经领完！亲亲，明天早上7:00红房子小票暗号更新，新的暗号，新的福利等着你！（小票暗号每2天更新一次，请在当日购物小票最下方查看）', $messageManager);
     				break;
     			}
     			default: // 如果用户发送的不是已设定的关键词
