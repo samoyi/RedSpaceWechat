@@ -10,7 +10,6 @@ class CardMessager
         ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=', $data ); 
         $resultorderObj = json_decode($result);
         $baseInfo = $resultorderObj->{'card'}->{'general_coupon'}->{'base_info'};
-        file_put_contents("err.txt", json_encode($baseInfo));
         return $baseInfo;
     }
 
