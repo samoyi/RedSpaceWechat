@@ -66,6 +66,11 @@ $customMenuData =  '{
                             "type":"click",
                             "name":"现烤月饼二送一",
                             "key":"customMenuKey21"
+                        },
+                        {
+                            "type":"click",
+                            "name":"月饼新品",
+                            "key":"customMenuKey22"
                         }]
                     }]
                }';
