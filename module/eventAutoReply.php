@@ -113,6 +113,15 @@ switch( EVENT_TYPE )
                 $messageManager->sendArticalMessage($title, $des, $imageUrl, $articalUrl);
                 break; 
             }
+            case 'customMenuKey22' :
+            {
+                $title = '月饼奥运，有美味更有福利！';
+                $des = "🎁小票对暗号，礼券天天抢\n🎁申情摇一摇，三宝来献礼\n\n中秋活动火热进行中\n\n领完优惠券，哪款月饼才是你心中的冠军呢？";
+                $imageUrl = 'https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWoicZh4TFdlBiaqSEEDQuiaS6HmvQmMyW9r8Je0g3ObzZdXsCMed50FJgqiaT5tFBvuEjAI1rrutghHA/0?wx_fmt=gif';
+                $articalUrl = 'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756181&idx=1&sn=5c728f9bde60f016f58e0cf8914dff92#rd'; 
+                $messageManager->sendArticalMessage($title, $des, $imageUrl, $articalUrl);
+                break; 
+            }
         }
         break;
     }
