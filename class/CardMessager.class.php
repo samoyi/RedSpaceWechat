@@ -6,7 +6,8 @@ class CardMessager
     public function getBaseInfo($card_id) 
     {
         $postJson = '{"card_id": "' . $card_id . '"}';
-        $result =  request_post('https://api.weixin.qq.com/card/get?access_token=' . ACCESS_TOKEN, $postJson) ;
+        $result =  request_post('https://api.weixin.qq.com/card/get?access_token=' . ACCESS_TOKEN, $postJson);
+        ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=', $data ); 
         $resultorderObj = json_decode($result);
         $baseInfo = $resultorderObj->{'card'}->{'general_coupon'}->{'base_info'};
         return $baseInfo;
@@ -22,7 +23,8 @@ class CardMessager
                 "wxcard":{ "card_id":"' . $card_id . '" }
                 }';
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . ACCESS_TOKEN;
-        $result = request_post($url, $data);    
+        $result = request_post($url, $data);   
+        ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=', $data ); 
         $messageManager = new MessageManager();
         $messageManager->responseMsg( 'null' );
     }
