@@ -119,6 +119,13 @@ switch(MESSAGE_TYPE)
                     $cardMessager->getCardByKeyWords( 'pkV_gjklcvQ9lEZtps78_r_hnGGw', '今日对暗号福利已经领完！亲亲，明天早上7:00红房子小票暗号更新，新的暗号，新的福利等着你！（小票暗号每2天更新一次，请在当日购物小票最下方查看）', $messageManager);
     				break;
     			}
+    			case '伍仁月饼果仁多' :
+    			{
+                    include('class/CardMessager.class.php');
+                    $cardMessager = new CardMessager();
+                    $cardMessager->getCardByKeyWords( 'pkV_gjklcvQ9lEZtps78_r_hnGGw', '今日对暗号福利已经领完！亲亲，明天早上7:00红房子小票暗号更新，新的暗号，新的福利等着你！（小票暗号每2天更新一次，请在当日购物小票最下方查看）', $messageManager);
+    				break;
+    			}
     			case '蛋黄莲蓉，料胜一筹' :
     			{
                     include('class/CardMessager.class.php');
