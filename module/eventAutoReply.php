@@ -15,6 +15,9 @@ switch( EVENT_TYPE )
          $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
          $result = request_post($url, $json);
          ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $json );
+
+         //$messageManager->sendImage( '' );
+
          break;
     }
     case 'CLICK' :

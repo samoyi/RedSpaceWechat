@@ -24,7 +24,7 @@ class MessageManager
 
         }
 
-        public function responseMsg( $MsgType )
+        public function responseMsg( $MsgType, $media_id="" )
         {
             //get post data, May be due to the different environments
             $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
@@ -51,6 +51,18 @@ class MessageManager
                                 <Content><![CDATA[" .CONTENT. "]]></Content>
                             </xml>";  
                 }
+                elseif( 'image' === $MsgType )//图片消息
+                {
+                	/*$textTpl = "<xml>
+									<ToUserName><![CDATA[" . USERID . "]]></ToUserName>
+                                	<FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
+									<CreateTime>12345678</CreateTime>
+									<MsgType><![CDATA[image]]></MsgType>
+									<Image>
+										<MediaId><![CDATA[" . $media_id . "]]></MediaId>
+									</Image>
+								</xml>";  	*/
+                }
                 elseif( 'news' === $MsgType )//图文消息
                 {
                     $textTpl = "<xml>
@@ -69,6 +81,7 @@ class MessageManager
                                 </Articles>
                                 </xml> ";  
                 }    
+
                 $msgType = "text";
                 $contentStr = "Welcome to wechat world!";
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
@@ -162,6 +175,12 @@ class MessageManager
     public function sendTextMessage()//TODO 这个没用了？
     {
         $wechatObj->responseMsg( 'text' );
+    }
+
+    //发送图片
+    public function sendImage( $media_id )
+    {
+    	$result = $this->responseMsg( 'image', $media_id);
     }
     //发送图文链接
     public function sendArticalMessage($title, $des, $imageUrl, $articalUrl)
