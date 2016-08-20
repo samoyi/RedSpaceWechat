@@ -57,20 +57,25 @@ $customMenuData =  '{
                      {  
                         "name": "中秋福利",
                         "sub_button":[
-                        {
-                            "type":"click",
-                            "name":"优惠券天天抢",
-                            "key":"customMenuKey20"
+                        {  
+                            "type":"view",
+                            "name":"中秋礼盒订购",
+                            "url":"http://www.red-space.cn/H5/2016/midautumn/index.php"
                         },
                         {
                             "type":"click",
-                            "name":"现烤月饼二送一",
+                            "name":"优惠券天天抢",
                             "key":"customMenuKey21"
                         },
                         {
                             "type":"click",
-                            "name":"月饼新品",
+                            "name":"现烤月饼二送一",
                             "key":"customMenuKey22"
+                        },
+                        {
+                            "type":"click",
+                            "name":"月饼新品",
+                            "key":"customMenuKey23"
                         }]
                     }]
                }';

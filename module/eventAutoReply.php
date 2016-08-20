@@ -9,7 +9,7 @@ switch( EVENT_TYPE )
                  "msgtype":"text",
                  "text":
                  {
-                        "content":"' . '恭喜小红花找到组织啦！（点击蓝色文字直接进入）\n\n[蛋糕]<a href=\"http://dwz.cn/3DU6JS\">蛋糕在线订购，3小时速达</a>\n\n——中秋活动专场——\n\n🎁<a href=\"http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756161&idx=1&sn=ec56abc73358b5519e851f3cb0a7e848#rd\">月饼优惠券天天抢</a>\n\n🎁<a href=\"http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756161&idx=2&sn=4291427ec44aebc6b10cfcd39accf990#rd\">现烤月饼买二送一</a>' . '"
+                        "content":"' . '恭喜小红花找到组织啦！（点击蓝色文字直接进入）\n\n[蛋糕]<a href=\"http://dwz.cn/3DU6JS\">蛋糕在线订购，3小时速达</a>\n\n——中秋月饼礼盒——\n\n🎁<a href=\"http://www.red-space.cn/H5/2016/midautumn/index.php\">点击开启团圆之旅</a>' . '"
                  }
              }';
          $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
@@ -98,7 +98,7 @@ switch( EVENT_TYPE )
                 $messageManager->responseMsg( 'text' );
                 break; 
             }
-            case 'customMenuKey20' :
+            case 'customMenuKey21' :
             {
                 $title = '三宝中秋献礼🎁优惠券🎁天天抢！';
                 $des = '小票对暗号，微信摇一摇，中秋优惠券抢不停！';
@@ -107,7 +107,7 @@ switch( EVENT_TYPE )
                 $messageManager->sendArticalMessage($title, $des, $imageUrl, $articalUrl);
                 break; 
             }
-            case 'customMenuKey21' :
+            case 'customMenuKey22' :
             {
                 $title = '现烤现卖二赠一！刚出炉的家味道';
                 $des = '8月11日-8月31日，现烤月饼玉皇酥、鲜肉月饼、蛋黄肉松，买二送一！';
@@ -116,7 +116,7 @@ switch( EVENT_TYPE )
                 $messageManager->sendArticalMessage($title, $des, $imageUrl, $articalUrl);
                 break; 
             }
-            case 'customMenuKey22' :
+            case 'customMenuKey23' :
             {
                 $title = '月饼奥运，有美味更有福利！';
                 $des = "🎁小票对暗号，礼券天天抢\n🎁申情摇一摇，三宝来献礼\n\n中秋活动火热进行中\n\n领完优惠券，哪款月饼才是你心中的冠军呢？";

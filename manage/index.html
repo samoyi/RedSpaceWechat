@@ -7,9 +7,19 @@
 <body>
 <div></div>
 </body>
+
 <form action="message.php" method="POST">
 	<input type="text" name="orderNumber" placeholder="订单编号" />
 	<input type="text" name="textCustomMessage" placeholder="消息内容" />
 	<input type="submit" /> 
 </form>
+
+<br /><br /><br />
+
+<form action="message.php" method="POST">
+	<input type="hidden" name="type" value="image" />
+	<input type="text" name="textCustomMessage" placeholder="消息内容" />
+	<input type="submit" /> 
+</form>
+
 </html>
