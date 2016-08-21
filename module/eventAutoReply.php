@@ -16,7 +16,7 @@ switch( EVENT_TYPE )
          $result = request_post($url, $json);
          ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $json );
 
-         //$messageManager->sendImage( '' );
+         $messageManager->sendImage( 'wptdc2AEc7V_tFYzTD1EMRDzTIFu6ioaAfqciBupoF0' );
 
          break;
     }

@@ -53,7 +53,7 @@ class MessageManager
                 }
                 elseif( 'image' === $MsgType )//图片消息
                 {
-                	/*$textTpl = "<xml>
+                	$textTpl = "<xml>
 									<ToUserName><![CDATA[" . USERID . "]]></ToUserName>
                                 	<FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
 									<CreateTime>12345678</CreateTime>
@@ -61,7 +61,7 @@ class MessageManager
 									<Image>
 										<MediaId><![CDATA[" . $media_id . "]]></MediaId>
 									</Image>
-								</xml>";  	*/
+								</xml>";  	
                 }
                 elseif( 'news' === $MsgType )//图文消息
                 {
@@ -167,7 +167,6 @@ class MessageManager
                             'eventType'=> trim($fetchedMsgXML->Event),
                             'eventKey'=> trim($fetchedMsgXML->EventKey),
                             'orderID'=>$fetchedMsgXML->OrderId);
-        //file_put_contents("err.txt", $postedEvent, FILE_APPEND);
         return $postedEvent;
     }
 
