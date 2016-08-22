@@ -16,6 +16,8 @@ switch(MESSAGE_TYPE)
     	}
     	else
     	{
+            $cardKeywordsID = json_decode(file_get_contents("manage/JSONData/subscribeAutoPlayText.json"));
+            file_put_contents("err.txt", $cardKeywordsID->料你难挡诱惑);
     		switch( CONTENT_FROM_USER )
     		{
     			case '一元抢' :
@@ -119,10 +121,9 @@ switch(MESSAGE_TYPE)
     			}
     			case '三宝萌萌哒' :
     			{
-                    include('class/CardMessager.class.php');
-                    $cardMessager = new CardMessager();
-                    $cardMessager->sendCard('pkV_gjupHgxWpv1MfNxSeRmxn9Fg');
-    				break;
+                    define("CONTENT", '三宝萌萌哒”暗号优惠券已经领完啦，明天！新的暗号新的福利等着你哟！');
+                    $messageManager->responseMsg( 'text' );
+                    break;
     			}
     			case '红房子月饼好好吃' :
     			{

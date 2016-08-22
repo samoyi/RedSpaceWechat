@@ -59,8 +59,8 @@ $customMenuData =  '{
                         "sub_button":[
                         {  
                             "type":"view",
-                            "name":"中秋礼盒订购",
-                            "url":"http://www.red-space.cn/H5/2016/midautumn/index.php"
+                            "name":"中秋礼盒",
+                            "url":"http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756246&idx=1&sn=1f51b20abd547937712ebd7b07213e36#rd"
                         },
                         {
                             "type":"click",
@@ -80,12 +80,6 @@ $customMenuData =  '{
                     }]
                }';
 
-
-
-    /*if( true )//每次设置完后关闭，否则只要运行该文件就会重复设置
-    {
-        $customMenu->createMenu( $customMenuData);   // 设置自定义菜单
-    }*/
 
     $customMenu->createMenu( $customMenuData);   // 设置自定义菜单
 

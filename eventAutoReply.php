@@ -4,19 +4,12 @@ switch( EVENT_TYPE )
 {
     case 'subscribe':
     {
-        $arr = json_decode( file_get_contents('manage/JSONData/subscribeAutoPlayText.json'));
-        $content = '';
-        foreach( $arr as $value)
-        {
-            $content .= $value;
-        }
-
          $json = '{
                  "touser": "' . USERID . '",
                  "msgtype":"text",
                  "text":
                  {
-                        "content":"' . $content . '"
+                        "content":"' . '恭喜小红花找到组织啦！（点击蓝色文字直接进入）\n\n[蛋糕]<a href=\"http://dwz.cn/3DU6JS\">蛋糕在线订购，3小时速达</a>\n\n——中秋活动专场——\n\n🎁<a href=\"http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756246&idx=1&sn=1f51b20abd547937712ebd7b07213e36#rd\">月饼礼盒家料上市</a>\n\n🎁<a href=\"http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756161&idx=1&sn=ec56abc73358b5519e851f3cb0a7e848#rd\">优惠券天天抢</a>\n\n🎁<a href=\"http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756161&idx=2&sn=4291427ec44aebc6b10cfcd39accf990#rd\">现烤月饼二送一</a>' . '"
                  }
              }';
          $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
