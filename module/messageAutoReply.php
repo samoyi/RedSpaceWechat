@@ -16,8 +16,15 @@ switch(MESSAGE_TYPE)
     	}
     	else
     	{
-            $cardKeywordsID = json_decode(file_get_contents("manage/JSONData/subscribeAutoPlayText.json"));
-            file_put_contents("err.txt", $cardKeywordsID->料你难挡诱惑);
+            $cardKeywordsID = json_decode(file_get_contents("manage/JSONData/cardKeywords.json"), true);
+            //file_put_contents("err.txt", CONTENT_FROM_USER);
+            if( $cardKeywordsID[CONTENT_FROM_USER] )
+            {
+                include('class/CardMessager.class.php');
+                $cardMessager = new CardMessager();
+                $cardMessager->sendCard( $cardKeywordsID[CONTENT_FROM_USER] );
+                break;
+            }
     		switch( CONTENT_FROM_USER )
     		{
     			case '一元抢' :
@@ -77,7 +84,7 @@ switch(MESSAGE_TYPE)
                     $messageManager->responseMsg( 'text' );
                     break;
     			}
-    			case '申情三宝，好吃有料' :
+    			/*case '申情三宝，好吃有料' :
     			{
                     include('class/CardMessager.class.php');
                     $cardMessager = new CardMessager();
@@ -152,7 +159,7 @@ switch(MESSAGE_TYPE)
                     $cardMessager = new CardMessager();
                     $cardMessager->sendCard('pkV_gjrbqqVizE3t9bKKIhraHA2s');
     				break;
-    			}
+    			}*/
     			default: // 如果用户发送的不是已设定的关键词
     			{
     				if( date('G')>17 || date('G')<9)//客服下班时间，自动回复客服已下班
