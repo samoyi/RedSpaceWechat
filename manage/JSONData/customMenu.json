@@ -1,15 +1,4 @@
-﻿<?php
-
-/*
- *  自定义菜单相关操作
- *
- *
- */
-include('class/CustomMenu.class.php');
-$customMenu = new CustomMenu();
-
-//$customMenuData 为自定义菜单各按钮设置
-$customMenuData =  '{
+{
                    "button":[
                    {  
                         "name":"🎂蛋糕订购",
@@ -78,9 +67,4 @@ $customMenuData =  '{
                             "key":"customMenuKey23"
                         }]
                     }]
-               }';
-
-
-    $customMenu->createMenu( $customMenuData);   // 设置自定义菜单
-
-?>
+               }
