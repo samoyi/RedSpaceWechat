@@ -36,6 +36,23 @@ switch(MESSAGE_TYPE)
     			    $messageManager->responseMsg( 'text' );
     				break;
     			}
+    			case '甄选报名' :
+    			{
+    				$content = "<a href=\\\"http://red-space.cn/H5/2016/gqds/apply.php\\\">️点击登记资料</a>";
+         $json = '{
+                 "touser": "' . USERID . '",
+                 "msgtype":"text",
+                 "text":
+                 {
+                        "content":"' . $content . '"
+                 }
+             }';
+         $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
+         $result = request_post($url, $json);
+         ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $json );
+    			    $messageManager->responseMsg( 'null' );
+    				break;
+    			}
     			case '微信订蛋糕' :
     			{
     				$title = '红房子微信订蛋糕指南';
