@@ -5,14 +5,19 @@
  */
 
 function refreshAccessToken()//刷新access_token
-{
+{   
     $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' . APPID . '&secret=' . APPSECRET;
         $jsoninfo = json_decode(httpGet($url), true);
+        
         $new_access_token =  $jsoninfo["access_token"];
+
         $configrationJSON->last_access_token = $new_access_token;
+
         $configrationJSON->last_access_token_time = time();
-        //file_put_contents('configration.js', json_encode($configrationJSON) ); //将本次获得的access_token存入文件，并记录获得时间
-        file_put_contents(PROJECT_ROOT . 'configration.js', json_encode($configrationJSON) );
+        
+        //file_put_contents('configration.js', json_encode($configrationJSON) ); 
+        //将本次获得的access_token存入文件，并记录获得时间
+        file_put_contents('configration.js', json_encode($configrationJSON) ); //todo 不能用绝对地址
         return $new_access_token;
 }
 
@@ -27,7 +32,7 @@ function getAccessToken()//获取access_token
         return $configrationJSON->last_access_token;   
     }
     else//如果马上或已经到了保质期，重新获取，然后记录本次获取的时间和access_token。
-    {
+    {   
         return refreshAccessToken();
     }
 }

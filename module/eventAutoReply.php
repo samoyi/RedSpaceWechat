@@ -145,12 +145,12 @@ switch( EVENT_TYPE )
         include('class/OrderManager.class.php');
         $orderManager = new OrderManager();
         $orderDetail = $orderManager->getOrderDetail(ORDERID);
-
         $messageManager->sendTemplateMessage($orderDetail); // 购买成功消息
-
-        if( '【七夕纯秀】白色恋人 纯纯的刚刚好' === trim($orderDetail['product_name'])) //特定产品推卡券
-        {
-            $messageManager->sendCard('pkV_gjvwDR0FlDJkU1sqtAbdnduQ');
+        if( '【帝王酥】单独装，原价15元/粒，6粒，立减20元' === trim($orderDetail['product_name'])) //特定产品推卡券
+        {   
+            include('class/CardMessager.class.php');
+            $cardMessager = new CardMessager();
+            $cardMessager->sendCard('pkV_gjnWmAH6DZoyPgnLogui7H_A');
         }
         break;	
     }
