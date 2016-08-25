@@ -1,5 +1,3 @@
 # RedSpaceWechat
 
-?>
-
 
