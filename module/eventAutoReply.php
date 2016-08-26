@@ -116,10 +116,10 @@ switch( EVENT_TYPE )
             }
             case 'customMenuKey22' :
             {
-                $title = '现烤现卖二赠一！刚出炉的家味道';
-                $des = '8月11日-8月31日，现烤月饼玉皇酥、鲜肉月饼、蛋黄肉松，买二送一！';
-                $imageUrl = 'https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsViaJE34NyFfg8kJDYZib3UibHSRdlVQ9H5D6ZgFXQgibbQMm2YfyXEj5bDle08sXTINhhxBxptgsNmRg/0?wx_fmt=gif';
-                $articalUrl = 'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756161&idx=2&sn=4291427ec44aebc6b10cfcd39accf990#rd'; 
+                $title = '帝王酥好好吃！那就立减20元！';
+                $des = '红房子帝王酥（精装）8月26号——9月5号，微信订购帝王酥满6粒，立减20元。';
+                $imageUrl = 'https://mmbiz.qlogo.cn/mmbiz_jpg/fYETicIfkWsW99b0coibwfDkvPdL7gRiaU7OOIicpD8Arjgpqu3ommWxAars1ksSt5jvZx2FpfHXoSrlxvBp36TIJA/0?wx_fmt=jpeg';
+                $articalUrl = 'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756270&idx=2&sn=60f7ec78d90f4ab0d60a7764c48e764d#rd'; 
                 $messageManager->sendArticalMessage($title, $des, $imageUrl, $articalUrl);
                 break; 
             }

@@ -17,7 +17,7 @@ function refreshAccessToken()//刷新access_token
         
         //file_put_contents('configration.js', json_encode($configrationJSON) ); 
         //将本次获得的access_token存入文件，并记录获得时间
-        file_put_contents('configration.js', json_encode($configrationJSON) ); //todo 不能用绝对地址
+        file_put_contents(PROJECT_ROOT . 'configration.js', json_encode($configrationJSON) );
         return $new_access_token;
 }
 
