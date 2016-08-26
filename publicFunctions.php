@@ -43,7 +43,8 @@ function ifRefreshAccessTokenAndRePost( $return, $urlWithoutACCESS_TOKEN, $data)
 {
     $returnObj = json_decode($return);
     if( 40001 == $returnObj->errcode )// 如果返回值的错误代码是40001，代表AccessToken已失效，
-    {
+    {   
+        file_put_contents("err.txt", "accesstokenTimeout" . date('Y-m-d H:i', time()) . "\n", FILE_APPEND);
         $url = $urlWithoutACCESS_TOKEN . refreshAccessToken(); // 刷新AccessToken并重发请求
         return request_post($url, $data); // 返回请求结果
     } 

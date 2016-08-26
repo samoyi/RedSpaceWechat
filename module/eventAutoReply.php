@@ -146,12 +146,13 @@ switch( EVENT_TYPE )
         $orderManager = new OrderManager();
         $orderDetail = $orderManager->getOrderDetail(ORDERID);
         $messageManager->sendTemplateMessage($orderDetail); // 购买成功消息
-        if( '【帝王酥】单独装，原价15元/粒，6粒，立减20元' === trim($orderDetail['product_name'])) //特定产品推卡券
+        /*if( '【帝王酥】单独装，原价15元/粒，6粒，立减20元' === trim($orderDetail['product_name'])) //特定产品推卡券
         {   
             include('class/CardMessager.class.php');
             $cardMessager = new CardMessager();
+            file_put_contents("err.txt", "timetosendcard" . date('Y-m-d H:i', time()) . "\n", FILE_APPEND);
             $cardMessager->sendCard('pkV_gjnWmAH6DZoyPgnLogui7H_A');
-        }
+        }*/
         break;	
     }
     default :
