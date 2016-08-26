@@ -24,7 +24,7 @@
                          "sub_button":[
                          {    
                              "type":"view",
-                             "name":"附近门店",
+                             "name":"门店电话",
                              "url":"http://red-space.cn/list/index.php"
                           },
                           {  
@@ -39,8 +39,8 @@
                           },
                           {  
                                 "type":"view",
-                                "name":"DIY报名",
-                                "url":"http://red-space.cn/diy-mobile2016/index.php"
+                                "name":"甄选报名",
+                                "url":"http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756270&idx=1&sn=b95def660307c07d159ea9448bd10c0f#rd"
                             }]
                      },
                      {  
