@@ -1,7 +1,9 @@
 <?php
 
-	$order_id = "10295333824951275856";
-	$card_id = 'pkV_gjnWmAH6DZoyPgnLogui7H_A';
+	//$order_id = "10295333824951275856";
+	//$card_id = 'pkV_gjnWmAH6DZoyPgnLogui7H_A';
+	$order_id = trim( $_POST["order_id"] );
+	$card_id = trim( $_POST["card_id"] );
 
 	include('../configration.php'); // 公众号配置文件
 	include('../publicFunctions.php'); // 公共函数  TODO 这个文件依赖configration.php
