@@ -193,7 +193,24 @@ class MessageManager
         $result = $this->responseMsg( 'news' );
     }
 
-    //发送文字客服消息
+    // 发送客服消息
+    public function sendCSMessage( $content )
+    {   
+        $json = '{
+                    "touser": "' . USERID . '",
+                    "msgtype":"text",
+                    "text":
+                    {
+                           "content":"' . $content . '"
+                    }
+                }';
+        $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
+        $result = request_post($url, $json);
+        ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $json );
+        $this->responseMsg( 'null' );
+    }
+
+    //根据订单号发送文字客服消息
     public function sendCustomMessage( $order_id, $msg )
     {   
         include('OrderManager.class.php');

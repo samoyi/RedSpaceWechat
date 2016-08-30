@@ -17,7 +17,6 @@ switch(MESSAGE_TYPE)
     	else
     	{
             $cardKeywordsID = json_decode(file_get_contents("manage/JSONData/cardKeywords.json"), true);
-            //file_put_contents("err.txt", CONTENT_FROM_USER);
             if( $cardKeywordsID[CONTENT_FROM_USER] )
             {
                 include('class/CardMessager.class.php');
@@ -36,21 +35,10 @@ switch(MESSAGE_TYPE)
     			    $messageManager->responseMsg( 'text' );
     				break;
     			}
-    			case '甄选报名' :
+    			case '臻选报名' :
     			{
     				$content = "<a href=\\\"http://red-space.cn/H5/2016/gqds/apply.php\\\">️点击登记资料</a>";
-         $json = '{
-                 "touser": "' . USERID . '",
-                 "msgtype":"text",
-                 "text":
-                 {
-                        "content":"' . $content . '"
-                 }
-             }';
-         $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
-         $result = request_post($url, $json);
-         ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $json );
-    			    $messageManager->responseMsg( 'null' );
+                    $messageManager->sendCSMessage( $content );
     				break;
     			}
     			case '微信订蛋糕' :
@@ -90,93 +78,12 @@ switch(MESSAGE_TYPE)
     			    $messageManager->responseMsg( 'text' );
     				break;
     			}
-    			case '314' :
-    			{    //测试回复关键字发卡券
-    				$messageManager->sendCard('pkV_gjm6W_tQ1GopWQtd3KSVaNoA');
-    				break;
-    			}
     			case '家料家味道' :
     			{
                     define("CONTENT", '家料家味道-暗号已经过期啦！快去看看今天的小票上暗号是什么，新的暗号，新的福利等着你！（小票暗号每2天更新一次，请在当日购物小票最下方查看）');
                     $messageManager->responseMsg( 'text' );
                     break;
     			}
-    			/*case '申情三宝，好吃有料' :
-    			{
-                    include('class/CardMessager.class.php');
-                    $cardMessager = new CardMessager();
-                    $cardMessager->sendCard('pkV_gjiEHPU4oRTe9JjOPbU9L7mY');
-                    break;
-    			}
-    			case '申情三宝好吃有料' :
-    			{
-                    include('class/CardMessager.class.php');
-                    $cardMessager = new CardMessager();
-                    $cardMessager->sendCard('pkV_gjiEHPU4oRTe9JjOPbU9L7mY');
-                    break;
-    			}
-    			case '帝王酥好好吃' :
-    			{
-                    include('class/CardMessager.class.php');
-                    $cardMessager = new CardMessager();
-                    $cardMessager->sendCard('pkV_gjnv7cGQJD_Z3x2T9wf9xsNM');
-    				break;
-    			}
-    			case '五仁月饼果仁多' :
-    			{
-                    include('class/CardMessager.class.php');
-                    $cardMessager = new CardMessager();
-                    $cardMessager->sendCard('pkV_gjklcvQ9lEZtps78_r_hnGGw');
-    				break;
-    			}
-    			case '伍仁月饼果仁多' :
-    			{
-                    include('class/CardMessager.class.php');
-                    $cardMessager = new CardMessager();
-                    $cardMessager->sendCard('pkV_gjklcvQ9lEZtps78_r_hnGGw');
-    				break;
-    			}
-    			case '蛋黄莲蓉，料胜一筹' :
-    			{
-                    include('class/CardMessager.class.php');
-                    $cardMessager = new CardMessager();
-                    $cardMessager->sendCard('pkV_gjk_3BCNFIwTOO7kYRJRhKVw');
-    				break;
-    			}
-    			case '三宝萌萌哒' :
-    			{
-                    define("CONTENT", '三宝萌萌哒”暗号优惠券已经领完啦，明天！新的暗号新的福利等着你哟！');
-                    $messageManager->responseMsg( 'text' );
-                    break;
-    			}
-    			case '红房子月饼好好吃' :
-    			{
-                    include('class/CardMessager.class.php');
-                    $cardMessager = new CardMessager();
-                    $cardMessager->sendCard('pkV_gjs7im22p3QG5BzpWpJ1Er6Y');
-    				break;
-    			}
-    			case '甜甜的红房子' :
-    			{
-                    include('class/CardMessager.class.php');
-                    $cardMessager = new CardMessager();
-                    $cardMessager->sendCard('pkV_gjhx1Z3vGs8wsVSUrZ5EaUGI');
-    				break;
-    			}
-    			case '料你难挡诱惑' :
-    			{
-                    include('class/CardMessager.class.php');
-                    $cardMessager = new CardMessager();
-                    $cardMessager->sendCard('pkV_gjmVjPoPqYSfdITt_dOhdLaw');
-    				break;
-    			}
-    			case '吃申情三宝，过有料中秋' :
-    			{
-                    include('class/CardMessager.class.php');
-                    $cardMessager = new CardMessager();
-                    $cardMessager->sendCard('pkV_gjrbqqVizE3t9bKKIhraHA2s');
-    				break;
-    			}*/
     			default: // 如果用户发送的不是已设定的关键词
     			{
     				if( date('G')>17 || date('G')<9)//客服下班时间，自动回复客服已下班
