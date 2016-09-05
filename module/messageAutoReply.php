@@ -21,7 +21,9 @@ switch(MESSAGE_TYPE)
             {
                 include('class/CardMessager.class.php');
                 $cardMessager = new CardMessager();
-                $cardMessager->sendCard( $cardKeywordsID[CONTENT_FROM_USER] );
+                $outReplayText = '亲亲，优惠券天天抢活动已经结束，请持续关注红房子微信公众平台，福利多多哦~';
+                $cardMessager->getCardByKeyWords( $cardKeywordsID[CONTENT_FROM_USER], $outReplayText, $messageManager);
+    	    	$messageManager->responseMsg( 'text' );
                 break;
             }
     		switch( CONTENT_FROM_USER )
@@ -77,12 +79,6 @@ switch(MESSAGE_TYPE)
     				define("CONTENT", '刷新完成');
     			    $messageManager->responseMsg( 'text' );
     				break;
-    			}
-    			case '家料家味道' :
-    			{
-                    define("CONTENT", '家料家味道-暗号已经过期啦！快去看看今天的小票上暗号是什么，新的暗号，新的福利等着你！（小票暗号每2天更新一次，请在当日购物小票最下方查看）');
-                    $messageManager->responseMsg( 'text' );
-                    break;
     			}
     			default: // 如果用户发送的不是已设定的关键词
     			{

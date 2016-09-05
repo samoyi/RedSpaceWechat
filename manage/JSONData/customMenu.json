@@ -36,12 +36,7 @@
                                 "type":"click",
                                 "name":"人工客服",
                                 "key":"customMenuKey12"
-                          },
-                          {  
-                                "type":"view",
-                                "name":"甄选报名",
-                                "url":"http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756270&idx=1&sn=b95def660307c07d159ea9448bd10c0f#rd"
-                            }]
+                          }]
                      },
                      {  
                         "name": "中秋福利",
