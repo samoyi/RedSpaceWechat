@@ -11,20 +11,9 @@ switch( EVENT_TYPE )
             $content .= $value;
         }
 
-         $json = '{
-                 "touser": "' . USERID . '",
-                 "msgtype":"text",
-                 "text":
-                 {
-                        "content":"' . $content . '"
-                 }
-             }';
-         $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
-         $result = request_post($url, $json);
-         ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $json );
-
+         $messageManager->sendCSMessage($content, false);
          $messageManager->sendImage( 'wptdc2AEc7V_tFYzTD1EMRDzTIFu6ioaAfqciBupoF0' );
-
+        
          break;
     }
     case 'CLICK' :

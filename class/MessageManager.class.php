@@ -194,7 +194,7 @@ class MessageManager
     }
 
     // 发送客服消息
-    public function sendCSMessage( $content )
+    public function sendCSMessage( $content, $bSendNull=true )
     {   
         $json = '{
                     "touser": "' . USERID . '",
@@ -207,7 +207,10 @@ class MessageManager
         $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
         $result = request_post($url, $json);
         ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $json );
-        $this->responseMsg( 'null' );
+        if( $bSendNull )
+        {
+            $this->responseMsg( 'null' );
+        }
     }
 
     //根据订单号发送文字客服消息

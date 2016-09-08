@@ -37,12 +37,6 @@ switch(MESSAGE_TYPE)
     			    $messageManager->responseMsg( 'text' );
     				break;
     			}
-    			case '臻选报名' :
-    			{
-    				$content = "<a href=\\\"http://red-space.cn/H5/2016/gqds/apply.php\\\">️点击登记资料</a>";
-                    $messageManager->sendCSMessage( $content );
-    				break;
-    			}
     			case '微信订蛋糕' :
     			{
     				$title = '红房子微信订蛋糕指南';

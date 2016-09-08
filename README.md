@@ -15,3 +15,10 @@
 4. 应该添加监控功能，比如监控accesstoken过期和刷新情况
 5. 新关注用户回复消息也要使用MessageManager.class.php中的客服消息函数
 
+
+
+删除有数据信息的历史版本中  
+
+
+.gitignore似乎只在文件尚未存在时设置才行
+http://stackoverflow.com/questions/37937984/git-refusing-to-merge-unrelated-histories
