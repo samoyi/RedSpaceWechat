@@ -5,8 +5,8 @@ class CardMessager
     //获取卡券信息
     public function getBaseInfo($card_id) 
     {
-        $postJson = '{"card_id": "' . $card_id . '"}';
-        $result =  request_post('https://api.weixin.qq.com/card/get?access_token=' . ACCESS_TOKEN, $postJson);
+        $data = '{"card_id": "' . $card_id . '"}';
+        $result =  request_post('https://api.weixin.qq.com/card/get?access_token=' . ACCESS_TOKEN, $data);
         ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=', $data ); 
         $resultorderObj = json_decode($result);
         $baseInfo = $resultorderObj->{'card'}->{'general_coupon'}->{'base_info'};

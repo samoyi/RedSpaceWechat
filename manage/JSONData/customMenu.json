@@ -48,18 +48,13 @@
                         },
                         {
                             "type":"click",
-                            "name":"优惠券天天抢",
+                            "name":"玩游戏赢免费月饼",
                             "key":"customMenuKey21"
                         },
                         {
                             "type":"click",
-                            "name":"帝王酥立减20",
-                            "key":"customMenuKey22"
-                        },
-                        {
-                            "type":"click",
                             "name":"月饼新品",
-                            "key":"customMenuKey23"
+                            "key":"customMenuKey22"
                         }]
                     }]
                }

@@ -107,23 +107,14 @@ switch( EVENT_TYPE )
             }
             case 'customMenuKey21' :
             {
-                $title = '三宝中秋献礼🎁优惠券🎁天天抢！';
-                $des = '小票对暗号，微信摇一摇，中秋优惠券抢不停！';
-                $imageUrl = 'https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsVrTO8MVbtZ2HafiauatAYXJVylv0lmKKpEg7N7Q79k4qhxvO9NS0fUl7UcrtkkNAnhhE0wNcpwv0g/0?wx_fmt=gif';
-                $articalUrl = 'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756161&idx=1&sn=ec56abc73358b5519e851f3cb0a7e848#rd'; 
+                $title = '快领月饼！红房子申情三宝中秋大献礼';
+                $des = '中秋节和申情三宝一起玩着游戏吃着月饼，多重好礼领起来！';
+                $imageUrl = 'https://mmbiz.qlogo.cn/mmbiz_gif/fYETicIfkWsW4glUo0L1ynSIY5dQ4Q9wIa5ibWf5V2Pht1xdmFOm5p1ibubkQGn5IRYLWpRzFXeJq8iafPf5TmImkw/0?wx_fmt=gif';
+                $articalUrl = 'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756317&idx=1&sn=c6d9bda1e309552e725f136e8002b5bc&chksm=bed45c2389a3d535540c43ce0ec72c9647fefb7aa371461f4cd7ef18f91b39f5ef13c9847b86#rd'; 
                 $messageManager->sendArticalMessage($title, $des, $imageUrl, $articalUrl);
                 break; 
             }
             case 'customMenuKey22' :
-            {
-                $title = '帝王酥好好吃！那就立减20元！';
-                $des = '红房子帝王酥（精装）8月26号——9月5号，微信订购帝王酥满6粒，立减20元。';
-                $imageUrl = 'https://mmbiz.qlogo.cn/mmbiz_jpg/fYETicIfkWsW99b0coibwfDkvPdL7gRiaU7OOIicpD8Arjgpqu3ommWxAars1ksSt5jvZx2FpfHXoSrlxvBp36TIJA/0?wx_fmt=jpeg';
-                $articalUrl = 'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756270&idx=2&sn=60f7ec78d90f4ab0d60a7764c48e764d#rd'; 
-                $messageManager->sendArticalMessage($title, $des, $imageUrl, $articalUrl);
-                break; 
-            }
-            case 'customMenuKey23' :
             {
                 $title = '月饼奥运，有美味更有福利！';
                 $des = "🎁小票对暗号，礼券天天抢\n🎁申情摇一摇，三宝来献礼\n\n中秋活动火热进行中\n\n领完优惠券，哪款月饼才是你心中的冠军呢？";
