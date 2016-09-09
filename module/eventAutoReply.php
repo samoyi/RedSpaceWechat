@@ -1,5 +1,12 @@
 ﻿<?php
 
+
+/* 以下为数据区域 */
+define(MESSAGE_fOR_GET_CARD_EVENT, '亲亲，领到优惠券请在“微信-我-卡包-我的票券”中查看和使用。红房子祝您中秋快乐！');
+
+
+
+/* 以下为逻辑区域 */
 switch( EVENT_TYPE )
 {
     case 'subscribe':
@@ -117,7 +124,7 @@ switch( EVENT_TYPE )
     }
     case 'user_get_card' :
     {
-        $messageManager->sendCardReceivedMessage( '亲亲，领到优惠券请在“微信-我-卡包-我的票券”中查看和使用。红房子祝您中秋快乐！' );
+        $messageManager->sendCardReceivedMessage( MESSAGE_fOR_GET_CARD_EVENT );
         break;
     }
     case 'merchant_order' :

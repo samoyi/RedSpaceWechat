@@ -5,13 +5,24 @@
  *
  */
 
+
+/* 以下为数据区域 */
+define(MESSAGE_fOR_WIFI_KEYWORD,  '您所在的门店WIFI密码为：redspace');
+
+define(ON_DUTY_TIME, 9);
+define(OFF_DUTY_TIME, 18); 
+define(OFF_DUTY_AUTOREPLY, '您的留言已被标记，客服将在上午九点后回复您。'); 
+
+
+
+/* 以下为逻辑区域 */
 switch(MESSAGE_TYPE)
 {   
     case "text":
     {   
     	if( stristr(CONTENT_FROM_USER, 'wifi') )
     	{
-    	    define("CONTENT", '您所在的门店WIFI密码为：redspace');
+    	    define("CONTENT", MESSAGE_fOR_WIFI_KEYWORD);
     	    $messageManager->responseMsg( 'text' );
     	}
     	else
@@ -76,7 +87,7 @@ switch(MESSAGE_TYPE)
     			}
     			default: // 如果用户发送的不是已设定的关键词
     			{
-    				if( date('G')>17 || date('G')<9)//客服下班时间，自动回复客服已下班
+    				if( date('G')>(OFF_DUTY_TIME-1) || date('G')<ON_DUTY_TIME)//客服下班时间，自动回复客服已下班
     				{
     					include('manage/manager.php');
     					$manager = new Manager();
@@ -84,7 +95,7 @@ switch(MESSAGE_TYPE)
     					$autoReplyByTimeState = $manager->getAutoReplyByTimeState();
     					if( 'on' === $autoReplyByTimeState )
     					{
-    						define("CONTENT", '您的留言已被标记，客服将在上午九点后回复您');
+    						define("CONTENT", OFF_DUTY_AUTOREPLY);
     			    		$messageManager->responseMsg( 'text' );
     					}
     					else
@@ -110,7 +121,7 @@ switch(MESSAGE_TYPE)
     }
     default:
     {   
-        if( date('G')>17 || date('G')<9)//客服下班时间，自动回复客服已下班
+        if( date('G')>(OFF_DUTY_TIME-1) || date('G')<ON_DUTY_TIME)//客服下班时间，自动回复客服已下班
         {
             include('manage/manager.php');
             $manager = new Manager();
@@ -118,7 +129,7 @@ switch(MESSAGE_TYPE)
             $autoReplyByTimeState = $manager->getAutoReplyByTimeState();
             if( 'on' === $autoReplyByTimeState )
             {
-                define("CONTENT", '您的留言已被标记，客服将在上午九点后回复您');
+                define("CONTENT", OFF_DUTY_AUTOREPLY);
                 $messageManager->responseMsg( 'text' );
             }
             else
