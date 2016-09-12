@@ -103,10 +103,10 @@ switch( EVENT_TYPE )
             }
             case 'customMenuKey21' :
             {
-                $title = '快领月饼！红房子申情三宝中秋大献礼';
-                $des = '中秋节和申情三宝一起玩着游戏吃着月饼，多重好礼领起来！';
-                $imageUrl = 'https://mmbiz.qlogo.cn/mmbiz_gif/fYETicIfkWsW4glUo0L1ynSIY5dQ4Q9wIa5ibWf5V2Pht1xdmFOm5p1ibubkQGn5IRYLWpRzFXeJq8iafPf5TmImkw/0?wx_fmt=gif';
-                $articalUrl = 'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756317&idx=1&sn=c6d9bda1e309552e725f136e8002b5bc&chksm=bed45c2389a3d535540c43ce0ec72c9647fefb7aa371461f4cd7ef18f91b39f5ef13c9847b86#rd'; 
+                $title = '中秋，回家看看';
+                $des = '2016中秋节，红房子申情三宝依旧陪你在这里，家料，家味道。';
+                $imageUrl = 'https://mmbiz.qlogo.cn/mmbiz_gif/fYETicIfkWsXD9L6b2r9Y8eUOqX0NvI9ZFBDBP5stwDOmfqictMQ0NFDnACh5qoVyqZsHpgFbknDvbCGBg1wTVHQ/0?wx_fmt=gif';
+                $articalUrl = 'https://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756370&idx=1&sn=62195fb6ab6ae0f25c5bf0f538aafd55&chksm=bed45dec89a3d4fa05d89ec5439edf347ccc095ead4bb8090a2dde2608bdf9efea1d9c53ae30&scene=1&srcid=0912JSJByIgje0Z6AELd8xzM&pass_ticket=6jUafjMstYLfzMbin22ZqplVpN3a1kqsDo%2FVFRPtfkZdKkT94mtzx03C0ObwHsFn#rd'; 
                 $messageManager->sendArticalMessage($title, $des, $imageUrl, $articalUrl);
                 break; 
             }
