@@ -17,10 +17,7 @@ switch( EVENT_TYPE )
         {
             $content .= $value;
         }
-
-         $messageManager->sendCSMessage($content, false);
-         $messageManager->sendImage( 'wptdc2AEc7V_tFYzTD1EMRDzTIFu6ioaAfqciBupoF0' );
-        
+         $messageManager->sendCSMessage($content);
          break;
     }
     case 'CLICK' :
@@ -28,7 +25,7 @@ switch( EVENT_TYPE )
         $fetchedMsgKey = $postedEvent['eventKey'];// 设置自定义菜单时的key值
         switch($fetchedMsgKey)     
         {
-            case 'customMenuKey01' :
+            case 'customMenuKey10' :
             {
                 $title = '红房子微信订蛋糕指南';
                 $des = '红房子蛋糕 美味空间新灵感';
@@ -37,7 +34,7 @@ switch( EVENT_TYPE )
                 $messageManager->sendArticalMessage($title, $des, $imageUrl, $articalUrl);
                 break; 
             }
-            case 'customMenuKey02' :
+            case 'customMenuKey11' :
             {
                 //2015-3-1开始
                 $data = '{
@@ -99,24 +96,6 @@ switch( EVENT_TYPE )
             {
                 define("CONTENT", '亲，你好，请问有什么可以为您服务？您可直接在公众号中与客服联系（客服在线时间9:00—18:00）');
                 $messageManager->responseMsg( 'text' );
-                break; 
-            }
-            case 'customMenuKey21' :
-            {
-                $title = '中秋，回家看看';
-                $des = '2016中秋节，红房子申情三宝依旧陪你在这里，家料，家味道。';
-                $imageUrl = 'https://mmbiz.qlogo.cn/mmbiz_gif/fYETicIfkWsXD9L6b2r9Y8eUOqX0NvI9ZFBDBP5stwDOmfqictMQ0NFDnACh5qoVyqZsHpgFbknDvbCGBg1wTVHQ/0?wx_fmt=gif';
-                $articalUrl = 'https://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756370&idx=1&sn=62195fb6ab6ae0f25c5bf0f538aafd55&chksm=bed45dec89a3d4fa05d89ec5439edf347ccc095ead4bb8090a2dde2608bdf9efea1d9c53ae30&scene=1&srcid=0912JSJByIgje0Z6AELd8xzM&pass_ticket=6jUafjMstYLfzMbin22ZqplVpN3a1kqsDo%2FVFRPtfkZdKkT94mtzx03C0ObwHsFn#rd'; 
-                $messageManager->sendArticalMessage($title, $des, $imageUrl, $articalUrl);
-                break; 
-            }
-            case 'customMenuKey22' :
-            {
-                $title = '月饼奥运，有美味更有福利！';
-                $des = "🎁小票对暗号，礼券天天抢\n🎁申情摇一摇，三宝来献礼\n\n中秋活动火热进行中\n\n领完优惠券，哪款月饼才是你心中的冠军呢？";
-                $imageUrl = 'https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWoicZh4TFdlBiaqSEEDQuiaS6HmvQmMyW9r8Je0g3ObzZdXsCMed50FJgqiaT5tFBvuEjAI1rrutghHA/0?wx_fmt=gif';
-                $articalUrl = 'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756181&idx=1&sn=5c728f9bde60f016f58e0cf8914dff92#rd'; 
-                $messageManager->sendArticalMessage($title, $des, $imageUrl, $articalUrl);
                 break; 
             }
         }
