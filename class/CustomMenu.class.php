@@ -6,7 +6,8 @@ class CustomMenu
     public function createMenu( $customMenuData)
     {
         $url =  'https://api.weixin.qq.com/cgi-bin/menu/create?access_token=' . ACCESS_TOKEN;
-        return request_post($url, $customMenuData);
+        $result = request_post($url, $customMenuData);
+        return ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $customMenuData );
     }
 
     //处理自定义菜单click事件。参数为当前按钮的key

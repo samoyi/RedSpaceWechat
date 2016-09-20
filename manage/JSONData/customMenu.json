@@ -30,8 +30,17 @@
                           }]
                      },
                      {  
-                        "type":"view",
-                        "name":"人才招聘",
-                        "url":"http://red-space.cn/recruitment/index.php"
+                          "name":"报名",
+                          "sub_button":[
+                          {
+                              "type":"view",
+                              "name":"蛋糕DIY报名",
+                              "url":"http://red-space.cn/diy2016/index.php"
+                          },
+                          {
+                              "type":"view",
+                              "name":"人才招募",
+                              "url":"http://red-space.cn/recruitment/index.php"
+                          }]
                     }]
                }
