@@ -2,7 +2,7 @@
                    "button":[
                    {  
                         "type":"view",
-                        "name":"🎂蛋糕订购",
+                        "name":"🎂 蛋糕订购",
                         "url":"http://mp.weixin.qq.com/bizmall/mallshelf?id=&t=mall/list&biz=MjM5NzA2OTIwMQ==&shelf_id=1&showwxpaytitle=1#wechat_redirect"
                     },
                     {
@@ -30,7 +30,7 @@
                           }]
                      },
                      {  
-                          "name":"DIY&招聘",
+                          "name":"DIY & 招聘",
                           "sub_button":[
                           {
                               "type":"view",
