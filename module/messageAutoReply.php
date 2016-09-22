@@ -41,11 +41,8 @@ switch(MESSAGE_TYPE)
     		{
     			case '测试回复314' :
     			{
-                    include('class/CardMessager.class.php');
-                    $cardMessager = new CardMessager();
-                    $cardIDArray = $cardMessager->changeQuantity( 'pkV_gjsbZc6uu91hg4EqO-BGKBxY', 0, 6 );
-                    /*define("CONTENT", '测试回复');
-                    $messageManager->responseMsg( 'text' );*/
+                    define("CONTENT", '测试回复');
+                    $messageManager->responseMsg( 'text' );
     				break;
     			}
     			case '微信订蛋糕' :

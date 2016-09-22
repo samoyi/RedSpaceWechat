@@ -77,8 +77,14 @@ class CardMessager
     }
     //修改卡券数量
     // 如果要增加，则第二个参数写增加的个数，不写第三个参数；如果要减少，则第二个参数写0，第三个写减少的个数
-    public function changeQuantity( $card_id, $increase_stock_value=0, $reduce_stock_value=0 )
+    // 如果要清空该卡券，第二个参数写0，第三个参数写“all”
+    // 如果卡券类型不是general_coupon，则填写第四个参数
+    public function changeQuantity( $card_id, $increase_stock_value=0, $reduce_stock_value=0, $card_type='general_coupon')
     {
+        if( 'all' === trim($reduce_stock_value) )
+        {
+            $reduce_stock_value = $this->getBaseInfo($card_id, $card_type)->sku->quantity;
+        }
         $data = '{
                         "card_id": "' . $card_id . '",
                         "increase_stock_value": ' . $increase_stock_value . ',
