@@ -76,18 +76,19 @@ class CardMessager
         }              
     }
     //修改卡券数量
-    //之前测试无效，返回的是空
-    /*public function changeQuantity( $card_id, $increase_stock_value=0, $reduce_stock_value=0 )
+    // 如果要增加，则第二个参数写增加的个数，不写第三个参数；如果要减少，则第二个参数写0，第三个写减少的个数
+    public function changeQuantity( $card_id, $increase_stock_value=0, $reduce_stock_value=0 )
     {
-        $postJson = '{
+        $data = '{
                         "card_id": "' . $card_id . '",
                         "increase_stock_value": ' . $increase_stock_value . ',
                         "reduce_stock_value": ' . $reduce_stock_value . '
                     }';
         $url = 'https://api.weixin.qq.com/card/modifystock?access_token=' . ACCESS_TOKEN;
-        $result =  request_post($ur, $postJson) ;
+        $result =  request_post($url, $data) ;
+        ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/card/modifystock?access_token=', $data ); 
         return $result;
-    }*/
+    }
 }
 
 ?>
