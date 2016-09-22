@@ -39,12 +39,9 @@ switch(MESSAGE_TYPE)
             }
     		switch( CONTENT_FROM_USER )
     		{
-    			case '一元抢' :
+    			case '测试回复314' :
     			{
-    				define("CONTENT", '亲，你好~~！
-    						一元抢活动已经结束
-
-    						持续关注红房子微信公众平台,福利多多哦mo-亲亲');
+    				define("CONTENT", '测试回复');
     			    $messageManager->responseMsg( 'text' );
     				break;
     			}

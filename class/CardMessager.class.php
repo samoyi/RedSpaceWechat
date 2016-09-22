@@ -3,16 +3,47 @@
 class CardMessager
 {
     //获取卡券信息
-    public function getBaseInfo($card_id) 
+    public function getBaseInfo($card_id, $card_type='general_coupon') 
     {
         $data = '{"card_id": "' . $card_id . '"}';
         $result =  request_post('https://api.weixin.qq.com/card/get?access_token=' . ACCESS_TOKEN, $data);
         ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=', $data ); 
         $resultorderObj = json_decode($result);
-        $baseInfo = $resultorderObj->{'card'}->{'general_coupon'}->{'base_info'};
+        $baseInfo = $resultorderObj->{'card'}->$card_type->{'base_info'};
         return $baseInfo;
     }
 
+    // 批量查询卡券列表
+    // 第一个参数为查询的卡券数量最多支持50.
+    // 第二个参数如果为真，输出的不是id数组，而是卡券标题数组
+    public function batchGetCard( $nBatchCount, $bDisplayCardName=false )
+    {
+        $nBatchCount = $nBatchCount>50 ? 50 : $nBatchCount;
+        $data = '{
+                    "offset": 0,
+                    "count" : ' . $nBatchCount . ',
+                    "status_list":  ["CARD_STATUS_VERIFY_OK", "CARD_STATUS_DISPATCH"]
+                    }
+                ';
+        $result =  request_post('https://api.weixin.qq.com/card/batchget?access_token=' . ACCESS_TOKEN, $data);
+        ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/card/batchget?access_token=', $data ); 
+        $resultorderObj = json_decode($result);
+        $aCardID = $resultorderObj->{'card_id_list'};
+
+        if( $bDisplayCardName )
+        {
+            $aCardTitle = array();
+            foreach($aCardID as $value)
+            {
+                $aCardTitle[] = $this->getBaseInfo($value)->title; 
+            }
+            return $aCardTitle;
+        }
+        else
+        {
+            return $aCardID;        
+        }
+    }
 
     //发送卡券
     public function sendCard( $card_id )
