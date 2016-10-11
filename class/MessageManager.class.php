@@ -240,18 +240,18 @@ class MessageManager
 
     //发送模板消息
     //参数为订单详情数组
-    public function sendTemplateMessage($orderDetail, $detailUrl="")
+    public function sendTemplateMessage($orderDetail, $detailUrl)
     {
         $template = array(
             'touser'        =>  USERID,
             'template_id'   =>  "444pldIlaFSHxWzAS7eoG4K7cvGb0vIqm4XY0JBkv60",
             'url'           =>  $detailUrl,
             'data'          =>  array(
-                                'first'     =>  array('value'   =>("订单详情可点击下方 蛋糕订购-我的订单 查询")),
-                                'product'   =>  array('value'   =>($orderDetail['product_name'])),
-                                'price'     =>  array('value'   =>("￥".$orderDetail['order_total_price']/100)),
-                                'time'      =>  array('value'   =>(date("Y-m-d H:i:s",$orderDetail['order_create_time']))),
-                                'remark'    =>  array('value'   =>(" \n红房子蛋糕美味空间新灵感"))
+                'first'     =>  array('value'   =>("订单详情可点击下方 蛋糕订购-我的订单 查询")),
+                'product'   =>  array('value'   =>($orderDetail['product_name']), 'color'=> '#ea386c'),
+                'price'     =>  array('value'   =>("￥".$orderDetail['order_total_price']/100), 'color'=> '#ea386c'),
+                'time'      =>  array('value'   =>(date("Y-m-d H:i:s",$orderDetail['order_create_time'])), 'color'=> '#ea386c'),
+                'remark'    =>  array('value'   =>(" \n红房子蛋糕美味空间新灵感"))
                                 
             )
         );
