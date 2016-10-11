@@ -2,7 +2,7 @@
 
 
 /* 以下为数据区域 */
-define(MESSAGE_fOR_GET_CARD_EVENT, '亲亲，领到优惠券请在“微信-我-卡包-我的票券”中查看和使用。红房子祝您中秋快乐！');
+define(MESSAGE_fOR_GET_CARD_EVENT, '亲亲，领到优惠券请在“微信-我-卡包-我的票券”中查看和使用。红房子祝您国庆快乐！');
 
 
 
@@ -111,14 +111,7 @@ switch( EVENT_TYPE )
         include('class/OrderManager.class.php');
         $orderManager = new OrderManager();
         $orderDetail = $orderManager->getOrderDetail(ORDERID);
-        $messageManager->sendTemplateMessage($orderDetail); // 购买成功消息
-        /*if( '【帝王酥】单独装，原价15元/粒，6粒，立减20元' === trim($orderDetail['product_name'])) //特定产品推卡券
-        {   
-            include('class/CardMessager.class.php');
-            $cardMessager = new CardMessager();
-            file_put_contents("err.txt", "timetosendcard" . date('Y-m-d H:i', time()) . "\n", FILE_APPEND);
-            $cardMessager->sendCard('pkV_gjnWmAH6DZoyPgnLogui7H_A');
-        }*/
+        $messageManager->sendTemplateMessage($orderDetail, "http://red-space.cn/"); // 购买成功消息
         break;	
     }
     default :

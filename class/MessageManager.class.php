@@ -240,12 +240,12 @@ class MessageManager
 
     //发送模板消息
     //参数为订单详情数组
-    public function sendTemplateMessage($orderDetail)
+    public function sendTemplateMessage($orderDetail, $detailUrl="")
     {
         $template = array(
             'touser'        =>  USERID,
             'template_id'   =>  "444pldIlaFSHxWzAS7eoG4K7cvGb0vIqm4XY0JBkv60",
-            'url'           =>  "",
+            'url'           =>  $detailUrl,
             'data'          =>  array(
                                 'first'     =>  array('value'   =>("订单详情可点击下方 蛋糕订购-我的订单 查询")),
                                 'product'   =>  array('value'   =>($orderDetail['product_name'])),
