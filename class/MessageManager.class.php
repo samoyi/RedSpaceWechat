@@ -240,7 +240,7 @@ class MessageManager
 
     //发送模板消息
     //参数为订单详情数组
-    public function sendTemplateMessage($orderDetail, $detailUrl)
+    public function sendTemplateMessage($orderDetail, $ad="", $detailUrl="")
     {
         $template = array(
             'touser'        =>  USERID,
@@ -251,7 +251,7 @@ class MessageManager
                 'product'   =>  array('value'   =>($orderDetail['product_name']), 'color'=> '#ea386c'),
                 'price'     =>  array('value'   =>("￥".$orderDetail['order_total_price']/100), 'color'=> '#ea386c'),
                 'time'      =>  array('value'   =>(date("Y-m-d H:i:s",$orderDetail['order_create_time'])), 'color'=> '#ea386c'),
-                'remark'    =>  array('value'   =>(" \n红房子蛋糕美味空间新灵感"))
+                'remark'    =>  array('value'   =>(" \n$ad"), 'color'=> '#0000ff')
                                 
             )
         );

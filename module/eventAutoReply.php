@@ -3,8 +3,6 @@
 
 /* 以下为数据区域 */
 define(MESSAGE_fOR_GET_CARD_EVENT, '亲亲，领到优惠券请在“微信-我-卡包-我的票券”中查看和使用。红房子祝您国庆快乐！');
-define(TEMPLATE_MESSAGE_URL, "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650756408&idx=1&sn=234b92877d1897c86181c5600706a270&chksm=bed45dc689a3d4d0aa97fb4520fe3b3eae972213e17aabf32edd9c4caff4cce8e52eb0c536e6&scene=4#wechat_redirect");
-
 
 
 /* 以下为逻辑区域 */
@@ -108,11 +106,21 @@ switch( EVENT_TYPE )
         break;
     }
     case 'merchant_order' :
-    {
+    {               
+        include('class/MaterialManager.class.php');
+        $materialManager = new MaterialManager();
+        $latestNews = $materialManager->getMaterials("news", 2);
+        $latestNewsItem = $latestNews->item;
+        $latestNewsContentItem = $latestNewsItem[0]->content->news_item;
+        $latestNewsTitle = $latestNewsContentItem[0]->title;
+        $latestNewsUrl = $latestNewsContentItem[0]->url;
+
+        $ad = $latestNewsTitle;
+
         include('class/OrderManager.class.php');
         $orderManager = new OrderManager();
         $orderDetail = $orderManager->getOrderDetail(ORDERID);
-        $messageManager->sendTemplateMessage($orderDetail, TEMPLATE_MESSAGE_URL); // 购买成功消息
+        $messageManager->sendTemplateMessage($orderDetail, $ad, $latestNewsUrl); // 购买成功消息
         break;	
     }
     default :

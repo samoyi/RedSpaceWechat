@@ -40,7 +40,8 @@ switch(MESSAGE_TYPE)
     		switch( CONTENT_FROM_USER )
     		{
     			case '测试回复314' :
-    			{
+    			{    
+
                     define("CONTENT", '测试回复');
                     $messageManager->responseMsg( 'text' );
     				break;
