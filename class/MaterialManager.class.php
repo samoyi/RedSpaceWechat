@@ -7,12 +7,12 @@ class MaterialManager
 	{	
 		$url = 'https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=' . ACCESS_TOKEN;
 		$data = '{
-				    "type": "news",
+				    "type": "' . $sType . '",
 				    "offset":' . $nOffset . ',
 				    "count":' . $nCount . '
 				}';
-// "type":' . $sType . ',
 		$result = request_post($url, $data); 
+		$result = ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $template );
 		return json_decode($result);
 	} 
 

@@ -114,8 +114,8 @@ switch( EVENT_TYPE )
         $latestNewsContentItem = $latestNewsItem[0]->content->news_item;
         $latestNewsTitle = $latestNewsContentItem[0]->title;
         $latestNewsUrl = $latestNewsContentItem[0]->url;
-
-        $ad = $latestNewsTitle;
+        $newsTime = $latestNewsItem[0]->content->create_time;
+        $ad = "点击查看红房子更多资讯：\n[" . date("m月j日", $newsTime) . "]" . $latestNewsTitle;
 
         include('class/OrderManager.class.php');
         $orderManager = new OrderManager();

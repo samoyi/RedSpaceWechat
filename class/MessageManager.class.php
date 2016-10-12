@@ -251,12 +251,12 @@ class MessageManager
                 'product'   =>  array('value'   =>($orderDetail['product_name']), 'color'=> '#ea386c'),
                 'price'     =>  array('value'   =>("￥".$orderDetail['order_total_price']/100), 'color'=> '#ea386c'),
                 'time'      =>  array('value'   =>(date("Y-m-d H:i:s",$orderDetail['order_create_time'])), 'color'=> '#ea386c'),
-                'remark'    =>  array('value'   =>(" \n$ad"), 'color'=> '#0000ff')
-                                
+                'remark'    =>  array('value'   =>(" \n$ad"), 'color'=> '#0000ff')         
             )
         );
         $url_post = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . ACCESS_TOKEN;
-        request_post($url_post, json_encode($template));   
+        $result = request_post($url_post, json_encode($template));   
+        $result = ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $template );
     }
 }
 
