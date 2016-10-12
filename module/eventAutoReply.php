@@ -115,12 +115,18 @@ switch( EVENT_TYPE )
         $latestNewsTitle = $latestNewsContentItem[0]->title;
         $latestNewsUrl = $latestNewsContentItem[0]->url;
         $newsTime = $latestNewsItem[0]->content->create_time;
-        $ad = "点击查看红房子更多资讯：\n[" . date("m月j日", $newsTime) . "]" . $latestNewsTitle;
+        $ad = "点击查看红房子更多资讯：\n[" . date("m月j日", $newsTime) . "] " . $latestNewsTitle;
 
         include('class/OrderManager.class.php');
         $orderManager = new OrderManager();
         $orderDetail = $orderManager->getOrderDetail(ORDERID);
         $messageManager->sendTemplateMessage($orderDetail, $ad, $latestNewsUrl); // 购买成功消息
+
+        // 发卡券
+        /*include('class/CardMessager.class.php');
+        $cardMessager = new CardMessager();
+        $cardMessager->sendCard( 'pkV_gjs0bNOvkEs37jI-AUzs1OyQ' );*/
+
         break;	
     }
     default :
