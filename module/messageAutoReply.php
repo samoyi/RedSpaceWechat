@@ -45,7 +45,12 @@ switch(MESSAGE_TYPE)
                     $productManager = new ProductManager();
                     $productManager->queryProductIDs(0);
 
-                    $foo = $productManager->modifyProduct( "pkV_gjsoiHMJCayTB3nuF-VJgSXg" );
+                    $aVID = array("$10月14日",
+                                "$10月15日",
+                                "$10月16日",
+                                "$10月17日",
+                                "$10月19日");
+                    $productManager->modifySkuInfo( "pkV_gjsoiHMJCayTB3nuF-VJgSXg", "$送达日期",  $aVID);
                     
 
                     define("CONTENT", '测试回复');
