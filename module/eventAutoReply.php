@@ -3,7 +3,7 @@
 
 /* 以下为数据区域 */
 define(MESSAGE_fOR_GET_CARD_EVENT, '亲亲，领到优惠券请在“微信-我-卡包-我的票券”中查看和使用。红房子祝您国庆快乐！');
-
+define(CARDID_SENT_AFTER_ORDER, 'pkV_gjkMiddaSVeMglxSb1oPU4nQ');
 
 /* 以下为逻辑区域 */
 switch( EVENT_TYPE )
@@ -86,14 +86,27 @@ switch( EVENT_TYPE )
                 }
                 else
                 {
-                	$des .= "\n\n" . $toomuchOrderCue;
-                }               
-                $messageManager->sendArticalMessage($title, $des, '', '');
+                	$des .= $toomuchOrderCue . "\n";
+                }    
+
+                include('class/MaterialManager.class.php');
+                $materialManager = new MaterialManager();
+                $latestNews = $materialManager->getMaterials("news", 2);
+                $latestNewsItem = $latestNews->item;
+                $latestNewsContentItem = $latestNewsItem[0]->content->news_item;
+                $latestNewsTitle = $latestNewsContentItem[0]->title;
+                $latestNewsUrl = $latestNewsContentItem[0]->url;
+                $newsTime = $latestNewsItem[0]->content->update_time;
+                $ad = "🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰\n\n🎂 点击查看红房子更多资讯：\n🎂 [" . date("m月j日", $newsTime) . "] " . $latestNewsTitle;
+
+                $des .= "\n\n" . $ad;
+                $imageUrl = $latestNewsContentItem[0]->thumb_url;
+                $messageManager->sendArticalMessage($title, $des, $imageUrl, $latestNewsUrl);
                 break; 
             }
             case 'customMenuKey12' :
             {
-                define("CONTENT", '亲，你好，请问有什么可以为您服务？您可直接在公众号中与客服联系（客服在线时间9:00—18:00）');
+                define("CONTENT", 'Hi，直接在公众号对话框输入问题，召唤人工客服（在线时间9:00-18:00)为您解答。也可直接拨打400-0376-558咨询！');
                 $messageManager->responseMsg( 'text' );
                 break; 
             }
@@ -107,25 +120,15 @@ switch( EVENT_TYPE )
     }
     case 'merchant_order' :
     {               
-        include('class/MaterialManager.class.php');
-        $materialManager = new MaterialManager();
-        $latestNews = $materialManager->getMaterials("news", 2);
-        $latestNewsItem = $latestNews->item;
-        $latestNewsContentItem = $latestNewsItem[0]->content->news_item;
-        $latestNewsTitle = $latestNewsContentItem[0]->title;
-        $latestNewsUrl = $latestNewsContentItem[0]->url;
-        $newsTime = $latestNewsItem[0]->content->update_time;
-        $ad = "点击查看红房子更多资讯：\n[" . date("m月j日", $newsTime) . "] " . $latestNewsTitle;
-
         include('class/OrderManager.class.php');
         $orderManager = new OrderManager();
         $orderDetail = $orderManager->getOrderDetail(ORDERID);
-        $messageManager->sendTemplateMessage($orderDetail, $ad, $latestNewsUrl); // 购买成功消息
+        $messageManager->sendTemplateMessage($orderDetail, '', ''); // 购买成功消息
 
         // 发卡券
-        /*include('class/CardMessager.class.php');
+        include('class/CardMessager.class.php');
         $cardMessager = new CardMessager();
-        $cardMessager->sendCard( 'pkV_gjs0bNOvkEs37jI-AUzs1OyQ' );*/
+        $cardMessager->sendCard( CARDID_SENT_AFTER_ORDER );
 
         break;	
     }

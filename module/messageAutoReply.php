@@ -41,6 +41,13 @@ switch(MESSAGE_TYPE)
     		{
     			case '测试回复314' :
     			{    
+                    include('class/ProductManager.class.php');
+                    $productManager = new ProductManager();
+                    $productManager->queryProductIDs(0);
+
+                    $foo = $productManager->modifyProduct( "pkV_gjsoiHMJCayTB3nuF-VJgSXg" );
+                    
+
                     define("CONTENT", '测试回复');
                     $messageManager->responseMsg( 'text' );
     				break;

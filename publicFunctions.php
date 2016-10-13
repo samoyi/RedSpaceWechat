@@ -39,10 +39,10 @@ function getAccessToken()//获取access_token
 
 // 检测是否ACCESS_TOKEN已过期，过期则刷新并重发请求
 // 第一个参数是用户某个请求的返回值，第二个参数是该请求的地址不包含ACCESS_TOKEN的部分，第三个参数是该请求发送的数据
-function ifRefreshAccessTokenAndRePost( $return, $urlWithoutACCESS_TOKEN, $data)
+function ifRefreshAccessTokenAndRePost( $result, $urlWithoutACCESS_TOKEN, $data)
 {
-    $returnObj = json_decode($return);
-    if( 40001 == $returnObj->errcode )// 如果返回值的错误代码是40001，代表AccessToken已失效，
+    $resultObj = json_decode($result);
+    if( 40001 == $resultObj->errcode )// 如果返回值的错误代码是40001，代表AccessToken已失效，
     {   
         file_put_contents("monitor.txt", "AccessToken Timeout : " . date('Y-m-d H:i', time()) . "\n", FILE_APPEND);
         $url = $urlWithoutACCESS_TOKEN . refreshAccessToken(); // 刷新AccessToken并重发请求
@@ -50,7 +50,7 @@ function ifRefreshAccessTokenAndRePost( $return, $urlWithoutACCESS_TOKEN, $data)
     } 
     else
     {
-        return $return;
+        return $result;
     }
 }
 
