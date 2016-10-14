@@ -41,7 +41,165 @@ switch(MESSAGE_TYPE)
     		{
     			case '测试回复314' :
     			{    
-                    include('class/ProductManager.class.php');
+
+
+
+
+
+
+                    $url = 'https://api.weixin.qq.com/merchant/update?access_token=' . ACCESS_TOKEN;
+                    $data = '{
+                                "product_id": "pkV_gjsTaeMWcNxzoVNWLXBRQlhM",
+                                "product_base": {
+                                    "category_id": [
+                                        "537074298"
+                                    ],
+                                    "property": [
+                                        {
+                                            "id": "1075741879",
+                                            "vid": "1079749967"
+                                        },
+                                        {
+                                            "id": "1075754127",
+                                            "vid": "1079795198"
+                                        },
+                                        {
+                                            "id": "1075777334",
+                                            "vid": "1079837440"
+                                        }
+                                    ],
+                                    "name": "商品名",
+                                    "sku_info": [
+                                        {
+                                            "id": "$发货日期",
+                                            "vid": [
+                                                "$昨天",
+                                                "$前天"
+                                            ]
+                                        }
+                                    ],
+                                    "main_img": "http://mmbiz.qpic.cn/mmbiz/4whpV1VZl2iccsvYbHvnphkyGtnvjD3ulEKogfsiaua49pvLfUS8Ym0GSYjViaLic0FD3vN0V8PILcibEGb2fPfEOmw/0",
+                                    "img": [
+                                        "http://mmbiz.qpic.cn/mmbiz/4whpV1VZl2iccsvYbHvnphkyGtnvjD3ulEKogfsiaua49pvLfUS8Ym0GSYjViaLic0FD3vN0V8PILcibEGb2fPfEOmw/0"
+                                    ],
+                                    "detail": [
+                                        {
+                                            "img": "http://mmbiz.qpic.cn/mmbiz/4whpV1VZl2iccsvYbHvnphkyGtnvjD3ul1UcLcwxrFdwTKYhH9Q5YZoCfX4Ncx655ZK6ibnlibCCErbKQtReySaVA/0"
+                                        }
+                                    ],
+                                    "buy_limit": 3
+                                },
+                                "sku_list": [
+                                    {
+                                        "sku_id": "$发货日期:$昨天;",
+                                        "price": 100,
+                                        "icon_url": "http:\/\/mmbiz.qpic.cn\/mmbiz\/4whpV1VZl2iccsvYbHvnphkyGtnvjD3ulEKogfsiaua49pvLfUS8Ym0GSYjViaLic0FD3vN0V8PILcibEGb2fPfEOmw\/0",
+                                        "quantity": 11,
+                                        "product_code": "",
+                                        "ori_price": 0
+                                    },
+                                    {
+                                        "sku_id": "$发货日期:$前天;",
+                                        "price": 100,
+                                        "icon_url": "http:\/\/mmbiz.qpic.cn\/mmbiz\/4whpV1VZl2iccsvYbHvnphkyGtnvjD3ulEKogfsiaua49pvLfUS8Ym0GSYjViaLic0FD3vN0V8PILcibEGb2fPfEOmw\/0",
+                                        "quantity": 11,
+                                        "product_code": "",
+                                        "ori_price": 0
+                                    }
+                                ],
+                                "attrext": {
+                                    "location": {
+                                        "country": "中国",
+                                        "province": "广东省",
+                                        "city": "广州市",
+                                        "address": "T.I.T创意园"
+                                    },
+                                    "isPostFree": 0,
+                                    "isHasReceipt": 1,
+                                    "isUnderGuaranty": 0,
+                                    "isSupportReplace": 0
+                                },
+                                "delivery_info": {
+                                    "delivery_type": 0,
+                                    "template_id": 0,
+                                    "express": [
+                                        {
+                                            "id": 10000027,
+                                            "price": 100
+                                        },
+                                        {
+                                            "id": 10000028,
+                                            "price": 100
+                                        },
+                                        {
+                                            "id": 10000029,
+                                            "price": 100
+                                        }
+                                    ]
+                                }
+                            }';
+                    
+
+                    /*$codeArray = array(
+                        'UTF-8', 'ASCII',
+                        'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4', 'ISO-8859-5',
+                        'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9', 'ISO-8859-10',
+                        'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
+                        'Windows-1251', 'Windows-1252', 'Windows-1254',
+                        );
+                    $encode = mb_detect_encoding($data, $codeArray); 
+                    $data = mb_convert_encoding($data, 'UTF-8', array($encode) );
+                    //$data = iconv($encode, 'UTF-8', $data);*/
+
+                    $result = request_post($url, $data);
+                    $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/update?access_token=', $data);
+                    file_put_contents("err.txt", $result ); 
+
+
+                    // 获取sku_info
+                    /*include('class/ProductManager.class.php');
+                    $productManager = new ProductManager();
+                    $result = $productManager->querySkuInfoArray( "pkV_gjr-gERP2CBlt32uJO5KspS0" );
+                    file_put_contents("err.txt", json_encode($result) ); */
+                    
+                    // 添加商品
+
+                    /*include('class/ProductManager.class.php');
+                    $productManager = new ProductManager();
+                    file_put_contents("err.txt", $productManager->addProduct() );*/
+
+
+
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    /*include('class/ProductManager.class.php');
                     $productManager = new ProductManager();
                     $productManager->queryProductIDs(0);
 
@@ -50,7 +208,7 @@ switch(MESSAGE_TYPE)
                                 "$10月16日",
                                 "$10月17日",
                                 "$10月19日");
-                    $productManager->modifySkuInfo( "pkV_gjsoiHMJCayTB3nuF-VJgSXg", "$送达日期",  $aVID);
+                    $productManager->modifySkuInfo();*/
                     
 
                     define("CONTENT", '测试回复');
