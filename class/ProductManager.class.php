@@ -142,7 +142,8 @@ file_put_contents("err.txt", json_encode($aProducts[2]) );
         }
 
         $url = 'https://api.weixin.qq.com/merchant/update?access_token=' . ACCESS_TOKEN;
-        $data = decodeUnicode( json_encode( $oldProduct_info ) );
+        $oldProduct_info = str_replace(" ", "", json_encode( $oldProduct_info )); // 删除所有空格，让decodeUnicode正确转换
+        $data = decodeUnicode( $oldProduct_info );
         $result = request_post($url, $data);
         $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/update?access_token=', $data);
 
@@ -156,7 +157,7 @@ file_put_contents("err.txt", json_encode($aProducts[2]) );
                 $str);
         }
 
-        file_put_contents("err.txt", $oldProduct_info );
+        file_put_contents("err.txt", serialize($oldProduct_info) );
     }
 }
 
