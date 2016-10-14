@@ -97,7 +97,7 @@ switch( EVENT_TYPE )
                 $latestNewsTitle = $latestNewsContentItem[0]->title;
                 $latestNewsUrl = $latestNewsContentItem[0]->url;
                 $newsTime = $latestNewsItem[0]->content->update_time;
-                $ad = "🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰\n\n🎂 点击查看红房子更多资讯：\n🎂 [" . date("m月j日", $newsTime) . "] " . $latestNewsTitle;
+                $ad = "-----------------------------------------\n\n⭐ 点击查看红房子更多资讯：\n⭐ [" . date("m月j日", $newsTime) . "] " . $latestNewsTitle;
 
                 $des .= "\n\n" . $ad;
                 $imageUrl = $latestNewsContentItem[0]->thumb_url;

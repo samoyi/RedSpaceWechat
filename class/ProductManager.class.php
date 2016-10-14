@@ -3,6 +3,7 @@
 class ProductManager
 {
     // 获取指定状态的所有商品的 product_id 及对应 name 组成的数组
+    // 参数 0 代表所有商品，1 代表已上架商品， 2 代表未上架商品
     public function queryProductIDs( $nStatus = 0)
     {   
         $url = 'https://api.weixin.qq.com/merchant/getbystatus?access_token=' . ACCESS_TOKEN;
@@ -10,14 +11,15 @@ class ProductManager
                     "status": ' . $nStatus . '
                 }';
         $result = request_post($url, $data);
-        $result = ifRefreshAccessTokenAndRePost( $return, 'https://api.weixin.qq.com/merchant/getbystatus?access_token=', $data);
+        $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/getbystatus?access_token=', $data);
+        
         $aProducts = json_decode($result)->products_info; // 所有商品
+
         $aIDs = array();
         foreach( $aProducts as $value )
         {
             $aIDs[$value->product_id] = $value->product_base->name;
         }
-        //file_put_contents("err.txt", json_encode($aIDs) ); 
         return $aIDs;
     }
 
@@ -45,7 +47,7 @@ class ProductManager
                 }';
         $result = request_post($url, $data);
         $aProducts = json_decode($result)->products_info;
-file_put_contents("err.txt", json_encode($aProducts[2]) ); 
+
         $oneskuinfo = $aProducts[2]->product_base->sku_info; // index 为 1 的是日期设置
         //file_put_contents("err.txt", json_encode($oneskuinfo[1]->vid) ); 
         $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/getbystatus?access_token=', $data);
@@ -62,6 +64,7 @@ file_put_contents("err.txt", json_encode($aProducts[2]) );
         return $this->queryProductBase( $sProductID )->product_info->product_base->sku_info;
     }
 
+
     // 修改商品 
     // 未完成。获得了POST数据中未修改的内容。如果要修改某一部分，把未修改的和修改的拼接为完整的POST数据
     public function modifyProduct( $sProductID )
@@ -73,7 +76,7 @@ file_put_contents("err.txt", json_encode($aProducts[2]) );
         $oldDeliveryInfo = $oldProduct_info->delivery_info;
 
 
-        file_put_contents("err.txt", json_encode($oldDeliveryInfo) ); 
+        
     }
 
     // 修改某项sku_info.
@@ -122,8 +125,10 @@ file_put_contents("err.txt", json_encode($aProducts[2]) );
             }
         ]
     */
-    public function modifySkuInfo( $sProductID, $sID, $aVID )
-    {
+    //public function modifySkuInfo( $sProductID, $sID, $aVID )
+    public function modifySkuInfo()
+    {   
+        $sProductID = 'pkV_gjsTaeMWcNxzoVNWLXBRQlhM';
         $oldProduct_info = $this->queryProductBase( $sProductID )->product_info;
         $oldProductBase = $oldProduct_info->product_base;
         $oldSkuList = $oldProduct_info->sku_list;
@@ -132,20 +137,23 @@ file_put_contents("err.txt", json_encode($aProducts[2]) );
 
         $oldSkuInfo = $oldProductBase->sku_info;
 
-        foreach( $oldSkuInfo as $key=>$value )
+        $newVID = array("\$大前天", "\$大后天");
+        
+        $oldSkuInfo[0]->vid = $newVID;
+        $oldSkuList[0]->sku_id = "\$发货日期:\$大前天;";
+        $oldSkuList[1]->sku_id = "\$发货日期:\$大后天;";
+
+        $detailHTML = $oldProductBase->detail_html;
+        $oldProductBase->detail_html = str_replace('"', '\'', $detailHTML );
+
+        /*foreach( $oldSkuInfo as $key=>$value )
         {
             if( $value->id === $sID )
             {
                 $oldSkuInfo[$key]->vid = $aVID;
                 break;
             }
-        }
-
-        $url = 'https://api.weixin.qq.com/merchant/update?access_token=' . ACCESS_TOKEN;
-        $oldProduct_info = str_replace(" ", "", json_encode( $oldProduct_info )); // 删除所有空格，让decodeUnicode正确转换
-        $data = decodeUnicode( $oldProduct_info );
-        $result = request_post($url, $data);
-        $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/update?access_token=', $data);
+        }*/
 
         function decodeUnicode($str)
         {
@@ -155,9 +163,248 @@ file_put_contents("err.txt", json_encode($aProducts[2]) );
                     'return mb_convert_encoding(pack("H*", $matches[1]), "UTF-8", "UCS-2BE");'
                 ),
                 $str);
+
         }
 
-        file_put_contents("err.txt", serialize($oldProduct_info) );
+        $url = 'https://api.weixin.qq.com/merchant/update?access_token=' . ACCESS_TOKEN;
+        $data = json_encode( $oldProduct_info );
+        file_put_contents("err.txt", $data );
+        $data = str_replace('\"', '"', $data);
+        $data = decodeUnicode( $data );
+        
+        $data = str_replace('\\/', '/', $data);
+
+        $url = 'https://api.weixin.qq.com/merchant/update?access_token=' . ACCESS_TOKEN;
+
+        /*$codeArray = array(
+            'UTF-8', 'ASCII',
+            'ISO-8859-1', 'ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4', 'ISO-8859-5',
+            'ISO-8859-6', 'ISO-8859-7', 'ISO-8859-8', 'ISO-8859-9', 'ISO-8859-10',
+            'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
+            'Windows-1251', 'Windows-1252', 'Windows-1254',
+            );
+        $encode = mb_detect_encoding($data, $codeArray); 
+        $data = mb_convert_encoding($data, 'UTF-8', $encode);*/
+
+        //$data = iconv("ISO-8859-1", "UTF-8", $data); 
+
+        $result = request_post($url, $data);
+        $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/update?access_token=', $data);
+        return $result;
+    }
+
+
+    public function addProduct()
+    {
+        $url = 'https://api.weixin.qq.com/merchant/create?access_token=' . ACCESS_TOKEN;
+        $data = '{
+    "product_base": {
+        "category_id": [
+            "537074298"
+        ],
+        "property": [
+            {
+                "id": "1075741879",
+                "vid": "1079749967"
+            },
+            {
+                "id": "1075754127",
+                "vid": "1079795198"
+            },
+            {
+                "id": "1075777334",
+                "vid": "1079837440"
+            }
+        ],
+        "name": "test",
+        "sku_info": [
+            {
+                "id": "1075741873",
+                "vid": [
+                    "1079742386",
+                    "1079742363"
+                ]
+            },
+            {
+                "id": "$日期",
+                "vid": [
+                    "$今天",
+                    "$明天"
+                ]
+            }
+        ],
+        "main_img": "http://mmbiz.qpic.cn/mmbiz/4whpV1VZl2iccsvYbHvnphkyGtnvjD3ulEKogfsiaua49pvLfUS8Ym0GSYjViaLic0FD3vN0V8PILcibEGb2fPfEOmw/0", 
+        "img": [
+            "http://mmbiz.qpic.cn/mmbiz/4whpV1VZl2iccsvYbHvnphkyGtnvjD3ulEKogfsiaua49pvLfUS8Ym0GSYjViaLic0FD3vN0V8PILcibEGb2fPfEOmw/0"
+        ],
+        "detail": [
+            {
+                "text": "test first"
+            },
+            {
+                "img": "http://mmbiz.qpic.cn/mmbiz/4whpV1VZl2iccsvYbHvnphkyGtnvjD3ul1UcLcwxrFdwTKYhH9Q5YZoCfX4Ncx655ZK6ibnlibCCErbKQtReySaVA/0"
+            },
+            {
+                "text": "test again"
+            }
+        ],
+        "buy_limit": 10
+    },
+    "sku_list": [
+        {
+            "sku_id": "$日期:$今天;1075741873:1079742386",
+            "price": 30,
+            "icon_url": "http://mmbiz.qpic.cn/mmbiz/4whpV1VZl28bJj62XgfHPibY3ORKicN1oJ4CcoIr4BMbfA8LqyyjzOZzqrOGz3f5KWq1QGP3fo6TOTSYD3TBQjuw/0",
+            "product_code": "testing",
+            "ori_price": 9000000,
+            "quantity": 800
+        },
+        {
+            "sku_id": "$日期:$明天;1075741873:1079742363",
+            "price": 30,
+            "icon_url": "http://mmbiz.qpic.cn/mmbiz/4whpV1VZl28bJj62XgfHPibY3ORKicN1oJ4CcoIr4BMbfA8LqyyjzOZzqrOGz3f5KWq1QGP3fo6TOTSYD3TBQjuw/0",
+            "product_code": "testingtesting",
+            "ori_price": 9000000,
+            "quantity": 800
+        }
+    ],
+    "attrext": {
+        "location": {
+            "country": "中国",
+            "province": "广东省",
+            "city": "广州市",
+            "address": "T.I.T创意园"
+        },
+        "isPostFree": 0,
+        "isHasReceipt": 1,
+        "isUnderGuaranty": 0,
+        "isSupportReplace": 0
+    },
+    "delivery_info": {
+        "delivery_type": 0,
+        "template_id": 0, 
+        "express": [
+            {
+                "id": 10000027, 
+                "price": 100
+            }, 
+            {
+                "id": 10000028, 
+                "price": 100
+            }, 
+            {
+                "id": 10000029, 
+                "price": 100
+            }
+        ]
+    }
+}';
+
+
+        $result = request_post($url, $data);
+        $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/create?access_token=', $data);
+        return $result;
+    }
+
+
+    // 临时测试
+    // 直接手写date属性可以修改成功，但获取原data再修改为新的data之后修改出问题
+    public fnction temp_modifyProduct()
+    {
+        $url = 'https://api.weixin.qq.com/merchant/update?access_token=' . ACCESS_TOKEN;
+        $data = '{
+                    "product_id": "pkV_gjsTaeMWcNxzoVNWLXBRQlhM",
+                    "product_base": {
+                        "category_id": [
+                            "537074298"
+                        ],
+                        "property": [
+                            {
+                                "id": "1075741879",
+                                "vid": "1079749967"
+                            },
+                            {
+                                "id": "1075754127",
+                                "vid": "1079795198"
+                            },
+                            {
+                                "id": "1075777334",
+                                "vid": "1079837440"
+                            }
+                        ],
+                        "name": "商品名",
+                        "sku_info": [
+                            {
+                                "id": "$发货日期",
+                                "vid": [
+                                    "$大前天",
+                                    "$大后天"
+                                ]
+                            }
+                        ],
+                        "main_img": "http://mmbiz.qpic.cn/mmbiz/4whpV1VZl2iccsvYbHvnphkyGtnvjD3ulEKogfsiaua49pvLfUS8Ym0GSYjViaLic0FD3vN0V8PILcibEGb2fPfEOmw/0",
+                        "img": [
+                            "http://mmbiz.qpic.cn/mmbiz/4whpV1VZl2iccsvYbHvnphkyGtnvjD3ulEKogfsiaua49pvLfUS8Ym0GSYjViaLic0FD3vN0V8PILcibEGb2fPfEOmw/0"
+                        ],
+                        "detail": [
+                            {
+                                "img": "http://mmbiz.qpic.cn/mmbiz/4whpV1VZl2iccsvYbHvnphkyGtnvjD3ul1UcLcwxrFdwTKYhH9Q5YZoCfX4Ncx655ZK6ibnlibCCErbKQtReySaVA/0"
+                            }
+                        ],
+                        "buy_limit": 3
+                    },
+                    "sku_list": [
+                        {
+                            "sku_id": "$发货日期:$大前天;",
+                            "price": 200,
+                            "icon_url": "http://mmbiz.qpic.cn/mmbiz/4whpV1VZl2iccsvYbHvnphkyGtnvjD3ulEKogfsiaua49pvLfUS8Ym0GSYjViaLic0FD3vN0V8PILcibEGb2fPfEOmw/0",
+                            "quantity": 20,
+                            "product_code": "",
+                            "ori_price": 0
+                        },
+                        {
+                            "sku_id": "$发货日期:$大后天;",
+                            "price": 100,
+                            "icon_url": "http://mmbiz.qpic.cn/mmbiz/4whpV1VZl2iccsvYbHvnphkyGtnvjD3ulEKogfsiaua49pvLfUS8Ym0GSYjViaLic0FD3vN0V8PILcibEGb2fPfEOmw/0",
+                            "quantity": 20,
+                            "product_code": "",
+                            "ori_price": 0
+                        }
+                    ],
+                    "attrext": {
+                        "location": {
+                            "country": "中国",
+                            "province": "广东省",
+                            "city": "广州市",
+                            "address": "T.I.T创意园"
+                        },
+                        "isPostFree": 0,
+                        "isHasReceipt": 1,
+                        "isUnderGuaranty": 0,
+                        "isSupportReplace": 0
+                    },
+                    "delivery_info": {
+                        "delivery_type": 0,
+                        "template_id": 0,
+                        "express": [
+                            {
+                                "id": 10000027,
+                                "price": 100
+                            },
+                            {
+                                "id": 10000028,
+                                "price": 100
+                            },
+                            {
+                                "id": 10000029,
+                                "price": 100
+                            }
+                        ]
+                    }
+                }';
+
+        $result = request_post($url, $data);
+        return $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/update?access_token=', $data);
     }
 }
 
