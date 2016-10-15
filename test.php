@@ -1,4 +1,4 @@
-﻿<?php
+﻿<pre><?php
 
 /*
  * 微信后台将消息、事件等推送到该文件
@@ -116,13 +116,11 @@ include('WechatPushed.php'); // 获取微信后台推送信息
 
 include('class/ProductManager.class.php');
 $productManager = new ProductManager();
-$nAllProductNum = count( $productManager->queryProductIDs() );
-$nOnProductNum = count( $productManager->queryProductIDs(1) );
-$nOffProductNum = count( $productManager->queryProductIDs(2) );
-echo $nAllProductNum;
-echo ' ';
-echo $nOnProductNum;
-echo ' ';
-echo $nOffProductNum;
 
-?>
+$result = $productManager->propertyListNameToID("pkV_gjsTaeMWcNxzoVNWLXBRQlhM", 537074298);
+
+
+print_r( $result );
+//file_put_contents("err.txt", json_encode($result) );
+
+?></pre>
