@@ -68,9 +68,10 @@ class ProductManager
         // 根据$aCategoryName，将当前商品
         foreach($aCategoryList as $value)
         {   
+            file_put_contents("err.txt", "* " . json_encode($value->id) . "\n\n", FILE_APPEND );
             $aPropertyValue = $this->getPropertyKeyArray($nCategoryID, $value->id);
-            //file_put_contents("err.txt", $aPropertyValue );
             $value->vid = $aPropertyValue[$value->vid];
+            file_put_contents("err.txt", "* " . json_encode($value->id) . "\n\n", FILE_APPEND );
         }
         return $product_info;
     }
