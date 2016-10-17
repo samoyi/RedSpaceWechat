@@ -30,9 +30,9 @@ class ProductManager
         return json_decode( $result )->properties;
     }
 
-    // 获得$nCategoryID类别中$sProperty属性的属性值的key属性的关联数组，键为对应的name
+    // 获得$nCategoryID类别中$sProperty属性的property_value数组中每一项的id组成的关联数组，键为对应的name
     // 例如传参 (537074298, "特殊功能")，就是获得数码相机类别中特殊功能属性的所有属性值
-    public function getPropertyKeyArray( $nCategoryID, $sProperty )
+    public function getPropertyValueIDArray( $nCategoryID, $sProperty )
     {
         $aPropertyList = $this->getPropertyListArray($nCategoryID); // 所有的属性
         // 循环所有的属性，找到第二个参数中的属性，并将保存了该属性的所有值的数组保存到 $aPropertyValue中
@@ -42,8 +42,8 @@ class ProductManager
             if( $value->name === $sProperty)
             {
                 $aPropertyValue = $value->property_value;
+                break;
             }
-            break;
         }
         // 循环该数组，提取每一项的id和name，以name为键id为值得数组
         $aPropertyNameArray = array();
@@ -54,6 +54,19 @@ class ProductManager
         return $aPropertyKeyArray;
     }
 
+    // 获得$nCategoryID类别中$sProperty属性的ID的关联数组，键为对应的name
+    public function getPropertyIDArray( $nCategoryID )
+    {
+        $aPropertyList = $this->getPropertyListArray($nCategoryID); // 所有的属性
+        // 循环所有的属性，找到第二个参数中的属性，并将保存了该属性的所有值的数组保存到 $aPropertyValue中
+        $aPropertyID = array();
+        foreach($aPropertyList as $value)
+        {
+            $aPropertyID[$value->name] = $value->id;
+        }
+        return $aPropertyID;
+    }
+
 
     // 将某个商品product_info对象中的property属性中的中文id和vid变为对应的数字
     // 该方法不会直接修改商品，只会修改product_info对象，并返回product_info对象
@@ -62,16 +75,15 @@ class ProductManager
     public function propertyListNameToID( $sProductID, $nCategoryID )
     {
         $product_info = $this->queryProductInfo($sProductID);
-        $aCategoryList =$product_info->product_base->property; // 该商品的property属性
-        //in_array($aProperty[0]->id, $this->getCategoryListArray(1) );
+        $aCategoryList = $product_info->product_base->property; // 该商品的property属性
+        $aProperty = $this->getPropertyIDArray( $nCategoryID ); // 该商品的所有属性
 
         // 根据$aCategoryName，将当前商品
         foreach($aCategoryList as $value)
         {   
-            file_put_contents("err.txt", "* " . json_encode($value->id) . "\n\n", FILE_APPEND );
-            $aPropertyValue = $this->getPropertyKeyArray($nCategoryID, $value->id);
+            $aPropertyValue = $this->getPropertyValueIDArray($nCategoryID, $value->id);
             $value->vid = $aPropertyValue[$value->vid];
-            file_put_contents("err.txt", "* " . json_encode($value->id) . "\n\n", FILE_APPEND );
+            $value->id = $aProperty[$value->id];
         }
         return $product_info;
     }
@@ -151,26 +163,36 @@ class ProductManager
     // 修改商品 
     // 未完成 TODO 。获得了POST数据中未修改的内容。如果要修改某一部分，把未修改的和修改的拼接为完整的POST数据
     // 修改时提交的数据中比queryProductInfo获得的数据中多出了一项status
-    public function modifyProduct( $sProductID )
+    /* TODO 必须手动先给 价格&库存 每个大的行添加一张图片才行。如果没有，则获得的icon_url是空字符串，但提交的时候该属性又不允许是空字符串
+    */
+    public function modifyProduct( $sProductID, $nCategoryID )
     {
-        $oldProduct_info = $this->queryProductInfo( $sProductID );
-        unset( $oldProduct_info->status );
-        $oldProduct_info->product_base->name = 'myName1';
+        //$oldProduct_info = $this->queryProductInfo( $sProductID );
+        $oldProduct_info = $this->propertyListNameToID( $sProductID, $nCategoryID );
+
+        // 手动修改库存。不知道库存为什么
+        $aSkuList = $oldProduct_info->sku_list;
+        foreach($aSkuList as $value)
+        {
+            $value->quantity = 25;
+        }
         
-
-         $aProperty = $oldProduct_info->product_base->property;
-         $aProperty[0]->id = "1075741879";
-         $aProperty[0]->vid = "1079749967";
-         $aProperty[1]->id = "1075754127";
-         $aProperty[1]->vid = "1079795198";
-         unset($aProperty[2]->id);
-         unset($aProperty[2]->vid);
-
-//return $oldProduct_info;
-        file_put_contents("err.txt", json_encode($oldProduct_info));
+        unset( $oldProduct_info->status );
+        $oldProduct_info->product_base->name = 'ceshi6';
+        
+        $aProperty = $oldProduct_info->product_base->property;
+        
         $data = json_encode( $oldProduct_info ); 
         $data = decodeUnicode($data);
         $data = str_replace('\\/', '/', $data);
+        $data = str_replace('\"', '"', $data);
+
+        $data = str_replace('大前天', '后天', $data);
+        $data = str_replace('大后天', '明天', $data);
+        file_put_contents("err.txt", $data . "\n\n\n\n", FILE_APPEND);
+        file_put_contents("err.txt", json_encode($data) . "\n\n\n\n", FILE_APPEND);
+
+        
 
         $url = 'https://api.weixin.qq.com/merchant/update?access_token=' . ACCESS_TOKEN;
         $result = request_post($url, $data);
