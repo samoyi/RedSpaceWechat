@@ -27,6 +27,11 @@
                              "type":"view",
                              "name":"门店列表",
                              "url":"http://red-space.cn/list/index.php"
+                          },
+                          {  
+                                "type":"pic_photo_or_album",
+                                "name":"发送图片",
+                                "key":"customMenuKey14"
                           }]
                      },
                      {  
