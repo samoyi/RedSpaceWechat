@@ -54,6 +54,7 @@ function ifRefreshAccessTokenAndRePost( $result, $urlWithoutACCESS_TOKEN, $data)
     }
 }
 
+/* 下面使用了验证access token过期的get方法
 function httpGet($url)//发送GET请求
 {
     $ch = curl_init();
@@ -64,6 +65,37 @@ function httpGet($url)//发送GET请求
     $output = curl_exec($ch);
     curl_close($ch);
     return $output;
+}*/
+function httpGet($url)//发送GET请求
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    $output = curl_exec($ch);
+    curl_close($ch);
+    
+    $resultObj = json_decode($output);
+    if( 40001 == $resultObj->errcode )// 如果返回值的错误代码是40001，代表AccessToken已失效，
+    {   
+        file_put_contents("monitor.txt", "AccessToken Timeout : " . date('Y-m-d H:i', time()) . "\n", FILE_APPEND);
+        $urlWithoutACCESS_TOKEN = strtok($url, "access_token=") . "access_token=";
+        $url = $urlWithoutACCESS_TOKEN . refreshAccessToken(); // 刷新AccessToken并重发请求
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    } 
+    else
+    {
+        return $output;
+    }
 }
 function request_post($url, $data)//发送POST请求
 {

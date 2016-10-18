@@ -14,15 +14,21 @@ include('WechatPushed.php'); // 获取微信后台推送信息
 
 
 
-include('class/ProductManager.class.php');
+/*include('class/ProductManager.class.php');
 $productManager = new ProductManager();
 
-$result = $productManager->modifyProduct("pkV_gjsTaeMWcNxzoVNWLXBRQlhM", 537074298);
-//$result = $productManager->queryProductInfo("pkV_gjsTaeMWcNxzoVNWLXBRQlhM");
+$result = $productManager->modifyProduct("pkV_gjsTaeMWcNxzoVNWLXBRQlhM", 537074298);*/
+
+include('class/UserManager.class.php');
+$UserManager = new UserManager();
+$aOpenID = $UserManager->getOpenIDArray();
+$a = $UserManager->getUserInfoBatch( $aOpenID );
+
+print_r( $a );
 
 
 
-print_r( $result );
-file_put_contents("err.txt", json_encode($result) );
+//print_r( $result );
+//file_put_contents("err.txt", json_encode($result) );
 
 ?></pre>
