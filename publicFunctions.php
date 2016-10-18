@@ -108,8 +108,13 @@ function request_post($url, $data)//发送POST请求
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     $output = curl_exec( $curl );
     curl_close($curl);
+
+    $urlWithoutACCESS_TOKEN = strtok($url, "access_token=") . "access_token=";
+    $output = ifRefreshAccessTokenAndRePost( $output, $urlWithoutACCESS_TOKEN, $data);
     return $output;
 }
+
+
 
 function decodeUnicode($str)
 {

@@ -28,10 +28,12 @@ class UserManager
         return json_decode( $result = httpGet($url) );
     }
 
+    // 批量获取用户信息
     public function getUserInfoBatch($aOpenID)
     {
-        $url = 'https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=' . ACCESS_TOKE;
-        $aOpenIDChunk = array_chunk($aOpenID, 100);
+        $url = 'https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=' . ACCESS_TOKEN;
+        $aOpenIDChunk = array_chunk($aOpenID, 100); // 该接口一次最多查询100个
+       
         $aUserInfoChunk = array();
         $aUserList = array();
         $aUserInfoList = array();
@@ -42,13 +44,13 @@ class UserManager
                 $aUserList[] = json_decode('{"openid": "' . $innerValue . '", "lang": "zh-CN"}');
             }
             $data = '{
-                "user_list": ' . $aUserList . '
+                "user_list": ' . json_encode($aUserList) . '
             }';
+
             $result = json_decode(request_post($url, $data));
             $aUserInfoList = array_merge($aUserInfoList, $result->user_info_list);
         }
         return $aUserInfoList;
-        //return json_decode( $result = httpGet($url) );
     }
 
 
