@@ -178,7 +178,7 @@ class ProductManager
         }
         
         unset( $oldProduct_info->status );
-        $oldProduct_info->product_base->name = 'ceshi6';
+        $oldProduct_info->product_base->name = 'testProduct';
         
         $aProperty = $oldProduct_info->product_base->property;
         
@@ -187,10 +187,10 @@ class ProductManager
         $data = str_replace('\\/', '/', $data);
         $data = str_replace('\"', '"', $data);
 
-        $data = str_replace('大前天', '后天', $data);
-        $data = str_replace('大后天', '明天', $data);
-        file_put_contents("err.txt", $data . "\n\n\n\n", FILE_APPEND);
-        file_put_contents("err.txt", json_encode($data) . "\n\n\n\n", FILE_APPEND);
+        /*$data = str_replace('大前天', '后天', $data);
+        $data = str_replace('大后天', '明天', $data);*/
+        file_put_contents("err.txt", $data);
+        //file_put_contents("err.txt", json_encode($data) . "\n\n\n\n", FILE_APPEND);
 
         
 
@@ -293,6 +293,31 @@ class ProductManager
         $url = 'https://api.weixin.qq.com/merchant/update?access_token=' . ACCESS_TOKEN;
         $result = request_post($url, $data);
         return $result = ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/update?access_token=', $data);
+    }
+
+
+
+    // 库存管理 ——————————————————————————————————————————————————————————————————————————————————
+    // TODO  和整体修改商品信息一样，这里同样不能修改库存
+    public function modifyStock($sProductID, $nDelta)
+    {
+        if( $nDelta > 0 )
+        {
+            $urlWithoutAccessToken = 'https://api.weixin.qq.com/merchant/stock/add?access_token=';    
+        }
+        else
+        {
+            $urlWithoutAccessToken = 'https://api.weixin.qq.com/merchant/stock/reduce?access_token=';
+            $nDelta = -$nDelta;
+        }
+        $url = $urlWithoutAccessToken . ACCESS_TOKEN;
+        $data = '{
+                    "product_id": "' . $sProductID . '", 
+                    "sku_info": "", 
+                    "quantity": ' . $nDelta . '
+                }';
+        $result = request_post($url, $data);
+        return $result = ifRefreshAccessTokenAndRePost($result, $urlWithoutAccessToken, $data);
     }
 }
 
