@@ -26,9 +26,16 @@ $result = array_chunk($result, 500);
 
 $result = $UserManager->getUserInfoBatch( $result[0] );
 
-
-
+$aFilterAssociativeArray = array("sex"=>2, "city"=>"Xinyang");
+$result = $UserManager->filterUserInfoArray( $result, $aFilterAssociativeArray );
+$result1 = $UserManager->getUserInfoPropertyArray($result, "headimgurl");
+$result2 = $UserManager->getUserInfoPropertyArray($result, "nickname");
 print_r( $result );
+foreach($result1 as $key=>$value)
+{
+	echo '<img src="' . $value . '" /><br />' . $result2[$key] . '<br /><br />';
+}
+
 
 
 

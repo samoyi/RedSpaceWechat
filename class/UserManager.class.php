@@ -48,11 +48,41 @@ class UserManager
             }';
 
             $result = json_decode(request_post($url, $data));
-            //file_put_contents("err.txt", count($aUserList) . "\n\n\n", FILE_APPEND);
+            
             $aUserInfoList = array_merge($aUserInfoList, $result->user_info_list);
             unset( $aUserList );
         }
         return $aUserInfoList;
+    }
+
+    // 过滤保留 getUserInfoBatch 函数返回的数组
+    // 第二个参数是关联数组，一个数组项的键对应用户信息中的某个属性，只有该属性值和该键值完全相同才会保留该用户信息
+    // 并且每一个数组项都要对应才行。
+    // 例如传入 array("sex"=>2, "city"=>"Xinyang") 将从$aUserInfoArray中 挑选性别女且城市为Xinyang的予以保留
+    public function filterUserInfoArray( $aUserInfoArray, $aFilterAssociativeArray )
+    {
+        foreach($aUserInfoArray as $key=>$value) // 循环每一个用户信息
+        {       
+            foreach($aFilterAssociativeArray as $innerKey=>$innerValue) // 循环每一个过滤器数组项
+            {
+                if( $innerValue !== $value->$innerKey ) // 只要有一个过滤器的值不在当前用户信息中，就从用户信息数组中删除这一条
+                {
+                    unset($aUserInfoArray[$key]);
+                }
+            }
+        }
+        return $aUserInfoArray;
+    }
+
+    // 从 getUserInfoBatch 函数返回的数组提取某一项组成一个数组
+    public function getUserInfoPropertyArray($aUserInfoArray, $sProperty)
+    {
+        $aPropertyArray = array();
+        foreach($aUserInfoArray as $value)
+        {
+            $aPropertyArray[] = $value->$sProperty;
+        }
+        return $aPropertyArray;
     }
 
 
@@ -81,30 +111,6 @@ class UserManager
         while( $aPartialUserList->count > 0);
         
         return $aOpenIDArray;
-    }
-
-    public function getCountruDistribution()
-    {
-        $aCountry = array();
-        $aOpenIDArray = $this->getOpenIDArray();
-        foreach($aOpenIDArray as $value)
-        {
-            $thisCountry = $this->getUserInfo($value)->country;
-            if( array_key_exists($thisCountry, $aCountry) )
-            {
-                $aCountry[$thisCountry] = $aCountry[$thisCountry]++;
-            }
-            else
-            {
-                $aCountry[$thisCountry] = 1;
-            }
-        }
-        return $aCountry;
-    }
-
-    public function getCityDistribution()
-    {
-
     }
 
 }
