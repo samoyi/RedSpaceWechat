@@ -22,11 +22,13 @@ $result = $productManager->modifyProduct("pkV_gjsTaeMWcNxzoVNWLXBRQlhM", 5370742
 include('class/UserManager.class.php');
 $UserManager = new UserManager();
 $result = $UserManager->getOpenIDArray();
-$result = $UserManager->getUserInfoBatch( $result );
+$result = array_chunk($result, 500);
+
+$result = $UserManager->getUserInfoBatch( $result[0] );
 
 
 
-print_r( count($result) );
+print_r( $result );
 
 
 

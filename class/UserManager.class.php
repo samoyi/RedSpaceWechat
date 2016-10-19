@@ -48,7 +48,9 @@ class UserManager
             }';
 
             $result = json_decode(request_post($url, $data));
+            //file_put_contents("err.txt", count($aUserList) . "\n\n\n", FILE_APPEND);
             $aUserInfoList = array_merge($aUserInfoList, $result->user_info_list);
+            unset( $aUserList );
         }
         return $aUserInfoList;
     }
