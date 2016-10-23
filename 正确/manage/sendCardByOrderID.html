@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>根据订单号发送卡券</title>
+</head>
+<body>
+<h1>根据订单号发送卡券</h1>
+<form action="sendCardByOrderID.php" method="post">
+	<input name="order_id" type="text" placeholder="订单ID" />
+	<input name="card_id" type="text" placeholder="卡券ID" />
+	<input type="submit" />
+</form>
+<p>如果返回﻿如下字符则表示发送成功：﻿﻿{"errcode":0,"errmsg":"ok"}</p>
+</body>
+</html>

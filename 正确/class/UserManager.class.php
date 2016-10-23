@@ -21,16 +21,6 @@ class UserManager
         }
     }
 
-    // 获取关注者的openID数组，每次最多获得一万条
-    protected function getUserList($sNextOpenID="")
-    {
-        $sNextOpenIDPara = $sNextOpenID ? "&next_openid=$sNextOpenID" : "";
-        $url = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token=' . ACCESS_TOKEN . $sNextOpenIDPara;
-        return json_decode( $result = httpGet($url) );
-    }
-
-
-
 
     public function getUserInfo($sOpenID)
     {
@@ -58,17 +48,13 @@ class UserManager
             }';
 
             $result = json_decode(request_post($url, $data));
-<<<<<<< HEAD
             
-=======
->>>>>>> 1cf267c5f6a537158d13a2a3489b2eb7c8788b9f
             $aUserInfoList = array_merge($aUserInfoList, $result->user_info_list);
             unset( $aUserList );
         }
         return $aUserInfoList;
     }
 
-<<<<<<< HEAD
     // 过滤保留 getUserInfoBatch 函数返回的数组
     // 第二个参数是关联数组，一个数组项的键对应用户信息中的某个属性，只有该属性值和该键值完全相同才会保留该用户信息
     // 并且每一个数组项都要对应才行。
@@ -107,9 +93,6 @@ class UserManager
         return json_decode( $result = httpGet($url) );
     }
 
-=======
-    
->>>>>>> 1cf267c5f6a537158d13a2a3489b2eb7c8788b9f
     public function getOpenIDArray()
     {
         $aOpenIDArray = array();

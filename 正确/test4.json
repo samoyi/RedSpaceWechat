@@ -1,0 +1,92 @@
+{
+    "product_id": "pkV_gjs26PbwCE25wdMibY2U30U4",
+    "product_base": {
+        "category_id": [
+            "537071253"
+        ],
+        "property": [
+            {
+                "id": "品牌",
+                "vid": "RED SPACE/红房子"
+            },
+            {
+                "id": "包装方式",
+                "vid": "礼盒装"
+            },
+            {
+                "id": "热销系列",
+                "vid": "端午粽子"
+            },
+            {
+                "id": "是否含糖",
+                "vid": "是"
+            },
+            {
+                "id": "食品产地",
+                "vid": "信阳市"
+            },
+            {
+                "id": "--------",
+                "vid": "----------------"
+            },
+            {
+                "id": "五谷杂粮",
+                "vid": "×1"
+            },
+            {
+                "id": "精致鲜肉",
+                "vid": "×1"
+            },
+            {
+                "id": "红袍豆沙",
+                "vid": "×1"
+            }
+        ],
+        "name": "幸福迷你粽（绿kkk）",
+        "sku_info": [],
+        "main_img": "http://mmbiz.qpic.cn/mmbiz/fYETicIfkWsXDcJgW7V2uzwqOwjRPR4p3vtB1kX8ROetx0VtAxfNl5uicXvILELDIArV17nMrMxHKqxiasRTKF0eQ/0?wxfmt=png",
+        "img": [],
+        "detail": [],
+        "buy_limit": 0
+    },
+    "sku_list": [
+        {
+            "sku_id": "",
+            "price": 1,
+            "icon_url": "",
+            "quantity": 119,
+            "product_code": "",
+            "ori_price": 0
+        }
+    ],
+    "attrext": {
+        "location": {
+            "country": "中国",
+            "province": "广东省",
+            "city": "广州市",
+            "address": "T.I.T创意园"
+        },
+        "isPostFree": 0,
+        "isHasReceipt": 1,
+        "isUnderGuaranty": 0,
+        "isSupportReplace": 0
+    },
+    "delivery_info": {
+        "delivery_type": 0,
+        "template_id": 0,
+        "express": [
+            {
+                "id": 10000027,
+                "price": 100
+            },
+            {
+                "id": 10000028,
+                "price": 100
+            },
+            {
+                "id": 10000029,
+                "price": 100
+            }
+        ]
+    }
+}
