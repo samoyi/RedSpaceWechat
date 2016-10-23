@@ -11,10 +11,22 @@ require 'class/MySQLiController.class.php';
 $MySQLiController = new MySQLiController( $dbr );
 
 
-echo $dbr->real_escape_string('<h1></h1>');
+//echo $dbr->real_escape_string('<h1></h1>');
 
-$aValue = array('0, "li", "17", ""');
-var_dump( $MySQLiController->insertRow(DB_TABLE, $aValue) );
+
+$userid = 'okV_gjrMpNfy6d5fJxqj7ph68MmU';
+$messagetype = 'ev11';
+//取得符合WHERE条件的一个或多个row。该函数的返回值需要循环使用fetch_array来依次取值
+$aRowInDB = $MySQLiController->getRow(DB_TABLE, 'openID="' . $userid . '"' );
+if( $aRowInDB->fetch_array( )) // 如果数据库中已经有该用户的数据行
+{
+    $MySQLiController->updateData(DB_TABLE, array('event'), array($messagetype), 'openID="' . $userid . '"');
+}
+else
+{
+    $aRow = array('0, "' . $userid . '", "' . $messagetype . '", ""');
+    $MySQLiController->insertRow(DB_TABLE, $aRow);
+}
 $dbr->close();
 
 ?></pre>

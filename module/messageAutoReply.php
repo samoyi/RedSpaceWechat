@@ -15,6 +15,11 @@ define(OFF_DUTY_AUTOREPLY, '您的留言已被标记，客服将在上午九点�
 
 
 
+
+
+
+
+
 /* 以下为逻辑区域 */
 switch(MESSAGE_TYPE)
 {   
@@ -41,13 +46,6 @@ switch(MESSAGE_TYPE)
     		{
     			case '测试回复314' :
     			{    
-                    require 'class/MySQLiController.class.php';
-                    $MySQLiController = new MySQLiController( $dbr );
-
-                    $aRow = array('0, "' . USERID . '", "' . urlencode(CONTENT_FROM_USER) . '", ""');
-                    //file_put_contents("err.txt", $aRow[0]);
-                    $MySQLiController->insertRow(DB_TABLE, $aRow);
-                    $dbr->close();
 
                     define("CONTENT", '测试回复');
                     $messageManager->responseMsg( 'text' );

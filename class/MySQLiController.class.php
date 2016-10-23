@@ -234,13 +234,37 @@ class MySQLiController
         return mysqli_query($this->dbr, $query);
     }
     
+
     //读取区域——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+    
+    // 表结构相关——————————————————————————————————————————————————————————————————
+
+    // 获得某列信息
+    public function getColumnInfoArray($tableName, $sColumn )
+    {
+        $query = 'SHOW FIELDS FROM ' . $tableName . ' where Field ="' . $sColumn . '"';
+        $result = mysqli_query($this->dbr, $query);
+        return $result->fetch_array();
+    }
+
+
+
+
+
+
+    
+    // 内容行相关——————————————————————————————————————————————————————————————————
+
+
+
     //获得总行数
     public function allLineNum($tableName)
     {
         $query = 'SELECT *  FROM ' . $tableName;
         return mysqli_num_rows(mysqli_query($this->dbr, $query) );
     }
+
+
 
     
     //查找重复
@@ -412,6 +436,16 @@ class MySQLiController
 		}
 	}
 
+    // 修改列名
+    public function columnRename($tableName, $sColumn, $sNewname)
+    {
+        $aColumnInfo = $this->getColumnInfoArray($tableName, $sColumn);
+        $sOldName = $aColumnInfo["Field"];
+        $sType = $aColumnInfo["Type"];
+        $query = 'ALTER TABLE ' . $tableName . ' CHANGE ' . $sOldName . ' ' . $sNewname . ' ' . $sType;
+        return $result = mysqli_query( $this->dbr, $query );
+    }
+
 	//插入新行。参数是一个数组，数组包含一项或多项，每一项是一行中值得字符串，例如'0, "li", "17"'
 	//TODO 不知道为什么必须要给主键传0，看其他例子上也没有
 	public function insertRow($tableName, $aValue)
@@ -466,7 +500,10 @@ class MySQLiController
         }
     }
 
-	//更新值。第二个参数是要更改的值所在的列，第三个参数是新值，第四个参数WHERE子句用来定位到所在行
+	//更新值。可以同时更新一行中的多个值。
+    // 第二个参数是要更改的行中要更改的多一个或多个列的列名组成的数组
+    // 第三个参数是对应的新值组成的数组
+    // 第四个参数WHERE子句用来定位到所在行
 	//TODO 这里即使给列名加上双引号，result也会是true，但实际上数据并没有更新
 	/*public function updateData($tableName, $locValueCol, $newValue, $where)
 	{
