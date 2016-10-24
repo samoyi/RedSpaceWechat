@@ -4,7 +4,6 @@
 
 
 //数据库信息和数据库连接————————————————————————————————————————————————————————————————————————————————————————————————————
-
 $dbr = new mysqli(DB_ADDRESS, DB_USER, DB_PASSWORD, DB_NAME);
 $dbr->select_db( DB_NAME );
 
@@ -446,6 +445,13 @@ class MySQLiController
         return $result = mysqli_query( $this->dbr, $query );
     }
 
+    // 修改列类型
+    public function changeColumnType($tableName, $sColumn, $sType)
+    {
+        $query = 'ALTER TABLE ' . $tableName . ' MODIFY ' . $sColumn . ' ' . $sType;
+        return $result = mysqli_query( $this->dbr, $query );
+    }
+
 	//插入新行。参数是一个数组，数组包含一项或多项，每一项是一行中值得字符串，例如'0, "li", "17"'
 	//TODO 不知道为什么必须要给主键传0，看其他例子上也没有
 	public function insertRow($tableName, $aValue)
@@ -500,10 +506,7 @@ class MySQLiController
         }
     }
 
-	//更新值。可以同时更新一行中的多个值。
-    // 第二个参数是要更改的行中要更改的多一个或多个列的列名组成的数组
-    // 第三个参数是对应的新值组成的数组
-    // 第四个参数WHERE子句用来定位到所在行
+	//更新值。第二个参数是要更改的值所在的列，第三个参数是新值，第四个参数WHERE子句用来定位到所在行
 	//TODO 这里即使给列名加上双引号，result也会是true，但实际上数据并没有更新
 	/*public function updateData($tableName, $locValueCol, $newValue, $where)
 	{

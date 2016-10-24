@@ -45,7 +45,7 @@ class CardMessager
         }
     }
 
-    //发送卡券
+    //自动回复卡券
     public function sendCard( $card_id )
     {
         $data = '{
@@ -58,6 +58,19 @@ class CardMessager
         ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=', $data ); 
         $messageManager = new MessageManager();
         $messageManager->responseMsg( 'null' );
+    }
+
+    //根据OpenID发送卡券
+    public function sendCardByOpenID( $card_id, $sOpenID )
+    {
+        $data = '{
+                "touser":"' . $sOpenID  . '", 
+                "msgtype":"wxcard",
+                "wxcard":{ "card_id":"' . $card_id . '" }
+                }';
+        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . ACCESS_TOKEN;
+        $result = request_post($url, $data);   
+        return $result;
     }
 
     //关键词回复卡券，领完后再发送关键词回复文字消息

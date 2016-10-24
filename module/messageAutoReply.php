@@ -16,7 +16,10 @@ define(OFF_DUTY_AUTOREPLY, '您的留言已被标记，客服将在上午九点�
 
 
 
-
+// 记录用户交互记录
+require 'class/UserManager.class.php';
+$UserManager = new UserManager();
+$UserManager->noteUserInteraction();
 
 
 

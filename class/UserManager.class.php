@@ -21,6 +21,8 @@ class UserManager
         }
     }
 
+
+
     // 获取关注者的openID数组，每次最多获得一万条
     protected function getUserList($sNextOpenID="")
     {
@@ -29,6 +31,54 @@ class UserManager
         return json_decode( $result = httpGet($url) );
     }
 
+
+
+    // 将用户最新交互的类型和时间记录进数据库
+    public function noteUserInteraction()
+    {
+        require PROJECT_ROOT . 'class/MySQLiController.class.php';
+        $MySQLiController = new MySQLiController( $dbr );
+
+        $type = EVENT_TYPE ? EVENT_TYPE : MESSAGE_TYPE;
+        //$type = urlencode($type);
+        $aRowInDB = $MySQLiController->getRow(DB_TABLE, 'openID="' . USERID . '"' );
+        if( $aRowInDB->fetch_array( )) // 如果数据库中已经有该用户的数据行
+        {
+            $MySQLiController->updateData(DB_TABLE, array('type', 'modifyTime'), array($type, date("Y-m-d G:i:s")), 'openID="' . USERID . '"');
+        }
+        else
+        {
+            $aRow = array('0, "' . USERID . '", "' . $type . '", "' . date("Y-m-d G:i:s") . '"');
+            echo $aRow[0];
+            $MySQLiController->insertRow(DB_TABLE, $aRow);
+        }
+        $dbr->close();
+    }
+
+    // 将最近100个用户交互记录输出位表格
+    public function echoRecentUserInteractionTable()
+    {
+        require PROJECT_ROOT . 'class/MySQLiController.class.php';
+        $MySQLiController = new MySQLiController( $dbr );
+
+        $result = $MySQLiController->getDataByRank(DB_TABLE, "modifyTime");
+        $dbr->close();
+
+        echo '<table border="1">
+                <tr>
+                    <th>昵称</th>
+                    <th>OpenID</th>
+                    <th>交互类型</th>
+                    <th>最新交互时间</th>
+                </tr>';
+        for($i=0; $i<100; $i++)
+        {
+            $arr = $result->fetch_array();
+            $nickname = $this->getUserInfo($arr["openID"])->nickname;
+            echo '<tr><td>' . $nickname . '</td><td>' . $arr["openID"] . '</td><td>' . $arr["type"] . '</td><td>' . $arr["modifyTime"] . '</td></tr>';
+        }
+        echo '</table>';
+    }
 
 
 
@@ -94,13 +144,6 @@ class UserManager
         return $aPropertyArray;
     }
 
-
-    public function getUserList($sNextOpenID="")
-    {
-        $sNextOpenIDPara = $sNextOpenID ? "&next_openid=$sNextOpenID" : "";
-        $url = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token=' . ACCESS_TOKEN . $sNextOpenIDPara;
-        return json_decode( $result = httpGet($url) );
-    }
 
     public function getOpenIDArray()
     {
