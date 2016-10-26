@@ -1,4 +1,5 @@
-﻿<pre><?php
+﻿<?php
+ // TODO queryStoreList改成getStoreList
 
 class StoreManager
 {
@@ -22,8 +23,29 @@ class StoreManager
 
 		return $aBusinessList;
 	}
+
+
+	public function getCityList()
+	{
+		$aCity = array();
+		$aStoreList = $this->queryStoreList();
+		foreach($aStoreList as $value)
+		{
+			if(in_array($value->base_info->city, $aCity))
+			{
+				continue;
+			}
+			else
+			{
+				$aCity[] = $value->base_info->city;
+			}
+		}
+		return $aCity;
+	}
+
+
 }
 
 
 
-?></pre>
+?>

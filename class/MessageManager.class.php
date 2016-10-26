@@ -247,7 +247,7 @@ class MessageManager
             'template_id'   =>  "444pldIlaFSHxWzAS7eoG4K7cvGb0vIqm4XY0JBkv60",
             'url'           =>  $detailUrl,
             'data'          =>  array(
-                'first'     =>  array('value'   =>("订单详情可点击下方 帮助中心-订单查询")),
+                'first'     =>  array('value'   =>("订单详情可点击下方 帮助中心-订单查询\n咨询电话：0376-6506386")),
                 'product'   =>  array('value'   =>($orderDetail['product_name']), 'color'=> '#ea386c'),
                 'price'     =>  array('value'   =>("￥".$orderDetail['order_total_price']/100), 'color'=> '#ea386c'),
                 'time'      =>  array('value'   =>(date("Y-m-d H:i:s",$orderDetail['order_create_time'])), 'color'=> '#ea386c'),
