@@ -15,16 +15,16 @@ function refreshAccessToken()//刷新access_token
 
         $configurationJSON->last_access_token_time = time();
         
-        //file_put_contents('configuration.json', json_encode($configurationJSON) );
+        //file_put_contents('access_token.json', json_encode($configurationJSON) );
         //将本次获得的access_token存入文件，并记录获得时间
-        file_put_contents(PROJECT_ROOT . 'configuration.json', json_encode($configurationJSON) );
+        file_put_contents(PROJECT_ROOT . 'access_token.json', json_encode($configurationJSON) );
         return $new_access_token;
 }
 
 function getAccessToken()//获取access_token
 {   
-    //$configurationJSON = json_decode( file_get_contents('configuration.json') );
-    $configurationJSON = json_decode( file_get_contents(PROJECT_ROOT . 'configuration.json') );
+    //$configurationJSON = json_decode( file_get_contents('access_token.json') );
+    $configurationJSON = json_decode( file_get_contents(PROJECT_ROOT . 'access_token.json') );
     $last_access_token_time = $configurationJSON->last_access_token_time;//读取上次调用接口取得access_token的时间
     
     if( time()- $last_access_token_time <3600 )//如果没到保质期7200秒，直接返回旧的
