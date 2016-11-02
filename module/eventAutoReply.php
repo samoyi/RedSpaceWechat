@@ -126,9 +126,9 @@ switch( EVENT_TYPE )
         $messageManager->sendTemplateMessage($orderDetail, '', ''); // 购买成功消息
 
         // 发卡券
-        include('class/CardMessager.class.php');
+        /* include('class/CardMessager.class.php');
         $cardMessager = new CardMessager();
-        $cardMessager->sendCard( CARDID_SENT_AFTER_ORDER );
+        $cardMessager->sendCard( CARDID_SENT_AFTER_ORDER ); */
 
         break;	
     }
