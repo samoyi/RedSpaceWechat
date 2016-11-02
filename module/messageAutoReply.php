@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /* 
  *  处理用户发送的消息
  *  最后如果推送的不是消息而是事件，转入事件处理
@@ -48,8 +48,43 @@ switch(MESSAGE_TYPE)
     			case '测试回复314' :
     			{    
 
-                    define("CONTENT", '测试回复');
-                    $messageManager->responseMsg( 'text' );
+                    /* define("CONTENT", '测试回复');
+                    $messageManager->responseMsg( 'text' ); */
+					
+					$articleInfo1 = array(
+							'红房子微信订蛋糕指南0',
+							'红房子蛋糕 美味空间新灵感',
+							'https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg',
+							'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd'
+						);
+					$articleInfo5 = array(
+							'红房子微信订蛋糕指南1',
+							'红房子蛋糕 美味空间新灵感',
+							'https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg',
+							'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd'
+						);
+					$articleInfo2 = array(
+							'红房子微信订蛋糕指南2',
+							'红房子蛋糕 美味空间新灵感',
+							'https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg',
+							'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd'
+						);
+					$articleInfo3 = array(
+							'红房子微信订蛋糕指南3',
+							'红房子蛋糕 美味空间新灵感',
+							'https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg',
+							'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd'
+						);
+					$articleInfo4 = array(
+							'红房子微信订蛋糕指南4',
+							'红房子蛋糕 美味空间新灵感',
+							'https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg',
+							'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd'
+						);
+						
+					 $aArticleInfo = array($articleInfo1 ,$articleInfo2, $articleInfo3, $articleInfo4, $articleInfo5);
+			
+					$messageManager->sendArticalMessagesss($aArticleInfo); 
     				break;
     			}
     			case '微信订蛋糕' :

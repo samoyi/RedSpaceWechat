@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 class MessageManager
 {
@@ -80,7 +80,32 @@ class MessageManager
                                 </item>
                                 </Articles>
                                 </xml> ";  
-                }    
+                }  
+				elseif( 'newsss' === $MsgType )//图文消息
+				{
+					$textTpl = "<xml>
+								<ToUserName><![CDATA[" . USERID . "]]></ToUserName>
+								<FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
+								<CreateTime>12345678</CreateTime>
+								<MsgType><![CDATA[news]]></MsgType>
+								<ArticleCount>2</ArticleCount>
+								<Articles>
+								<item>
+								<Title><![CDATA[" . NEWSTITLE . "]]></Title> 
+								<Description><![CDATA[" . NEWSDESCRIPTION . "]]></Description>
+								<PicUrl><![CDATA[" . NEWSPICURL . "]]></PicUrl>
+								<Url><![CDATA[" . NEWSURL . "]]></Url>
+								</item>
+								<item>
+								<Title><![CDATA[" . NEWSTITLE . "2]]></Title> 
+								<Description><![CDATA[" . NEWSDESCRIPTION . "]]></Description>
+								<PicUrl><![CDATA[" . NEWSPICURL . "]]></PicUrl>
+								<Url><![CDATA[" . NEWSURL . "]]></Url>
+								</item>
+								</Articles>
+								</xml> ";  
+				}				
+
 
                 $msgType = "text";
                 $contentStr = "Welcome to wechat world!";
@@ -181,7 +206,7 @@ class MessageManager
     {
     	$result = $this->responseMsg( 'image', $media_id);
     }
-    //发送图文链接
+    //发送图文消息
     public function sendArticalMessage($title, $des, $imageUrl, $articalUrl)
     {
         
@@ -192,6 +217,35 @@ class MessageManager
 
         $result = $this->responseMsg( 'news' );
     }
+
+	
+	// 发送图文消息。不超过十条
+    public function sendArticalMessagesss($aArticleInfo)
+    {
+		$nArticleAmount = count( $aArticleInfo );
+		$textTplFront = "<xml>
+							<ToUserName><![CDATA[" . USERID . "]]></ToUserName>
+							<FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
+							<CreateTime>12345678</CreateTime>
+							<MsgType><![CDATA[news]]></MsgType>
+							<ArticleCount>" . $nArticleAmount . "</ArticleCount>
+							<Articles>";
+		$textTplBehind = "</Articles>
+					</xml> ";
+		foreach( $aArticleInfo as $item )
+		{
+			$textTplFront .= "<item>
+								<Title><![CDATA[" . $item[0] . "]]></Title> 
+								<Description><![CDATA[" . $item[1] . "]]></Description>
+								<PicUrl><![CDATA[" . $item[2] . "]]></PicUrl>
+								<Url><![CDATA[" . $item[3] . "]]></Url>
+							</item>";
+		}
+		$textTpl = $textTplFront . $textTplBehind;
+		file_put_contents("err.txt", $textTpl);
+		$resultStr = sprintf($textTpl, HOSTID, USERID, time(), $nArticleAmount);
+		echo $resultStr; 
+    } 
 
     // 发送客服消息
     public function sendCSMessage( $content, $bSendNull=true )
