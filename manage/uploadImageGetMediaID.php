@@ -7,7 +7,7 @@
 
 
 include('../publicFunctions.php'); // 公共函数
-include('../configuration.php'); // 公众号配置文件
+include('../configration.php'); // 公众号配置文件
 include('../WechatPushed.php'); // 获取微信后台推送信息
 
 

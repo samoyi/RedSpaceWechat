@@ -70,6 +70,8 @@ class CardMessager
                 }';
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . ACCESS_TOKEN;
         $result = request_post($url, $data);   
+        /*$messageManager = new MessageManager();
+        $messageManager->responseMsg( 'null' );*/
         return $result;
     }
 

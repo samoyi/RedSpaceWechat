@@ -11,25 +11,25 @@ function refreshAccessToken()//刷新access_token
         
         $new_access_token =  $jsoninfo["access_token"];
 
-        $configurationJSON->last_access_token = $new_access_token;
+        $configrationJSON->last_access_token = $new_access_token;
 
-        $configurationJSON->last_access_token_time = time();
+        $configrationJSON->last_access_token_time = time();
         
-        //file_put_contents('configuration.json', json_encode($configurationJSON) );
+        //file_put_contents('configration.js', json_encode($configrationJSON) ); 
         //将本次获得的access_token存入文件，并记录获得时间
-        file_put_contents(PROJECT_ROOT . 'configuration.json', json_encode($configurationJSON) );
+        file_put_contents(PROJECT_ROOT . 'configration.js', json_encode($configrationJSON) );
         return $new_access_token;
 }
 
 function getAccessToken()//获取access_token
 {   
-    //$configurationJSON = json_decode( file_get_contents('configuration.json') );
-    $configurationJSON = json_decode( file_get_contents(PROJECT_ROOT . 'configuration.json') );
-    $last_access_token_time = $configurationJSON->last_access_token_time;//读取上次调用接口取得access_token的时间
+    //$configrationJSON = json_decode( file_get_contents('configration.js') ); 
+    $configrationJSON = json_decode( file_get_contents(PROJECT_ROOT . 'configration.js') ); 
+    $last_access_token_time = $configrationJSON->last_access_token_time;//读取上次调用接口取得access_token的时间
     
     if( time()- $last_access_token_time <3600 )//如果没到保质期7200秒，直接返回旧的
     {   //之前出现过距离7200秒很远就不能用的情况，所以这里改成3600秒
-        return $configurationJSON->last_access_token;
+        return $configrationJSON->last_access_token;   
     }
     else//如果马上或已经到了保质期，重新获取，然后记录本次获取的时间和access_token。
     {   

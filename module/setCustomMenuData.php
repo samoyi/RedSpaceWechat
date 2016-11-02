@@ -5,15 +5,11 @@
  *
  *
  */
-include('../configration.php'); // 公众号配置文件
-include('../publicFunctions.php'); // 公共函数
-include('../WechatPushed.php'); // 获取微信后台推送信息
-
-include('../class/CustomMenu.class.php');
+include('class/CustomMenu.class.php');
 $customMenu = new CustomMenu();
 
 //$customMenuData 为自定义菜单各按钮设置
-/*$customMenuData =  '{
+$customMenuData =  '{
                    "button":[
                    {  
                         "name":"🎂蛋糕订购",
@@ -83,9 +79,8 @@ $customMenu = new CustomMenu();
                         }]
                     }]
                }';
-*/
 
-    $customMenuData = file_get_contents("JSONData/customMenu.json");
-    echo $customMenu->createMenu( $customMenuData);   // 设置自定义菜单
+
+    $customMenu->createMenu( $customMenuData);   // 设置自定义菜单
 
 ?>
