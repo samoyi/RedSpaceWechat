@@ -206,21 +206,9 @@ class MessageManager
     {
     	$result = $this->responseMsg( 'image', $media_id);
     }
-    //发送图文消息
-    public function sendArticalMessage($title, $des, $imageUrl, $articalUrl)
-    {
-        
-        define("NEWSTITLE", $title);
-        define("NEWSDESCRIPTION", $des);
-        define("NEWSPICURL", $imageUrl);
-        define("NEWSURL", $articalUrl);
 
-        $result = $this->responseMsg( 'news' );
-    }
-
-	
 	// 发送图文消息。不超过十条
-    public function sendArticalMessagesss($aArticleInfo)
+    public function sendArticalMessage($aArticleInfo)
     {
 		$nArticleAmount = count( $aArticleInfo );
 		$textTplFront = "<xml>

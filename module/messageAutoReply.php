@@ -61,7 +61,7 @@ switch(MESSAGE_TYPE)
     			    $articalUrl = 'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd';
 					
 					$aArticleInfo = array( array($title, $des, $imageUrl, $articalUrl) );
-					$messageManager->sendArticalMessagesss($aArticleInfo); 
+					$messageManager->sendArticalMessage($aArticleInfo);
     				break;
     			}
     			case '切换自动回复314' :
