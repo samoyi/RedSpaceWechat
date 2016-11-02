@@ -10,7 +10,7 @@ class Manager
 
 	{
 
-		$JSONObj = json_decode( file_get_contents('manageConfigration.js'));
+		$JSONObj = json_decode( file_get_contents('manageConfiguration.json'));
 
 		return $JSONObj->autoReplyByTime;
 

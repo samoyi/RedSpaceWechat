@@ -68,7 +68,7 @@ switch(MESSAGE_TYPE)
     				include('manage/manager.php');
     				$manager = new Manager();
     				$autoReplyByTimeState = $manager->getAutoReplyByTimeState();
-    				$JSONObj = json_decode( file_get_contents('manage/manageConfigration.js') );
+    				$JSONObj = json_decode( file_get_contents('manage/manageConfiguration.json') );
     				if( 'on' === $autoReplyByTimeState )
     				{
     					$JSONObj->autoReplyByTime = 'off';
@@ -81,7 +81,7 @@ switch(MESSAGE_TYPE)
     				}
 
     			    $messageManager->responseMsg( 'text' );
-    				file_put_contents('manage/manageConfigration.js', json_encode($JSONObj) );
+    				file_put_contents('manage/manageConfiguration.json', json_encode($JSONObj) );
     				break;
     			}
     			case '刷新接口' : 
