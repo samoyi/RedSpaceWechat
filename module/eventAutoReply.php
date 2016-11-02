@@ -30,7 +30,8 @@ switch( EVENT_TYPE )
                 $des = '红房子蛋糕 美味空间新灵感';
                 $imageUrl = 'https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg';
                 $articalUrl = 'http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd';
-                $messageManager->sendArticalMessage($title, $des, $imageUrl, $articalUrl);
+				$aArticleInfo = array( array($title, $des, $imageUrl, $articalUrl) );
+				$messageManager->sendArticalMessagesss($aArticleInfo); 
                 break; 
             }
             case 'customMenuKey11' :
@@ -101,7 +102,8 @@ switch( EVENT_TYPE )
 
                 $des .= "\n\n" . $ad;
                 $imageUrl = $latestNewsContentItem[0]->thumb_url;
-                $messageManager->sendArticalMessage($title, $des, $imageUrl, $latestNewsUrl);
+				$aArticleInfo = array( array($title, $des, $imageUrl, $latestNewsUrl) );
+				$messageManager->sendArticalMessagesss($aArticleInfo); 
                 break; 
             }
             case 'customMenuKey12' :
