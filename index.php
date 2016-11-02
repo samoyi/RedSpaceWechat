@@ -16,10 +16,6 @@ include('WechatPushed.php'); // 获取微信后台推送信息
 //$fetchedMsgProductId = trim($fetchedMsgXML->ProductId);//TODO 
 
 
-//设置自定义菜单------------------------------------------------------------------
-//每次设置完后关闭，否则只要运行该文件就会重复设置
-//include('module/setCustomMenuData.php');
-
 
 
 //关键词自动回复和事件推送回复
