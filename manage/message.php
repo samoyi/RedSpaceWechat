@@ -5,7 +5,7 @@
 	$msg = '亲，已接到您的订单了。';
 
 	include('../publicFunctions.php'); 
-	include('../configration.php');
+	include('../configuration.php');
 
 	if( $_POST['textCustomMessage'] && $_POST['orderNumber'] )
 	{	

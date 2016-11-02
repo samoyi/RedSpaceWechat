@@ -28,11 +28,11 @@
 	getAutoReplyByTimeState(); // 读取当前状态并写入按钮
 	function getAutoReplyByTimeState()
 	{
-		var sUrl = "manageConfigration.js",
+		var sUrl = "manageConfiguration.json",
 			fnSuccess = function( responseText )
 			{
-				var oManageConfigration = JSON.parse( responseText ),
-				sAutoReplyByTimeState = oManageConfigration.autoReplyByTime;
+				var oManageConfiguration = JSON.parse( responseText ),
+				sAutoReplyByTimeState = oManageConfiguration.autoReplyByTime;
 				if( 'on' === sAutoReplyByTimeState )
 				{
 					oSwitchAutoReply.value = responseText = '下班时段自动回复已打开';
