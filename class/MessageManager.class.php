@@ -214,7 +214,7 @@ class MessageManager
 		$textTplFront = "<xml>
 							<ToUserName><![CDATA[" . USERID . "]]></ToUserName>
 							<FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
-							<CreateTime>12345678</CreateTime>
+							<CreateTime>" . time() . "</CreateTime>
 							<MsgType><![CDATA[news]]></MsgType>
 							<ArticleCount>" . $nArticleAmount . "</ArticleCount>
 							<Articles>";
@@ -229,10 +229,7 @@ class MessageManager
 								<Url><![CDATA[" . $item[3] . "]]></Url>
 							</item>";
 		}
-		$textTpl = $textTplFront . $textTplBehind;
-		file_put_contents("err.txt", $textTpl);
-		$resultStr = sprintf($textTpl, HOSTID, USERID, time(), $nArticleAmount);
-		echo $resultStr; 
+		echo $textTpl = $textTplFront . $textTplBehind;
     } 
 
     // 发送客服消息
