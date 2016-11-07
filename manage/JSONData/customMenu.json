@@ -25,7 +25,7 @@
                           },
                           {    
                              "type":"view",
-                             "name":"门店列表",
+                             "name":"门店电话",
                              "url":"http://red-space.cn/list/index.php"
                           }]
                      },
