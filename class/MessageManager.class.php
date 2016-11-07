@@ -50,6 +50,7 @@ class MessageManager
                                 <MsgType><![CDATA[text]]></MsgType>
                                 <Content><![CDATA[" .CONTENT. "]]></Content>
                             </xml>";  
+					file_put_contents("err.txt", $textTpl);
                 }
                 elseif( 'image' === $MsgType )//图片消息
                 {
