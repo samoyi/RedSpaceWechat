@@ -50,7 +50,6 @@ class MessageManager
                                 <MsgType><![CDATA[text]]></MsgType>
                                 <Content><![CDATA[" .CONTENT. "]]></Content>
                             </xml>";  
-					file_put_contents("err.txt", $textTpl);
                 }
                 elseif( 'image' === $MsgType )//图片消息
                 {
@@ -212,6 +211,7 @@ class MessageManager
     public function sendArticalMessage($aArticleInfo)
     {
 		$nArticleAmount = count( $aArticleInfo );
+		
 		$textTplFront = "<xml>
 							<ToUserName><![CDATA[" . USERID . "]]></ToUserName>
 							<FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
@@ -222,14 +222,15 @@ class MessageManager
 		$textTplBehind = "</Articles>
 					</xml> ";
 		foreach( $aArticleInfo as $item )
-		{
+		{	file_put_contents("err.txt", json_encode($item["title"]) . "\n\n", FILE_APPEND);
 			$textTplFront .= "<item>
-								<Title><![CDATA[" . $item[0] . "]]></Title> 
-								<Description><![CDATA[" . $item[1] . "]]></Description>
-								<PicUrl><![CDATA[" . $item[2] . "]]></PicUrl>
-								<Url><![CDATA[" . $item[3] . "]]></Url>
+								<Title><![CDATA[" . $item["title"] . "]]></Title> 
+								<Description><![CDATA[" . $item["des"] . "]]></Description>
+								<PicUrl><![CDATA[" . $item["imageUrl"] . "]]></PicUrl>
+								<Url><![CDATA[" . $item["articleUrl"] . "]]></Url>
 							</item>";
 		}
+		
 		echo $textTpl = $textTplFront . $textTplBehind;
     } 
 

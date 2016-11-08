@@ -6,12 +6,7 @@
  */
 
 
-/* 以下为数据区域 */
-define(MESSAGE_fOR_WIFI_KEYWORD,  '您所在的门店WIFI密码为：redspace');
 
-define(ON_DUTY_TIME, 9);
-define(OFF_DUTY_TIME, 18); 
-define(OFF_DUTY_AUTOREPLY, '您的留言已被标记，客服将在上午九点后回复您。'); 
 
 
 
@@ -29,46 +24,35 @@ switch(MESSAGE_TYPE)
 		//$cardKeywordsID = json_decode(file_get_contents("manage/JSONData/cardKeywords.json"), true);
 		
 		require PROJECT_ROOT . 'data/keywords.php';
-
-		if( $aCustomKeywords &&  in_array(CONTENT_FROM_USER, $aCustomKeywords) )
+		
+		if( !empty($aCustomKeywords) &&  in_array(CONTENT_FROM_USER, $aCustomKeywords) )
 		{	
 			require PROJECT_ROOT . 'data/customKeywordsHandler.php';
 		}
 		elseif( array_key_exists(CONTENT_FROM_USER, $keywords) )
 		{	
 			$handlerData = $keywords[CONTENT_FROM_USER];
-			$handlerType = $handlerData['type'];
-			
-			switch( $handlerType )
-			{
-				case 'sendTextMessage':
-				{	file_put_contents("err.txt", $handlerData['text']);
-					define("CONTENT", $handlerData['text']);
-					$messageManager->responseMsg( 'text' );
-					break;
-				}
-				case 'sendArticalMessage':
+			foreach($handlerData as $key=>$value)
+			{	
+				switch( $key )
 				{
-					$len = count($handlerData);
-					$aArticleInfo = array();
-					for($i=1; $i<$len; $i++)
-					{
-						$articleDate = $handlerData['article' . $i];
-						$des = $articleDate['des'];
-						$title = $articleDate['title'];
-						$imageUrl = $articleDate['imageUrl'];
-						$articalUrl = $articleDate['articalUrl'];
-						$aArticleInfo[] = array($title, $des, $imageUrl, $articalUrl);
+					case 'sendTextMessage':
+					{	
+						define("CONTENT", $value);
+						$messageManager->responseMsg( 'text' );
+						break;
 					}
-					$messageManager->sendArticalMessage($aArticleInfo);
-					break;
+					case 'sendArticalMessage':
+					{	
+						$messageManager->sendArticalMessage($value);
+						break;
+					}
 				}
 			}
 		}
 		else
 		{
 			noKeyWordMath($messageManager);
-			file_put_contents("err.txt", 'end');
 		}
 		break;
     }

@@ -9,50 +9,62 @@
 	 * 三个一组的关键词。在关键词接收逻辑处，会先看输入的关键词是否在这一组关键词里面，如果没有，才进入该文件继续搜索是否有
 	 * 对应关键词。
 	 *
+	 * 发送图文消息是时的数组中必须按照 title des imageUrl articleUrl 的顺序
 	 */
 	
+	/* 以下为数据区域 */
+	define(ON_DUTY_TIME, 9);
+	define(OFF_DUTY_TIME, 18); 
+	define(OFF_DUTY_AUTOREPLY, '您的留言已被标记，客服将在上午九点后回复您。'); 
 
+
+	/* 以下为关键词区域 */
 	$keywords = array(
 		"wifi" => array(
-								"type"=>"sendTextMessage",
-								"text"=>'您所在的门店wifi密码为：redspace'
-							),
+							"sendTextMessage"=>'您所在的门店wifi密码为：redspace'
+						),
 		"WIFI" => array(
-								"type"=>"sendTextMessage",
-								"text"=>'您所在的门店WIFI密码为：redspace'
-							),
+							"sendTextMessage"=>'您所在的门店WIFI密码为：redspace'
+						),
 		"WiFi" => array(
-								"type"=>"sendTextMessage",
-								"text"=>'您所在的门店WiFi密码为：redspace'
-							),
-		"测试回复314" => array( // 第一项必须是type。
-								"type"=>"sendArticalMessage",
-								"article1"=>array(
-									"title" => "红房子微信订蛋糕指南1",
-									"des" => "红房子蛋糕 美味空间新灵感",
-									"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
-									"articalUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
-								),
-								"article2"=>array(
-									"title" => "红房子微信订蛋糕指南2",
-									"des" => "红房子蛋糕 美味空间新灵感",
-									"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",							
-									"articalUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
-								),
-								"article3"=>array(
-									"title" => "红房子微信订蛋糕指南3",
-									"des" => "红房子蛋糕 美味空间新灵感",
-									"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",							
-									"articalUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
+							"sendTextMessage"=>'您所在的门店WiFi密码为：redspace'
+						),
+		"测试回复314" => array( 
+								"sendArticalMessage"=>array
+								(
+									array
+									(
+										"title" => "红房子微信订蛋糕指南1",
+										"des" => "红房子蛋糕 美味空间新灵感",
+										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
+										"articleUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
+									),
+									array
+									(
+										"title" => "红房子微信订蛋糕指南2",
+										"des" => "红房子蛋糕 美味空间新灵感",
+										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",							
+										"articleUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
+									),
+									array
+									(
+										"title" => "红房子微信订蛋糕指南3",
+										"des" => "红房子蛋糕 美味空间新灵感",
+										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",							
+										"articleUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
+									)
 								)
 							),
 		"微信订蛋糕" => array(
-								"type"=>"sendArticalMessage",
-								"article1"=>array(
-									"title" => "红房子微信订蛋糕指南",
-									"des" => "红房子蛋糕 美味空间新灵感",
-									"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
-									"articalUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
+								"sendArticalMessage"=>array
+								(
+									array
+									(
+										"title" => "红房子微信订蛋糕指南",
+										"des" => "红房子蛋糕 美味空间新灵感",
+										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
+										"articleUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
+									)
 								)
 							)
 	);
