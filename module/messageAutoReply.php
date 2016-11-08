@@ -32,22 +32,42 @@ switch(MESSAGE_TYPE)
 		elseif( array_key_exists(CONTENT_FROM_USER, $keywords) )
 		{	
 			$handlerData = $keywords[CONTENT_FROM_USER];
+			$bIsAutoReply = false; // 如果只发客服消息则最后会提示公众号无法服务，必须要发一个自动回复消息
 			foreach($handlerData as $key=>$value)
 			{	
 				switch( $key )
 				{
 					case 'sendTextMessage':
 					{	
-						define("CONTENT", $value);
-						$messageManager->responseMsg( 'text' );
+						//$messageManager->responseMsg( 'text' );
+						$messageManager->sendTextCSMessage(USERID, $value);
 						break;
 					}
 					case 'sendArticalMessage':
 					{	
 						$messageManager->sendArticalMessage($value);
+						$bIsAutoReply = true;
 						break;
 					}
+					case 'temp':
+					{	
+						define("CONTENT", $value);
+						$messageManager->responseMsg( 'text' );
+						$bIsAutoReply = true;
+						break;
+					}
+					case 'sendArticalCSMessage':
+					{	
+						$messageManager->sendArticalCSMessage(USERID, $value);
+						break;
+					}
+					
 				}
+			}
+			if( !$bIsAutoReply )
+			{
+				define("CONTENT", $value);
+				$messageManager->responseMsg( 'null' ); 
 			}
 		}
 		else

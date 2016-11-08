@@ -253,6 +253,93 @@ class MessageManager
             $this->responseMsg( 'null' );
         }
     }
+	
+	// 发送文字客服消息
+	public function sendTextCSMessage($sOpenID, $sContent)
+	{
+		$url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
+		$data = '{
+					"touser":"' . $sOpenID . '",
+					"msgtype":"text",
+					"text":
+					{
+						 "content":"' . $sContent . '"
+					}
+				}';
+		return $result = request_post($url, $data);
+	}
+	
+	// 发送图片客服消息
+	public function sendImageCSMessage($sOpenID, $sMediaID)
+	{
+		$url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
+		$data = '{
+					"touser":"' . $sOpenID . '",
+					"msgtype":"image",
+					"image":
+					{
+						 "media_id":"' . $sMediaID . '"
+					}
+				}';
+		return $result = request_post($url, $data);
+	}
+	
+	// 发送图文客服消息（最多8条）
+	public function sendArticalCSMessage($sOpenID, $aArticleInfo)
+	{	file_put_contents("err.txt", $sOpenID . "   ", FILE_APPEND);
+		$nArticleAmount = count( $aArticleInfo );
+		$aArticles = array();
+		foreach( $aArticleInfo as $item )
+		{	
+			$aArticles[] = array(
+					"title"=>$item["title"],
+					"description"=>$item["des"],
+					"url"=>$item["articleUrl"],
+					"picurl"=>$item["imageUrl"]
+			);
+		}
+		file_put_contents("err.txt", $nArticleAmount . "   ", FILE_APPEND);
+		$data = '{
+					"touser":"' . $sOpenID . '",
+					"msgtype":"news",
+					"news":{
+						"articles": '. decodeUnicode(json_encode($aArticles)) .'
+					}
+				}';
+		$url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
+		file_put_contents("err.txt", $data . "   ", FILE_APPEND);
+		return $result = request_post($url, $data);
+	}
+	
+	// 发送单条图文客服消息（根据素材ID）
+	public function sendNewsCSMessage($sOpenID, $sMediaID)
+	{
+		$url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
+		$data = '{
+					"touser":"' . $sOpenID . '",
+					"msgtype":"mpnews",
+					"mpnews":
+					{
+						 "card_id":"' . $sMediaID . '"
+					}
+				}';
+		return $result = request_post($url, $data);
+	}
+	
+	// 发送卡券客服消息
+	public function sendCardCSMessage($sOpenID, $sCardID)
+	{
+		$url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
+		$data = '{
+					"touser":"' . $sOpenID . '",
+					"msgtype":"wxcard",
+					"wxcard":
+					{
+						 "card_id":"' . $sCardID . '"
+					}
+				}';
+		return $result = request_post($url, $data);
+	}
 
     //根据订单号发送文字客服消息
     public function sendCustomMessage( $order_id, $msg )

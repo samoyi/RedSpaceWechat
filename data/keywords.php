@@ -27,10 +27,11 @@
 							"sendTextMessage"=>'您所在的门店WIFI密码为：redspace'
 						),
 		"WiFi" => array(
-							"sendTextMessage"=>'您所在的门店WiFi密码为：redspace'
+							"sendTextMessage"=>'您所在的门店WiFi密码为：redspace',
+							"temp"=>'感谢您的光临'
 						),
 		"测试回复314" => array( 
-								"sendArticalMessage"=>array
+								"sendArticalCSMessage"=>array
 								(
 									array
 									(
