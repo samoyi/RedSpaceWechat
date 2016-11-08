@@ -29,9 +29,9 @@ switch(MESSAGE_TYPE)
 		{	
 			require PROJECT_ROOT . 'data/customKeywordsHandler.php';
 		}
-		elseif( array_key_exists(CONTENT_FROM_USER, $keywords) )
+		elseif( in_array(CONTENT_FROM_USER, $aKeywords) )
 		{	
-			$handlerData = $keywords[CONTENT_FROM_USER];
+			$handlerData = $aKeywordHandler[CONTENT_FROM_USER];
 			$bIsAutoReply = false; // 如果只发客服消息则最后会提示公众号无法服务，必须要发一个自动回复消息
 			foreach($handlerData as $key=>$value)
 			{	

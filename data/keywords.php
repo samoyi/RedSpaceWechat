@@ -18,8 +18,16 @@
 	define(OFF_DUTY_AUTOREPLY, '您的留言已被标记，客服将在上午九点后回复您。'); 
 
 
-	/* 以下为关键词区域 */
-	$keywords = array(
+	// 以下为关键词区域 
+	/* 
+	 * $aKeywords是关键词列表，$aKeywordHandler是真正的关键词处理方法
+	 * 只有出现在$aKeywords中的关键词才会进行处理。也就是说可以将暂时
+	 * 不进行处理但以后还会处理的关键词在$aKeywordHandler中保留，但在
+	 * $aKeywords中暂时删除
+	 */
+	$aKeywords = array("wifi", "WIFI", "WiFi", "测试回复314", "微信订蛋糕");
+	
+	$aKeywordHandler = array(
 		"wifi" => array(
 							"sendTextMessage"=>'您所在的门店wifi密码为：redspace'
 						),
