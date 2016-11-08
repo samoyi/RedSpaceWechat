@@ -222,7 +222,7 @@ class MessageManager
 		$textTplBehind = "</Articles>
 					</xml> ";
 		foreach( $aArticleInfo as $item )
-		{	file_put_contents("err.txt", json_encode($item["title"]) . "\n\n", FILE_APPEND);
+		{	
 			$textTplFront .= "<item>
 								<Title><![CDATA[" . $item["title"] . "]]></Title> 
 								<Description><![CDATA[" . $item["des"] . "]]></Description>
