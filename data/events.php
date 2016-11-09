@@ -12,49 +12,12 @@
 	/* 以下为关键词区域 */
 	
 	$aEvents = array("subscribe", "CLICK", "user_get_card", "merchant_order"); 
-	$events = array(
-		"subscribe" => array( // 第一项必须是type。
-								"type"=>"sendCSMessage",
-								"article1"=>array(
-									"title" => "红房子微信订蛋糕指南1",
-									"des" => "红房子蛋糕 美味空间新灵感",
-									"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
-									"articalUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
-								),
-								"article2"=>array(
-									"title" => "红房子微信订蛋糕指南2",
-									"des" => "红房子蛋糕 美味空间新灵感",
-									"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",							
-									"articalUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
-								),
-								"article3"=>array(
-									"title" => "红房子微信订蛋糕指南3",
-									"des" => "红房子蛋糕 美味空间新灵感",
-									"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",							
-									"articalUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
-								)
-							),
-		"CLICK" => array(
-								"type"=>"sendArticalMessage",
-								"article1"=>array(
-									"title" => "红房子微信订蛋糕指南",
-									"des" => "红房子蛋糕 美味空间新灵感",
-									"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
-									"articalUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
-								)
-							),
+	$aEventHandler = array(
 		"user_get_card" => array(
-								"type"=>"sendCardReceivedMessage",
-								"article1"=>array(
-									"title" => "红房子微信订蛋糕指南",
-									"des" => "红房子蛋糕 美味空间新灵感",
-									"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
-									"articalUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
-								)
-							),
+							"sendTextMessage"=>'亲亲，领到优惠券请在“微信-我-卡包-我的票券”中查看和使用。'
+						),
 		"merchant_order" => array(
-								"type"=>"sendTemplateMessage",
-								"article1"=>array(
+								"sendTemplateMessage"=>array(
 									"title" => "红房子微信订蛋糕指南",
 									"des" => "红房子蛋糕 美味空间新灵感",
 									"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
