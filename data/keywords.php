@@ -12,10 +12,7 @@
 	 * 发送图文消息是时的数组中必须按照 title des imageUrl articleUrl 的顺序
 	 */
 	
-	/* 以下为数据区域 */
-	define(ON_DUTY_TIME, 9);
-	define(OFF_DUTY_TIME, 18); 
-	define(OFF_DUTY_AUTOREPLY, '您的留言已被标记，客服将在上午九点后回复您。'); 
+	
 
 
 	// 以下为关键词区域 
@@ -35,8 +32,7 @@
 							"sendTextMessage"=>'您所在的门店WIFI密码为：redspace'
 						),
 		"WiFi" => array(
-							"sendTextMessage"=>'您所在的门店WiFi密码为：redspace',
-							"temp"=>'感谢您的光临'
+							"sendTextMessage"=>'您所在的门店WiFi密码为：redspace'
 						),
 		"测试回复314" => array( 
 								"sendArticalCSMessage"=>array

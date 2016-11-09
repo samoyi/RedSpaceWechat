@@ -7,12 +7,11 @@
 	 *
 	 */
 	
-	/* 以下为数据区域 */
-	define(MESSAGE_fOR_GET_CARD_EVENT, '亲亲，领到优惠券请在“微信-我-卡包-我的票券”中查看和使用。');
-	define(CARDID_SENT_AFTER_ORDER, 'pkV_gjkMiddaSVeMglxSb1oPU4nQ');
 
 
 	/* 以下为关键词区域 */
+	
+	$aEvents = array("subscribe", "CLICK", "user_get_card", "merchant_order"); 
 	$events = array(
 		"subscribe" => array( // 第一项必须是type。
 								"type"=>"sendCSMessage",
