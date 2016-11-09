@@ -21,6 +21,13 @@
 	 * 只有出现在$aKeywords中的关键词才会进行处理。也就是说可以将暂时
 	 * 不进行处理但以后还会处理的关键词在$aKeywordHandler中保留，但在
 	 * $aKeywords中暂时删除
+	 *
+	 * 如果要发送多条相同类型的消息，则第一条以后的其他条的消息类型的
+	 * 键名必须加一个不相同的数字后缀。例如要发送三个文字回复，则三个
+	 * 键名可以为“sendTextMessage”， sendTextMessage“sendTextMessage2”
+     * 和 “sendTextMessage6”。因为该数字只能是一位且不能重复，所以一次
+	 * 回复中相同类型的回复数最多为11个。即不带后缀的一个和后缀从0到9
+	 * 的10个
 	 */
 	$aKeywords = array("wifi", "WIFI", "WiFi", "测试回复314", "微信订蛋糕");
 	
@@ -35,7 +42,7 @@
 							"sendTextMessage"=>'您所在的门店WiFi密码为：redspace'
 						),
 		"测试回复314" => array( 
-								"sendArticalCSMessage"=>array
+								"sendArticalMessage"=>array
 								(
 									array
 									(
@@ -56,6 +63,17 @@
 										"title" => "红房子微信订蛋糕指南3",
 										"des" => "红房子蛋糕 美味空间新灵感",
 										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",							
+										"articleUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
+									)
+								), 
+								"sendTextMessage"=>'test',
+								"sendArticalMessage1"=>array
+								(
+									array
+									(
+										"title" => "红房子微信订蛋糕指南",
+										"des" => "红房子蛋糕 美味空间新灵感",
+										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
 										"articleUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
 									)
 								)

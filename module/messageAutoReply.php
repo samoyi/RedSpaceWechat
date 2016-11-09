@@ -35,43 +35,57 @@ switch(MESSAGE_TYPE)
 		elseif( in_array(CONTENT_FROM_USER, $aKeywords) )
 		{	
 			$handlerData = $aKeywordHandler[CONTENT_FROM_USER];
-			$bIsAutoReply = false; // 如果只发客服消息则最后会提示公众号无法服务，必须要发一个自动回复消息
+			//$nReplyAmount = count($handlerData);
+			//$bIsAutoReply = false; // 如果只发客服消息则最后会提示公众号无法服务，必须要发一个自动回复消息
+			
+			$nIndex = 0;// 第一遍发自动回复，之后如果再有就发客服消息
+			file_put_contents("err.txt", json_encode($handlerData) . "\n\n", FILE_APPEND);
 			foreach($handlerData as $key=>$value)
 			{	
-				switch( $key )
-				{
-					case 'sendTextMessage':
-					{	
-						//$messageManager->responseMsg( 'text' );
-						$messageManager->sendTextCSMessage(USERID, $value);
-						break;
+				// 如果key的最后一位是最为区分的数字，则删掉该数字
+				$sLastChar = substr($key, -1);
+				$key = is_numeric($sLastChar) ? strtok( $key, $sLastChar) : $key; 
+				
+				if( $nIndex++ === 0 )
+				{	
+					switch( $key )
+					{
+						case 'sendTextMessage':
+						{	
+							define("CONTENT", $value);
+							$messageManager->responseMsg( 'text' );
+							break;
+						}
+						case 'sendArticalMessage':
+						{	
+							$messageManager->sendArticalMessage($value);
+							$bIsAutoReply = true;
+							break;
+						}
 					}
-					case 'sendArticalMessage':
-					{	
-						$messageManager->sendArticalMessage($value);
-						$bIsAutoReply = true;
-						break;
+				}
+				else
+				{	
+					switch( $key )
+					{
+						case 'sendTextMessage':
+						{	
+							$messageManager->sendTextCSMessage(USERID, $value);
+							break;
+						}
+						case 'sendArticalMessage':
+						{	
+							$messageManager->sendArticalCSMessage(USERID, $value);
+							break;
+						}
 					}
-					case 'temp':
-					{	
-						define("CONTENT", $value);
-						$messageManager->responseMsg( 'text' );
-						$bIsAutoReply = true;
-						break;
-					}
-					case 'sendArticalCSMessage':
-					{	
-						$messageManager->sendArticalCSMessage(USERID, $value);
-						break;
-					}
-					
 				}
 			}
-			if( !$bIsAutoReply )
+			/* if( !$bIsAutoReply )
 			{
 				define("CONTENT", $value);
 				$messageManager->responseMsg( 'null' ); 
-			}
+			} */
 		}
 		else
 		{
