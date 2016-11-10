@@ -134,6 +134,9 @@ switch( EVENT_TYPE )
         $orderManager = new OrderManager();
         $orderDetail = $orderManager->getOrderDetail(ORDERID);
         $messageManager->sendTemplateMessage($orderDetail, '', ''); // 购买成功消息
+		
+		// 更新数据库中用户订单中的信息
+		//$UserManager->noteUseOrderInfo();
 
         // 发卡券
         /* include('class/CardMessager.class.php');

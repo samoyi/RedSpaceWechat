@@ -17,7 +17,7 @@
 // 记录用户交互记录
 require 'class/UserManager.class.php';
 $UserManager = new UserManager();
-$UserManager->noteUserInteraction();
+$UserManager->noteUseBasicInfo();
 
 /* 以下为逻辑区域 */
 switch(MESSAGE_TYPE)

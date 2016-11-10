@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class UserManager
 {
@@ -33,7 +33,7 @@ class UserManager
 
 
 
-    // 用户交互时的用户基本信息记录进数据库
+    // 将用户最新交互的类型和时间记录进数据库
     public function noteUseBasicInfo()
     {
         require PROJECT_ROOT . 'class/MySQLiController.class.php';
@@ -51,16 +51,10 @@ class UserManager
 		$sCity = $userInfo->city;
 		$sHeadImgUrl = $userInfo->headimgurl;
 		
-		$sAddress = $sCountry . $sProvince . $sCity;
-		
 		
         if( $aRowInDB->fetch_array( )) // 如果数据库中已经有该用户的数据行
         {
-            $MySQLiController->updateData(
-					DB_TABLE, 
-					array('type', 'modifyTime', 'nickname', 'sex', 'address', 'headimgurl'), 
-					array($type, date("Y-m-d G:i:s"), $sNickname, $sSex, $sAddress, $sHeadImgUrl), 
-					'openID="' . USERID . '"');
+            $MySQLiController->updateData(DB_TABLE, array('type', 'modifyTime', 'nickname'), array($type, date("Y-m-d G:i:s"), $sNickname), 'openID="' . USERID . '"');
         }
         else
         {
@@ -68,37 +62,6 @@ class UserManager
             echo $aRow[0];
             $MySQLiController->insertRow(DB_TABLE, $aRow);
         }
-        $dbr->close();
-    }
-	
-	
-	// 下订单时订单详情中的用户信息记录进数据库
-    public function noteUseOrderInfo()
-    {
-        require PROJECT_ROOT . 'class/MySQLiController.class.php';
-        $MySQLiController = new MySQLiController( $dbr );
-
-        $type = EVENT_TYPE ? EVENT_TYPE : MESSAGE_TYPE;
-        //$type = urlencode($type);
-        $aRowInDB = $MySQLiController->getRow(DB_TABLE, 'openID="' . USERID . '"' );
-		
-		include('class/OrderManager.class.php');
-        $orderManager = new OrderManager();
-        $orderDetail = $orderManager->getOrderDetail(ORDERID);
-		
-		$sReceiverProvince = $orderDetail->receiver_province;
-		$sReceiverCity = $orderDetail->receiver_city;
-		$sReceiverZone = $orderDetail->receiver_zone;
-		
-		$sReceiverName = $orderDetail->receiver_name;
-		$sReceiverAddress = $sReceiverProvince . $sReceiverCity . $sReceiverZone . $orderDetail->receiver_address;
-		
-		$MySQLiController->updateData(
-				DB_TABLE, 
-				array('receiver_name', 'receiver_address'), 
-				array($sReceiverName, $sReceiverAddress), 
-				'openID="' . USERID . '"');
-
         $dbr->close();
     }
 
