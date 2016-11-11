@@ -56,7 +56,7 @@ class UserManager
 		
 		
         if( $aRowInDB->fetch_array( )) // 如果数据库中已经有该用户的数据行
-        {	
+        {		
             $MySQLiController->updateData(
 					DB_TABLE, 
 					array('type', 'modifyTime', 'nickname', 'sex', 'country', 'province', 'city', 'headimgurl', 'isSubscribing'), 
@@ -64,14 +64,13 @@ class UserManager
 					'openID="' . USERID . '"');
         }
         else
-        {	
+        {		
             $aRow = array('0, "' . USERID . '", "' . $type . '", "' . date("Y-m-d G:i:s") . '"');
             echo $aRow[0];
 			
 			$aCol = array('openID', 'type', 'modifyTime', 'nickname', 'isSubscribing', 'sex', 'headimgurl', 'city', 'province', 'country');
 			$aValue = array(USERID, $type, date("Y-m-d G:i:s"), $sNickname, $bIsSubscribing, $sSex, $sHeadImgUrl, $sCity, $sProvince, $sCountry);
-            //$MySQLiController->insertRow(DB_TABLE, $aValue);
-			
+
 			$MySQLiController->insertRow(DB_TABLE, $aCol, $aValue);
         }
         $dbr->close();
@@ -79,32 +78,22 @@ class UserManager
 	
 	
 	// 下订单时订单详情中的用户信息记录进数据库
-    public function noteUseOrderInfo()
+    public function noteUseOrderInfo($orderDetail)
     {
-        require PROJECT_ROOT . 'class/MySQLiController.class.php';
+		$sReceiverProvince = $orderDetail["receiver_province"];
+		$sReceiverCity = $orderDetail["receiver_city"];
+		$sReceiverZone = $orderDetail["receiver_zone"];
+		$sReceiverAddress = $orderDetail["receiver_address"];
+		$sReceiverName = $orderDetail["receiver_name"];
+		$sReceiverTel = $orderDetail["receiver_mobile"];
+		
+		require PROJECT_ROOT . 'class/MySQLiController.class.php';
         $MySQLiController = new MySQLiController( $dbr );
-
-        $type = EVENT_TYPE ? EVENT_TYPE : MESSAGE_TYPE;
-        //$type = urlencode($type);
-        $aRowInDB = $MySQLiController->getRow(DB_TABLE, 'openID="' . USERID . '"' );
-		
-		include('class/OrderManager.class.php');
-        $orderManager = new OrderManager();
-        $orderDetail = $orderManager->getOrderDetail(ORDERID);
-		
-		$sReceiverProvince = $orderDetail->receiver_province;
-		$sReceiverCity = $orderDetail->receiver_city;
-		$sReceiverZone = $orderDetail->receiver_zone;
-		
-		$sReceiverName = $orderDetail->receiver_name;
-		$sReceiverAddress = $sReceiverProvince . $sReceiverCity . $sReceiverZone . $orderDetail->receiver_address;
-		
 		$MySQLiController->updateData(
 				DB_TABLE, 
-				array('receiver_name', 'receiver_address'), 
-				array($sReceiverName, $sReceiverAddress), 
+				array('type', 'modifyTime', 'receiver_name', 'tel', 'receiver_province', 'receiver_city', 'receiver_zone', 'receiver_address'), 
+				array('merchant_order', date("Y-m-d G:i:s"), $sReceiverName, $sReceiverTel, $sReceiverProvince, $sReceiverCity, $sReceiverZone, $sReceiverAddress), 
 				'openID="' . USERID . '"');
-
         $dbr->close();
     }
 

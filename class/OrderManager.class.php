@@ -14,7 +14,7 @@ class OrderManager
 
     //获取订单详情
     public function getOrderDetail() 
-    {
+    {		
         $info=array('orderId'=>ORDERID,'userId'=>USERID,'hostId'=>HOSTID);
         $data=array('order_id' => ORDERID);
         $url_get="https://api.weixin.qq.com/merchant/order/getbyid?access_token=".ACCESS_TOKEN;

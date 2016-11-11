@@ -507,12 +507,13 @@ class MySQLiController
 		}
 	}*/
     public function updateData($tableName, $aLocValueCol, $aNewValue, $where)
-    {
+    {	
         if( sizeof($aLocValueCol) !== sizeof($aNewValue))
         {
             throw new Exception('要更改的列数和提供的更改值数目不对应');
             return false;
         }
+
         /*function setUpdateStr( $value, $key )
         {
             $value . '="' .  $aNewValue[$key] . '",';
@@ -522,9 +523,9 @@ class MySQLiController
         {
             $sUpdate .= $value . '="' .  $aNewValue[$key] . '",';
         }
+
         $sUpdate = substr($sUpdate, 0, -1);//删除最后一个逗号
         $query = 'UPDATE ' . $tableName . ' SET ' . $sUpdate . ' WHERE ' . $where;
-		
         $result = $this->dbr->query( $query );
         if( $result )
         {

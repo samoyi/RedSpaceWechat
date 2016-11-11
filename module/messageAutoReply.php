@@ -15,20 +15,20 @@
 
 
 // 记录用户交互记录
-if( EVENT_TYPE !== 'unsubscribe' ) // 取消关注事件会发送空的数据，因此会清空原数据
+if( EVENT_TYPE !== 'unsubscribe' && EVENT_TYPE !== 'merchant_order' && EVENT_TYPE !== 'TEMPLATESENDJOBFINISH' ) // 取消关注事件会发送空的数据，因此会清空原数据
 {
 	require 'class/UserManager.class.php';
 	$UserManager = new UserManager();
 	$UserManager->noteUseBasicInfo();
 }
-else // 取消关注的只修改是否关注的那一栏数据
+elseif( EVENT_TYPE === 'unsubscribe' ) // 取消关注的只修改是否关注的那一栏数据
 {
 	require PROJECT_ROOT . 'class/MySQLiController.class.php';
     $MySQLiController = new MySQLiController( $dbr );
 	$MySQLiController->updateData(
 					DB_TABLE, 
-					array('isSubscribing'), 
-					array(0), 
+					array('isSubscribing', 'modifyTime', 'type'), 
+					array(0, date("Y-m-d G:i:s"), 'unsubscribe'), 
 					'openID="' . USERID . '"');
 
 }
