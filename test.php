@@ -1,4 +1,4 @@
-<?php
+<pre><?php
 
 /*
  * 微信后台将消息、事件等推送到该文件
@@ -17,11 +17,11 @@ include('WechatPushed.php'); // 获取微信后台推送信息
 require PROJECT_ROOT . 'class/MySQLiController.class.php';
 $MySQLiController = new MySQLiController( $dbr );
 
-$aColMode = array(
-			'county TEXT NOT NULL'
-);
 
-$MySQLiController->columnRename(DB_TABLE, 'county', 'country');
+$MySQLiController->dropColumn(DB_TABLE, "address");
+
+
+
 //$MySQLiController->insertColumn(DB_TABLE, $aColMode) ;
 //$MySQLiController->changeColumnType(DB_TABLE, 'isSubscribing', 'INT UNSIGNED NOT NULL');
 
@@ -32,4 +32,4 @@ include('module/messageAutoReply.php');
 
 
 
-?>
+?></pre>
