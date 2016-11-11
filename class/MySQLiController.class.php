@@ -454,25 +454,8 @@ class MySQLiController
         return $result = mysqli_query( $this->dbr, $query );
     }
 
-	//插入新行。参数是一个数组，数组包含一项或多项，每一项是一行中值得字符串，例如'0, "li", "17"'
-	//TODO 不知道为什么必须要给主键传0，看其他例子上也没有
-	public function insertRow($tableName, $aValue)
-	{
-		foreach( $aValue as $value)
-		{
-			$query = 'INSERT INTO ' . $tableName . ' VALUES (' . $value . ')';
-			$result = $this->dbr->query( $query );
-			if( $result )
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-	}
-
+	
+ 
 	//删除行。参数是数组，包含一个或者多个项，每个项是一个WHERE子句
 	public function deleteRow($tableName, $aWhere)
 	{
@@ -543,6 +526,7 @@ class MySQLiController
         }
         $sUpdate = substr($sUpdate, 0, -1);//删除最后一个逗号
         $query = 'UPDATE ' . $tableName . ' SET ' . $sUpdate . ' WHERE ' . $where;
+		
         $result = $this->dbr->query( $query );
         if( $result )
         {

@@ -11,18 +11,18 @@ include('WechatPushed.php'); // 获取微信后台推送信息
 
 
 
-
+// okV_gjqh3xvy2JmuNLoLIyKiBV_c
 
 
 require PROJECT_ROOT . 'class/MySQLiController.class.php';
 $MySQLiController = new MySQLiController( $dbr );
 
 $aColMode = array(
-			'sex INT UNSIGNED NOT NULL', 
-			'headimgurl TEXT NOT NULL'
+			'county TEXT NOT NULL'
 );
 
-//$MySQLiController->unifyColumn(DB_TABLE, 'sex', 3);
+$MySQLiController->columnRename(DB_TABLE, 'county', 'country');
+//$MySQLiController->insertColumn(DB_TABLE, $aColMode) ;
 //$MySQLiController->changeColumnType(DB_TABLE, 'isSubscribing', 'INT UNSIGNED NOT NULL');
 
 //关键词自动回复和事件推送回复

@@ -44,6 +44,7 @@ class UserManager
         $aRowInDB = $MySQLiController->getRow(DB_TABLE, 'openID="' . USERID . '"' );
 		
 		$userInfo = $this->getUserInfo(USERID);
+		$bIsSubscribing = $userInfo->subscribe;
 		$sNickname = $userInfo->nickname;
 		$sSex = $userInfo->sex;
 		$sCountry = $userInfo->country;
@@ -55,18 +56,23 @@ class UserManager
 		
 		
         if( $aRowInDB->fetch_array( )) // 如果数据库中已经有该用户的数据行
-        {
+        {	
             $MySQLiController->updateData(
 					DB_TABLE, 
-					array('type', 'modifyTime', 'nickname', 'sex', 'address', 'headimgurl'), 
-					array($type, date("Y-m-d G:i:s"), $sNickname, $sSex, $sAddress, $sHeadImgUrl), 
+					array('type', 'modifyTime', 'nickname', 'sex', 'country', 'province', 'city', 'headimgurl', 'isSubscribing'), 
+					array($type, date("Y-m-d G:i:s"), $sNickname, $sSex, $sCountry, $sProvince, $sCity, $sHeadImgUrl, $bIsSubscribing), 
 					'openID="' . USERID . '"');
         }
         else
-        {
+        {	
             $aRow = array('0, "' . USERID . '", "' . $type . '", "' . date("Y-m-d G:i:s") . '"');
             echo $aRow[0];
-            $MySQLiController->insertRow(DB_TABLE, $aRow);
+			
+			$aCol = array('openID', 'type', 'modifyTime', 'nickname', 'isSubscribing', 'sex', 'headimgurl', 'city', 'province', 'country');
+			$aValue = array(USERID, $type, date("Y-m-d G:i:s"), $sNickname, $bIsSubscribing, $sSex, $sHeadImgUrl, $sCity, $sProvince, $sCountry);
+            //$MySQLiController->insertRow(DB_TABLE, $aValue);
+			
+			$MySQLiController->insertRow(DB_TABLE, $aCol, $aValue);
         }
         $dbr->close();
     }

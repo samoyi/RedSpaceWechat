@@ -15,9 +15,26 @@
 
 
 // 记录用户交互记录
-require 'class/UserManager.class.php';
-$UserManager = new UserManager();
-$UserManager->noteUseBasicInfo();
+if( EVENT_TYPE !== 'unsubscribe' ) // 取消关注事件会发送空的数据，因此会清空原数据
+{
+	require 'class/UserManager.class.php';
+	$UserManager = new UserManager();
+	$UserManager->noteUseBasicInfo();
+}
+else // 取消关注的只修改是否关注的那一栏数据
+{
+	require PROJECT_ROOT . 'class/MySQLiController.class.php';
+    $MySQLiController = new MySQLiController( $dbr );
+	$MySQLiController->updateData(
+					DB_TABLE, 
+					array('isSubscribing'), 
+					array(0), 
+					'openID="' . USERID . '"');
+
+}
+/* require 'class/UserManager.class.php';
+	$UserManager = new UserManager();
+	$UserManager->noteUseBasicInfo(); */
 
 /* 以下为逻辑区域 */
 switch(MESSAGE_TYPE)
