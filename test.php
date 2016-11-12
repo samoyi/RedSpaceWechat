@@ -18,15 +18,26 @@ require PROJECT_ROOT . 'class/MySQLiController.class.php';
 //$MySQLiController = new MySQLiController( $dbr );
 
 
-require "class/ProductManager.class.php";
-$ProductManager = new ProductManager();
-$result = $ProductManager->queryProductIDs(1);
+require "class/CardMessager.class.php";
+$CardMessager = new CardMessager();
+
+/* $result = $CardMessager->batchGetCard(20);
+foreach($result as $value)
+{
+	print_r( $CardMessager->getBaseInfo($value) );
+} */
+
+//$result = $CardMessager->changeQuantity( 'pkV_gjmP8nL6Ffrk-XCCB8KEWTyI', 0, 10, 'cash');
+$result = $CardMessager->getBaseInfo('pkV_gjmP8nL6Ffrk-XCCB8KEWTyI'); 
+
+
+
+
 print_r( $result );
 
 //关键词自动回复和事件推送回复
 //该部分最后会跳出程序，下面这行应该是放在最后
-include('module/messageAutoReply.php');
-
+//include('module/messageAutoReply.php');
 
 
 
