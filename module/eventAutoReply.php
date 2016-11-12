@@ -141,6 +141,13 @@ switch( EVENT_TYPE )
 		$UserManager = new UserManager();
 		$UserManager->noteUseOrderInfo($orderDetail);
 
+		// 邮件提醒
+		require "plugin/sendmail.php";
+		$mail_to = '601610407@qq.com';//接收人邮箱
+		$mail_subject = '红房子微信小店新订单提醒';//邮件标题
+		$mail_message = '红房子微信小店新订单提醒';//邮件内容
+		sendmail($mail_to, $mail_subject, $mail_message);
+		
         // 发卡券
         /* include('class/CardMessager.class.php');
         $cardMessager = new CardMessager();
