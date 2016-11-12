@@ -21,14 +21,9 @@ require PROJECT_ROOT . 'class/MySQLiController.class.php';
 require "class/CardMessager.class.php";
 $CardMessager = new CardMessager();
 
-/* $result = $CardMessager->batchGetCard(20);
-foreach($result as $value)
-{
-	print_r( $CardMessager->getBaseInfo($value) );
-} */
+//$result = $CardMessager->batchGetCard(20);
 
-//$result = $CardMessager->changeQuantity( 'pkV_gjmP8nL6Ffrk-XCCB8KEWTyI', 0, 10, 'cash');
-$result = $CardMessager->getBaseInfo('pkV_gjmP8nL6Ffrk-XCCB8KEWTyI'); 
+$result = $CardMessager->getUserCardList("okV_gjrMpNfy6d5fJxqj7ph68MmU", "pkV_gjvBUkrMVglnW-FxsTTUd9z0"); 
 
 
 

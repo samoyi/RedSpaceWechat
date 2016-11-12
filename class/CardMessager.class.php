@@ -59,7 +59,33 @@ class CardMessager
         $result = request_post($url, $data);   
         return $result;
     }
-
+	
+	// 获取用户已领取的卡券
+	/* 
+	 * 包括正常状态和未生效状态
+	 * 不写第二个参数则是所有的卡券，第二个参数传入某款卡券ID，则只包含改款卡券的列表
+	 * 在指定卡券ID的情况下，返回值得card_list是改款卡券的数组列表，如果为空数组则表示没有改款卡券
+	 */
+	public function getUserCardList($sOpenID, $sCardID="")
+	{	
+		$url = 'https://api.weixin.qq.com/card/user/getcardlist?access_token=' . ACCESS_TOKEN;
+		if( isset($sCardID) )
+		{
+			$data = '{
+			  "openid": "' . $sOpenID . '",
+			  "card_id": "' . $sCardID . '"
+			}';
+		}
+		else
+		{
+			$data = '{
+			  "openid": "' . $sOpenID . '"
+			}';
+		}
+		
+		$result = request_post($url, $data);
+		return json_decode($result);
+	}
 
     //修改卡券数量
     // 如果要增加，则第二个参数写增加的个数，第三个参数不写或写0；如果要减少，则第二个参数写0，第三个写减少的个数
