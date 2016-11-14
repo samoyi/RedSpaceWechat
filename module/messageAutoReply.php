@@ -15,7 +15,7 @@
 
 
 // 记录用户交互记录
-if( EVENT_TYPE !== 'unsubscribe' && EVENT_TYPE !== 'merchant_order' && EVENT_TYPE !== 'TEMPLATESENDJOBFINISH' ) // 取消关注事件会发送空的数据，因此会清空原数据
+/* if( EVENT_TYPE !== 'unsubscribe' && EVENT_TYPE !== 'merchant_order' && EVENT_TYPE !== 'TEMPLATESENDJOBFINISH' ) // 取消关注事件会发送空的数据，因此会清空原数据
 {
 	require 'class/UserManager.class.php';
 	$UserManager = new UserManager();
@@ -31,10 +31,8 @@ elseif( EVENT_TYPE === 'unsubscribe' ) // 取消关注的只修改是否关注�
 					array(0, date("Y-m-d G:i:s"), 'unsubscribe'), 
 					'openID="' . USERID . '"');
 
-}
-/* require 'class/UserManager.class.php';
-	$UserManager = new UserManager();
-	$UserManager->noteUseBasicInfo(); */
+} */
+
 
 /* 以下为逻辑区域 */
 switch(MESSAGE_TYPE)
@@ -106,7 +104,7 @@ switch(MESSAGE_TYPE)
 		}
 		else
 		{
-			noKeyWordMath($messageManager);
+			noKeyWordMatch($messageManager);
 		}
 		break;
     }

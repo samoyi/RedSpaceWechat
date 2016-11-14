@@ -92,7 +92,7 @@
 							)
 	);
 	
-	function noKeyWordMath($messageManager)
+	function noKeyWordMatch($messageManager)
 	{	
 		if( date('G')>(OFF_DUTY_TIME-1) || date('G')<ON_DUTY_TIME)//客服下班时间，自动回复客服已下班
 		{	
