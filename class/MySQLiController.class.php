@@ -401,21 +401,18 @@ class MySQLiController
 
 
     //写入区域----------------------------------------------------------------------------------------------
-	//插入新列  参数为一个数组，数组项为一个或多个新列模式字符串。类似于 'id INT UNSIGNED NOT NULL'
-	public function insertColumn($tableName, $aColMode) 
+	//插入新列  参数为新列模式字符串。类似于 'id INT UNSIGNED NOT NULL'
+	public function insertColumn($tableName, $sColMode) 
 	{	
-		foreach( $aColMode as $colMode)
+		$query = 'ALTER TABLE ' . $tableName . ' ADD COLUMN ' . $sColMode;
+		$result = $this->dbr->query( $query );
+		if( $result )
 		{
-			$query = 'ALTER TABLE ' . $tableName . ' ADD COLUMN ' . $colMode;
-			$result = $this->dbr->query( $query );
-			if( $result )
-			{
-				echo "<p>new column has been added</p>";
-			}
-			else
-			{    var_dump( $result );
-				//echo "<p>could not add new column</p>";
-			}
+			return true;
+		}
+		else
+		{    
+			return false;
 		}
 	}
 
