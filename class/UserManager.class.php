@@ -31,17 +31,37 @@ class UserManager
         return json_decode( $result = httpGet($url) );
     }
 
+	// 获取用户总数
+	public function getUserAmount()
+	{
+		return $this->getUserList()->total;
+	}
 
 
     // 用户交互时的用户基本信息记录进数据库
     public function noteUseBasicInfo()
     {
+		$con = ACCESS_TOKEN . "\n" . 
+				USERID . "\n" . 
+				HOSTID . "\n" . 
+				CONTENT_FROM_USER . "\n" . 
+				MESSAGE_TYPE . "\n" . 
+				DB_TABLE . "\n" . 
+				DB_ADDRESS . "\n" . 
+				DB_USER . "\n" . 
+				DB_PASSWORD . "\n" . 
+				DB_NAME . "\n" . 
+				EVENT_TYPE;
+		
+
         require PROJECT_ROOT . 'class/MySQLiController.class.php';
         $MySQLiController = new MySQLiController( $dbr );
 
         $type = EVENT_TYPE ? EVENT_TYPE : MESSAGE_TYPE;
-        //$type = urlencode($type);
-        $aRowInDB = $MySQLiController->getRow(DB_TABLE, 'openID="' . USERID . '"' );
+		
+		$where = 'openID="' . USERID . '"';
+		
+        $aRowInDB = $MySQLiController->getRow(DB_TABLE, $where);
 		
 		$userInfo = $this->getUserInfo(USERID);
 		$bIsSubscribing = $userInfo->subscribe;
@@ -53,7 +73,6 @@ class UserManager
 		$sHeadImgUrl = $userInfo->headimgurl;
 		
 		$sAddress = $sCountry . $sProvince . $sCity;
-		
 		
         if( $aRowInDB->fetch_array( )) // 如果数据库中已经有该用户的数据行
         {		

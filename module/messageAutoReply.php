@@ -14,6 +14,28 @@
 
 
 
+
+// 将相关数据发送到记录用户信息的脚本
+sendDateToNoteUserInfoScript();
+function sendDateToNoteUserInfoScript()
+{
+	$sFinalUrl = "";
+	$sScriptUrl = "http://red-space.cn/wechat/manage/nodeUserInfo.php";
+	
+	$sTokenArg = "token=" . ACCESS_TOKEN;
+	$sUserOpenID = "userOpenID=" . USERID;
+	$sHostIDArg = "hostID=" . HOSTID;
+	$sUserSentMessageContentArg = "userSentMessageContent=" . CONTENT_FROM_USER;
+	$sUserSentMessageTypeArg = "userSentMessageType=" . MESSAGE_TYPE;
+	$sEventTypeArg = "eventType=" . EVENT_TYPE;
+	
+	$sFinalUrl = $sScriptUrl . "?" .  $sTokenArg . "&" . $sUserOpenID . "&" 
+				. $sHostIDArg . "&" . $sUserSentMessageContentArg . "&" 
+				. $sUserSentMessageTypeArg . "&" . $sEventTypeArg;
+	
+	httpGet($sFinalUrl);
+}
+
 /* 以下为逻辑区域 */
 switch(MESSAGE_TYPE)
 {   
@@ -117,23 +139,6 @@ switch(MESSAGE_TYPE)
     }
 }
 
-// 记录用户交互记录
-if( EVENT_TYPE !== 'unsubscribe' && EVENT_TYPE !== 'merchant_order' && EVENT_TYPE !== 'TEMPLATESENDJOBFINISH' ) // 取消关注事件会发送空的数据，因此会清空原数据
-{
-	require 'class/UserManager.class.php';
-	$UserManager = new UserManager();
-	$UserManager->noteUseBasicInfo();
-}
-elseif( EVENT_TYPE === 'unsubscribe' ) // 取消关注的只修改是否关注的那一栏数据
-{
-	require PROJECT_ROOT . 'class/MySQLiController.class.php';
-    $MySQLiController = new MySQLiController( $dbr );
-	$MySQLiController->updateData(
-					DB_TABLE, 
-					array('isSubscribing', 'modifyTime', 'type'), 
-					array(0, date("Y-m-d G:i:s"), 'unsubscribe'), 
-					'openID="' . USERID . '"');
 
-}
 
 ?>
