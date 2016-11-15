@@ -250,7 +250,6 @@ class ProductManager
 
         $url = 'https://api.weixin.qq.com/merchant/update?access_token=' . ACCESS_TOKEN;
         $data = json_encode( $oldProduct_info );
-        file_put_contents("err.txt", $data );
         $data = str_replace('\"', '"', $data);
         $data = decodeUnicode( $data );
         

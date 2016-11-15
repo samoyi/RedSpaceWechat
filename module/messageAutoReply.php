@@ -14,26 +14,6 @@
 
 
 
-// 记录用户交互记录
-/* if( EVENT_TYPE !== 'unsubscribe' && EVENT_TYPE !== 'merchant_order' && EVENT_TYPE !== 'TEMPLATESENDJOBFINISH' ) // 取消关注事件会发送空的数据，因此会清空原数据
-{
-	require 'class/UserManager.class.php';
-	$UserManager = new UserManager();
-	$UserManager->noteUseBasicInfo();
-}
-elseif( EVENT_TYPE === 'unsubscribe' ) // 取消关注的只修改是否关注的那一栏数据
-{
-	require PROJECT_ROOT . 'class/MySQLiController.class.php';
-    $MySQLiController = new MySQLiController( $dbr );
-	$MySQLiController->updateData(
-					DB_TABLE, 
-					array('isSubscribing', 'modifyTime', 'type'), 
-					array(0, date("Y-m-d G:i:s"), 'unsubscribe'), 
-					'openID="' . USERID . '"');
-
-} */
-
-
 /* 以下为逻辑区域 */
 switch(MESSAGE_TYPE)
 {   
@@ -54,7 +34,6 @@ switch(MESSAGE_TYPE)
 			//$bIsAutoReply = false; // 如果只发客服消息则最后会提示公众号无法服务，必须要发一个自动回复消息
 			
 			$nIndex = 0;// 第一遍发自动回复，之后如果再有就发客服消息
-			file_put_contents("err.txt", json_encode($handlerData) . "\n\n", FILE_APPEND);
 			foreach($handlerData as $key=>$value)
 			{	
 				// 如果key的最后一位是最为区分的数字，则删掉该数字
@@ -136,6 +115,25 @@ switch(MESSAGE_TYPE)
             $messageManager->responseMsg( 'null' );
         }
     }
+}
+
+// 记录用户交互记录
+if( EVENT_TYPE !== 'unsubscribe' && EVENT_TYPE !== 'merchant_order' && EVENT_TYPE !== 'TEMPLATESENDJOBFINISH' ) // 取消关注事件会发送空的数据，因此会清空原数据
+{
+	require 'class/UserManager.class.php';
+	$UserManager = new UserManager();
+	$UserManager->noteUseBasicInfo();
+}
+elseif( EVENT_TYPE === 'unsubscribe' ) // 取消关注的只修改是否关注的那一栏数据
+{
+	require PROJECT_ROOT . 'class/MySQLiController.class.php';
+    $MySQLiController = new MySQLiController( $dbr );
+	$MySQLiController->updateData(
+					DB_TABLE, 
+					array('isSubscribing', 'modifyTime', 'type'), 
+					array(0, date("Y-m-d G:i:s"), 'unsubscribe'), 
+					'openID="' . USERID . '"');
+
 }
 
 ?>

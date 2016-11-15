@@ -17,7 +17,6 @@ $messageManager = new MessageManager();
 
 
 $messageManager->valid(); // TODO 为什么接入成功就不能再调用了
-//file_put_contents("err.txt",  $messageManager->checkSignature() );
 
 
 $userMessage = $messageManager->getUserMessage(); // 获得消息内容

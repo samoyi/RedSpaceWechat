@@ -125,7 +125,6 @@ class MessageManager
                 }
                 else
                 {
-                    file_put_contents('err.txt', '222222222' . $textTpl, FILE_APPEND  );
                     echo "Input something...";
                 }*/
             }
