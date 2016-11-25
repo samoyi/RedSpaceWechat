@@ -47,15 +47,13 @@ switch( EVENT_TYPE )
                 $url = 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=' . ACCESS_TOKEN;
                 $return = request_post($url, $data);
                 $orderObj = json_decode($return);
-                $return  = ifRefreshAccessTokenAndRePost($return, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $data );
-                $orderObj = json_decode($return);
                 $orderArr = $orderObj->order_list;
                 $title = "已成功付款的订单";
                 $des = "";
                 $orderStatus = "";
                 $orderNum = 0;
                 $toomuchOrderCue = "";
-//okV_gjrMpNfy6d5fJxqj7ph68MmU
+
                 foreach( $orderArr as $order)
                 {
                     if( USERID === $order->buyer_openid )

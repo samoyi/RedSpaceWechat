@@ -11,7 +11,6 @@
 //获得access_token
 define("ACCESS_TOKEN", getAccessToken());
 
-
 include('class/MessageManager.class.php');
 $messageManager = new MessageManager();
 

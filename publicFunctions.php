@@ -26,10 +26,14 @@ function getAccessToken()//获取access_token
     //$configurationJSON = json_decode( file_get_contents('access_token.json') );
     $configurationJSON = json_decode( file_get_contents(PROJECT_ROOT . 'access_token.json') );
     $last_access_token_time = $configurationJSON->last_access_token_time;//读取上次调用接口取得access_token的时间
-    
-    if( time()- $last_access_token_time <3600 )//如果没到保质期7200秒，直接返回旧的
-    {   //之前出现过距离7200秒很远就不能用的情况，所以这里改成3600秒
-        return $configurationJSON->last_access_token;
+    $sLastAccessToken = $configurationJSON->last_access_token;
+	
+    if( (time()-$last_access_token_time<3600) && isset($sLastAccessToken)  )//如果没到保质期7200秒，直接返回旧的
+    {   /*
+		 * 之前出现过距离7200秒很远就不能用的情况，所以这里改成3600秒	
+		 * 之所以加第二个判断，是因为出现过一次返回的access token 是 NULL，导致在时间没到之前不会刷新为正确的。
+		 */
+        return $sLastAccessToken;
     }
     else//如果马上或已经到了保质期，重新获取，然后记录本次获取的时间和access_token。
     {   
@@ -54,18 +58,6 @@ function ifRefreshAccessTokenAndRePost( $result, $urlWithoutACCESS_TOKEN, $data)
     }
 }
 
-/* 下面使用了验证access token过期的get方法
-function httpGet($url)//发送GET请求
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-    // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $output = curl_exec($ch);
-    curl_close($ch);
-    return $output;
-}*/
 function httpGet($url)//发送GET请求
 {
     $ch = curl_init();
