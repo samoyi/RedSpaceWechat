@@ -449,6 +449,37 @@ class MySQLiController
         return $result = mysqli_query( $this->dbr, $query );
     }
 
+	//插入新行。第二个参数是列名数组，第三个参数是相应的值数组
+	public function insertRow($tableName, $aCol, $aValue)
+	{	
+		$len = count( $aCol );
+		$keys = '';
+		$values = '';
+		
+		for($i=0; $i<$len; $i++)
+		{
+			if( $i !== $len-1 )
+			{
+				$keys .= $aCol[$i] . ',';
+				$values .= '"' . $aValue[$i] . '",';
+			}
+			else
+			{
+				$keys .= $aCol[$i] . '';
+				$values .= '"' . $aValue[$i] . '"';
+			}
+		}
+		$query  = 'INSERT INTO ' . $tableName . '(' . $keys . ') VALUES (' . $values . ')';
+		$result = $this->dbr->query( $query );
+		if( $result )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		} 
+	}
 	
  
 	//删除行。参数是数组，包含一个或者多个项，每个项是一个WHERE子句

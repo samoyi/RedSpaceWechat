@@ -40,7 +40,7 @@ class UserManager
 
     // 用户交互时的用户基本信息记录进数据库
     public function noteUseBasicInfo()
-    {
+    {	file_put_contents("ererddd666.txt", 222);
 		$con = ACCESS_TOKEN . "\n" . 
 				USERID . "\n" . 
 				HOSTID . "\n" . 
@@ -75,7 +75,7 @@ class UserManager
 		$sAddress = $sCountry . $sProvince . $sCity;
 		
         if( $aRowInDB->fetch_array( )) // 如果数据库中已经有该用户的数据行
-        {		
+        {		file_put_contents("ererddd.txt", 222);
             $MySQLiController->updateData(
 					DB_TABLE, 
 					array('type', 'modifyTime', 'nickname', 'sex', 'country', 'province', 'city', 'headimgurl', 'isSubscribing'), 
@@ -85,12 +85,11 @@ class UserManager
         else
         {		
             $aRow = array('0, "' . USERID . '", "' . $type . '", "' . date("Y-m-d G:i:s") . '"');
-            echo $aRow[0];
-			
 			$aCol = array('openID', 'type', 'modifyTime', 'nickname', 'isSubscribing', 'sex', 'headimgurl', 'city', 'province', 'country');
 			$aValue = array(USERID, $type, date("Y-m-d G:i:s"), $sNickname, $bIsSubscribing, $sSex, $sHeadImgUrl, $sCity, $sProvince, $sCountry);
 
 			$MySQLiController->insertRow(DB_TABLE, $aCol, $aValue);
+			
         }
         $dbr->close();
     }

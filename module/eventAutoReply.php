@@ -156,12 +156,13 @@ switch( EVENT_TYPE )
 		} 
 		
 		// 更新数据库中用户订单中的用户信息
-		include('class/UserManager.class.php');
-		$UserManager = new UserManager();
-		$UserManager->noteUseOrderInfo($orderDetail);
+		/* include('class/UserManager.class.php');
+		$UserManager = new UserManager(); 
+		$UserManager->noteUseOrderInfo($orderDetail);*/
+		// TODO 如果上一行这里操作数据库，那下面的操作数据库就会失败
 
 		// 记录订单信息
-		//$orderManager->noteOrderInfo($orderDetail); 
+		$orderManager->noteOrderInfo($orderDetail); 
 		
 		// 邮件提醒
 		require "plugin/sendmail.php";
