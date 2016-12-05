@@ -44,7 +44,6 @@ class CardMessager
         $result = request_post($url, $data);   
         ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=', $data ); 
         $messageManager = new MessageManager();
-        $messageManager->responseMsg( 'null' );
     }
 
     //根据OpenID发送卡券

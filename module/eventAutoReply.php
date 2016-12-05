@@ -3,7 +3,6 @@
 
 /* 以下为数据区域 */
 define(MESSAGE_fOR_GET_CARD_EVENT, '亲亲，领到优惠券请在“微信-我-卡包-我的票券”中查看和使用。');
-define(CARDID_SENT_AFTER_ORDER, 'pkV_gjkMiddaSVeMglxSb1oPU4nQ');
 
 /* 以下为逻辑区域 */
 switch( EVENT_TYPE )
@@ -132,13 +131,38 @@ switch( EVENT_TYPE )
         $orderManager = new OrderManager();
         $orderDetail = $orderManager->getOrderDetail(ORDERID);
         $messageManager->sendTemplateMessage($orderDetail, '', ''); // 购买成功消息
+			
+        // 发卡券
+        include('class/CardMessager.class.php');
+        $cardMessager = new CardMessager();
+		$productName = $orderManager->getOrderProductName($orderDetail);
+		switch($productName)
+		{
+			case "【雪域圣诞】圣诞一起来尝鲜 原价49元 微信订购立减10元":
+			{
+				$cardMessager->sendCard( "pkV_gju1LzZYrUiYN5uczwJd9Mjo" );
+				break;
+			}
+			case "【圣诞欢乐颂】圣诞一起来尝鲜 原价49元 微信订购立减10元":
+			{
+				$cardMessager->sendCard( "pkV_gjvp7GRymlDxhRoTjzYiJepk" );
+				break;
+			}
+			case "【圣诞黑魔法】圣诞一起来尝鲜 原价49元 微信订购立减10元":
+			{
+				$cardMessager->sendCard( "pkV_gjijkV9i-a6c5d_fu2lUTs58" );
+				break;
+			}
+		} 
 		
-		
-		// 更新数据库中用户订单中的信息
+		// 更新数据库中用户订单中的用户信息
 		include('class/UserManager.class.php');
 		$UserManager = new UserManager();
 		$UserManager->noteUseOrderInfo($orderDetail);
 
+		// 记录订单信息
+		//$orderManager->noteOrderInfo($orderDetail); 
+		
 		// 邮件提醒
 		require "plugin/sendmail.php";
 		$mail_to = '601610407@qq.com';//接收人邮箱
@@ -146,10 +170,6 @@ switch( EVENT_TYPE )
 		$mail_message = '红房子微信小店新订单提醒';//邮件内容
 		sendmail($mail_to, $mail_subject, $mail_message);
 		
-        // 发卡券
-        /* include('class/CardMessager.class.php');
-        $cardMessager = new CardMessager();
-        $cardMessager->sendCard( CARDID_SENT_AFTER_ORDER ); */
 
         break;	
     }
