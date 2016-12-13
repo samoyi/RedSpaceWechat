@@ -1,7 +1,5 @@
 <?php
 
-	//$order_id = "10295333824951275856";
-	//$card_id = 'pkV_gjnWmAH6DZoyPgnLogui7H_A';
 	$order_id = trim( $_POST["order_id"] );
 	$card_id = trim( $_POST["card_id"] );
 
@@ -20,6 +18,6 @@
                 "wxcard":{ "card_id":"' . $card_id . '" }
                 }';
     $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . ACCESS_TOKEN;
-    $result = request_post($url, $data);   
-    echo ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=', $data ); 
+    echo $result = request_post($url, $data);   
+    //echo ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=', $data ); 
 ?>

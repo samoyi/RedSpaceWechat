@@ -46,14 +46,14 @@ class OrderManager
 		$sProductName = $orderDetail["product_name"];
 		$nProductPrice = $orderDetail["product_price"];
 		$nProductCount = $orderDetail["product_count"];
-		if( !class_exists( 'MySQLiController') )
+		if( !class_exists( 'MySQLiController', false) )
 		{
 			require PROJECT_ROOT . 'class/MySQLiController.class.php';
 		}
         $MySQLiController = new MySQLiController( $dbr );
 		$aCol = array('order_id', 'nickname', 'openid', 'total_price', 'receiver_name', 'receiver_province', 'receiver_city', 'receiver_zone', 'receiver_address', 'receiver_mobile', 'product_id', 'product_name', 'product_price', 'product_count', 'order_create_time');
 		$aValue = array($sOrderID, $sNickname, USERID, $nTotalPrice, $sReceiverName, $sReceiverProvince, $sReceiverCity, $sReceiverZone, $sReceiverAddress, $sReceiverTel, $sProductID, $sProductName, $nProductPrice, $nProductCount, date("Y-m-d G:i:s"));
-		if( !class_exists( 'MySQLiController') )
+		if( !class_exists( 'MySQLiController', false) )
 		{	
 			require PROJECT_ROOT . 'class/MySQLiController.class.php';
 		}

@@ -9,6 +9,6 @@
 	
 	include('../class/CardMessager.class.php');
 	$CardMessager = new CardMessager();
-	$result = $CardMessager->sendCardByOpenID($card_id, $open_id); 
-	echo $result;
+	$result = $CardMessager->sendCardByOpenID($card_id, $open_id, 'sendCardResult.txt');
+	echo json_encode($result);
 ?>

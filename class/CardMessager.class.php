@@ -7,7 +7,7 @@ class CardMessager
     {
         $data = '{"card_id": "' . $card_id . '"}';
         $result =  request_post('https://api.weixin.qq.com/card/get?access_token=' . ACCESS_TOKEN, $data);
-        ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=', $data ); 
+        //ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=', $data );
         $resultorderObj = json_decode($result);
 		$baseInfo = $resultorderObj->{'card'};
         return $baseInfo;
@@ -27,7 +27,7 @@ class CardMessager
                     }
                 ';
         $result =  request_post('https://api.weixin.qq.com/card/batchget?access_token=' . ACCESS_TOKEN, $data);
-        ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/card/batchget?access_token=', $data ); 
+        //ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/card/batchget?access_token=', $data );
         $resultorderObj = json_decode($result);
         return $aCardID = $resultorderObj->{'card_id_list'};
     }
@@ -42,12 +42,13 @@ class CardMessager
                 }';
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . ACCESS_TOKEN;
         $result = request_post($url, $data);   
-        ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=', $data ); 
-        $messageManager = new MessageManager();
     }
 
     //根据OpenID发送卡券
-    public function sendCardByOpenID( $card_id, $sOpenID )
+    /*
+     *  第三个可选参数可以传入一个文件地址，记录每次发送的结果以及卡券ID、openID和发送时间
+     */
+	public function sendCardByOpenID( $card_id, $sOpenID, $sSendCardNoteUrl="")
     {
         $data = '{
                 "touser":"' . $sOpenID  . '", 
@@ -55,15 +56,20 @@ class CardMessager
                 "wxcard":{ "card_id":"' . $card_id . '" }
                 }';
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . ACCESS_TOKEN;
-        $result = request_post($url, $data);   
-        return $result;
+        $result = request_post($url, $data);
+        $resultObj = json_decode($result);
+        if( !empty($sSendCardNoteUrl) )
+        {	
+			file_put_contents($sSendCardNoteUrl, $result .' '. $card_id .' '. $sOpenID .' '. date("Y-m-d G:i:s") . "\n", FILE_APPEND);
+        }
+        return $resultObj;
     }
 	
-	// 获取用户已领取的卡券
+	// 获取用户已领取的卡券（包括领取后已经使用的）
 	/* 
 	 * 包括正常状态和未生效状态
-	 * 不写第二个参数则是所有的卡券，第二个参数传入某款卡券ID，则只包含改款卡券的列表
-	 * 在指定卡券ID的情况下，返回值得card_list是改款卡券的数组列表，如果为空数组则表示没有改款卡券
+	 * 不写第二个参数则是所有的卡券，第二个参数传入某款卡券ID，则只包含该款卡券的列表
+	 * 在指定卡券ID的情况下，返回值得card_list是该款卡券的数组列表，如果为空数组则表示没有该款卡券
 	 */
 	public function getUserCardList($sOpenID, $sCardID="")
 	{	
@@ -85,6 +91,8 @@ class CardMessager
 		$result = request_post($url, $data);
 		return json_decode($result);
 	}
+	
+	// 
 
     //修改卡券数量
     // 如果要增加，则第二个参数写增加的个数，第三个参数不写或写0；如果要减少，则第二个参数写0，第三个写减少的个数
@@ -103,9 +111,10 @@ class CardMessager
                     }';
         $url = 'https://api.weixin.qq.com/card/modifystock?access_token=' . ACCESS_TOKEN;
         $result =  request_post($url, $data) ;
-        ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/card/modifystock?access_token=', $data ); 
+        //ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/card/modifystock?access_token=', $data );
         return $result;
     }
+	
 }
 
 ?>

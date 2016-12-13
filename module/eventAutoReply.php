@@ -136,21 +136,22 @@ switch( EVENT_TYPE )
         include('class/CardMessager.class.php');
         $cardMessager = new CardMessager();
 		$productName = $orderManager->getOrderProductName($orderDetail);
+
 		switch($productName)
 		{
-			case "【雪域圣诞】圣诞一起来尝鲜 原价49元 微信订购立减10元":
+			case "【有罐芒果】52赫兹的罐子 双十二特惠":
 			{
-				$cardMessager->sendCard( "pkV_gju1LzZYrUiYN5uczwJd9Mjo" );
+				$result = $cardMessager->sendCardByOpenID( "pkV_gjpK3MF0VEoKkXANEibvzuRI", USERID, 'manage/sendCardResult.txt' );
 				break;
 			}
-			case "【圣诞欢乐颂】圣诞一起来尝鲜 原价49元 微信订购立减10元":
+			case "【有罐草莓】52赫兹的罐子 双十二特惠":
 			{
-				$cardMessager->sendCard( "pkV_gjvp7GRymlDxhRoTjzYiJepk" );
+				$result = $cardMessager->sendCardByOpenID( "pkV_gji0wWGr39lIeLXKkrsgauK0", USERID, 'manage/sendCardResult.txt' );
 				break;
 			}
-			case "【圣诞黑魔法】圣诞一起来尝鲜 原价49元 微信订购立减10元":
+			case "【有罐提拉米苏】52赫兹的罐子 双十二特惠":
 			{
-				$cardMessager->sendCard( "pkV_gjijkV9i-a6c5d_fu2lUTs58" );
+				$result = $cardMessager->sendCardByOpenID( "pkV_gjkWQsJlozZTQzf7-Ct2gYzw", USERID, 'manage/sendCardResult.txt' );
 				break;
 			}
 		} 
@@ -170,7 +171,6 @@ switch( EVENT_TYPE )
 		$mail_subject = '红房子微信小店新订单提醒';//邮件标题
 		$mail_message = '红房子微信小店新订单提醒';//邮件内容
 		sendmail($mail_to, $mail_subject, $mail_message);
-		
 
         break;	
     }
