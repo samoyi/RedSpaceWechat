@@ -97,10 +97,6 @@ function usersWithoutCard()
 	return ungottenCards($aOrderRows);	
 }
 
-$aOpenIDwithoutCupCard = array(
-    'pkV_gjkWQsJlozZTQzf7-Ct2gYzw===okV_gjumFarauRbI4B69sKX57N6g'
-); 
-
 $aOpenIDwithoutXmasCard = array(
     'pkV_gju1LzZYrUiYN5uczwJd9Mjo===okV_gjr2ZNRC5hTXt1kmYL5sRx18',
     'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjld-bVDyUsjgCUoDYpjKVbQ',
