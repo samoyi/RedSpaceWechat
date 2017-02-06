@@ -1,4 +1,4 @@
-<pre><?php
+﻿<pre><?php
 
 /*
  * 微信后台将消息、事件等推送到该文件
@@ -96,43 +96,14 @@ function usersWithoutCard()
 	$aOrderRows = getlCupCakeOrderRows();
 	return ungottenCards($aOrderRows);	
 }
-
+  
 $aOpenIDwithoutXmasCard = array(
     'pkV_gju1LzZYrUiYN5uczwJd9Mjo===okV_gjr2ZNRC5hTXt1kmYL5sRx18',
-    'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjld-bVDyUsjgCUoDYpjKVbQ',
-    'pkV_gjijkV9i-a6c5d_fu2lUTs58===okV_gjqOTQI_BqUJOXv2l1A1cn-o',
-    'pkV_gjijkV9i-a6c5d_fu2lUTs58===okV_gjp8Lws_M---6X97Ny1EML-4',
-    'pkV_gju1LzZYrUiYN5uczwJd9Mjo===okV_gju6CLWHus3PwXp6iLseFhgI',
-    'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjp8mrLTQupcpwOIw7dhKN2o',
-    'pkV_gjijkV9i-a6c5d_fu2lUTs58===okV_gjr1jU-lkwPM_Lyx5APnz1h4',
-    'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjjrmyMu0Wnvjz36_7Pa818s',
-    'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjreLpKo_TNBr3BeoZfBw0rM',
     'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjrcXMTCCQ7HVK6G2gaYnxjc',
-    'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjnyPltrArOHbONWICtpGQ18',
     'pkV_gju1LzZYrUiYN5uczwJd9Mjo===okV_gjpJAnEA6PkPV4UepAzGPKwo',
-    'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjnvCNGqxb8QPSorb5phaHwg',
     'pkV_gjijkV9i-a6c5d_fu2lUTs58===okV_gjuyaN4OtSIIpBjPJHqr9jq8',
-    'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjqX6mGuwMeswJonZHH7XLa4',
-    'pkV_gjijkV9i-a6c5d_fu2lUTs58===okV_gjtrnqTeZKb5W4dQ1bp_enYU',
-    'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjqL5JIYaRZTzZOzVIjaZiyw',
-    'pkV_gju1LzZYrUiYN5uczwJd9Mjo===okV_gjkYJqdWwgCeC_ZNfyIvlgqU',
-    'pkV_gju1LzZYrUiYN5uczwJd9Mjo===okV_gjruI4d2isNWUcLLANWHb2Ps',
-    'pkV_gjijkV9i-a6c5d_fu2lUTs58===okV_gjgc641C89KrGEiASfirtBM4',
     'pkV_gju1LzZYrUiYN5uczwJd9Mjo===okV_gjmebMSuktEEu8MgihTDIr-M',
-    'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjtGLh51FqbE0Odq8m29Y23U',
-    'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjgsUTKFgdYTWcLbDzpa90XM',
-    'pkV_gjijkV9i-a6c5d_fu2lUTs58===okV_gjhobOxmR-frMgGPYwPvadEo',
-    'pkV_gjijkV9i-a6c5d_fu2lUTs58===okV_gjpZQSGshPlugoQvsb-reQM0',
-    'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjkJWyfg2GN1HSKeF_OVbFz8',
-    'pkV_gju1LzZYrUiYN5uczwJd9Mjo===okV_gjtewSnLJhqOsv15vBxQuhI8',
-    'pkV_gjijkV9i-a6c5d_fu2lUTs58===okV_gjuEjoIabc8eQ86b6MZbQ1QY',
-    'pkV_gjijkV9i-a6c5d_fu2lUTs58===okV_gjjAH16ccODQta0cNbasJZHc',
-    'pkV_gju1LzZYrUiYN5uczwJd9Mjo===okV_gjqnNOTzejVk8Zdffvp0HJXg',
-    'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjv5xRU1AC2mu5kXUNIE0p2Q',
-    'pkV_gju1LzZYrUiYN5uczwJd9Mjo===okV_gjpUHk2WvdRE5PRnmIRc-ccs',
-    'pkV_gjijkV9i-a6c5d_fu2lUTs58===okV_gjoN-cB9ACI8_yF8A_YC0eaA',
     'pkV_gjijkV9i-a6c5d_fu2lUTs58===okV_gjphBQm7tMzL24Izv6Xlzlng',
-    'pkV_gju1LzZYrUiYN5uczwJd9Mjo===okV_gjjizLGMX8UrkzExwqUClaj4',
     'pkV_gjvp7GRymlDxhRoTjzYiJepk===okV_gjsBVjCf-qkswJ-oaFrYWGYE'
 );
 

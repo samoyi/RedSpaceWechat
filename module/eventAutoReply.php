@@ -2,7 +2,7 @@
 
 
 /* 以下为数据区域 */
-define(MESSAGE_fOR_GET_CARD_EVENT, '亲亲，领到优惠券请在“微信-我-卡包-我的票券”中查看和使用。');
+define(MESSAGE_fOR_GET_CARD_EVENT, '亲亲，领到优惠券请在“微信-我-卡包-朋友的票券”中查看和使用。');
 
 /* 以下为逻辑区域 */
 switch( EVENT_TYPE )
@@ -113,7 +113,7 @@ switch( EVENT_TYPE )
             }
             case 'customMenuKey12' :
             {
-                define("CONTENT", 'Hi，直接在公众号对话框输入问题，召唤人工客服（在线时间9:00-18:00)为您解答。也可直接拨打400-0376-558咨询。');
+                define("CONTENT", 'Hi，直接在公众号对话框输入问题，召唤人工客服（在线时间9:00-17:00)为您解答。也可直接拨打400-0376-558咨询。');
                 $messageManager->responseMsg( 'text' );
                 break; 
             }
@@ -131,47 +131,20 @@ switch( EVENT_TYPE )
         $orderManager = new OrderManager();
         $orderDetail = $orderManager->getOrderDetail(ORDERID);
         $messageManager->sendTemplateMessage($orderDetail, '', ''); // 购买成功消息
-			
-        // 发卡券
-        include('class/CardMessager.class.php');
-        $cardMessager = new CardMessager();
-		$productName = $orderManager->getOrderProductName($orderDetail);
-
-		switch($productName)
-		{
-			case "【有罐芒果】52赫兹的罐子 双十二特惠":
-			{
-				$result = $cardMessager->sendCardByOpenID( "pkV_gjpK3MF0VEoKkXANEibvzuRI", USERID, 'manage/sendCardResult.txt' );
-				break;
-			}
-			case "【有罐草莓】52赫兹的罐子 双十二特惠":
-			{
-				$result = $cardMessager->sendCardByOpenID( "pkV_gji0wWGr39lIeLXKkrsgauK0", USERID, 'manage/sendCardResult.txt' );
-				break;
-			}
-			case "【有罐提拉米苏】52赫兹的罐子 双十二特惠":
-			{
-				$result = $cardMessager->sendCardByOpenID( "pkV_gjkWQsJlozZTQzf7-Ct2gYzw", USERID, 'manage/sendCardResult.txt' );
-				break;
-			}
-		} 
-		
-		// 更新数据库中用户订单中的用户信息
-		/* include('class/UserManager.class.php');
-		$UserManager = new UserManager(); 
-		$UserManager->noteUseOrderInfo($orderDetail);*/
-		// TODO 如果上一行这里操作数据库，那下面的操作数据库就会失败
 
 		// 记录订单信息
 		$orderManager->noteOrderInfo($orderDetail); 
 		
 		// 邮件提醒
-		require "plugin/sendmail.php";
-		$mail_to = '601610407@qq.com';//接收人邮箱
-		$mail_subject = '红房子微信小店新订单提醒';//邮件标题
-		$mail_message = '红房子微信小店新订单提醒';//邮件内容
-		sendmail($mail_to, $mail_subject, $mail_message);
-
+		$sendOrdermail_orderDetail = $orderDetail;
+		require "manage/sendOrderMail.php";
+		/*
+		 * TODO
+		 * 本来想把 manage/sendOrderMail.php 中的代码封装为一个函数，并把 $orderDetail 作为参数传入，
+		 * 但是这样做导致无法发送邮件
+		 */
+		
+		
         break;	
     }
     default :
