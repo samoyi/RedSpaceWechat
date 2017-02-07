@@ -32,16 +32,10 @@
 				<td>订单号</td><td>' .$sOrderID. '</td>
 			</tr>
 			<tr>
-				<td>商品ID</td><td>' .$sProductID. '</td>
-			</tr>
-			<tr>
 				<td>商品名称</td><td>' .$sProductName. '</td>
 			</tr>
 			<tr>
 				<td>商品属性</td><td>' .str_replace(';', "<br />", $sProductSku). '</td>
-			</tr>
-			<tr>
-				<td>商品价格</td><td>' .($nProductPrice/100). ' 元</td>
 			</tr>
 			<tr>
 				<td>购买数量</td><td>' .$nProductCount. '</td>
@@ -61,10 +55,16 @@
 			<tr>
 				<td>收货人电话</td><td>' .$sReceiverTel. '</td>
 			</tr>
+			<tr>
+				<td>商品价格</td><td>' .($nProductPrice/100). ' 元</td>
+			</tr>
+			<tr>
+				<td>商品ID</td><td>' .$sProductID. '</td>
+			</tr>
 		</table>';
 		return $sContentTable;
 	}
-	
+
 	$mail_message = generateMailContentTable($sendOrdermail_orderDetail);
 
 	foreach($receivers as $value)
