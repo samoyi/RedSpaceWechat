@@ -10,7 +10,7 @@
                          "sub_button":[
                           {
                              "type":"click",
-                             "name":"购物指南",
+                             "name":"配送范围",
                              "key":"customMenuKey10"
                           },
                           {  
@@ -30,17 +30,8 @@
                           }]
                      },
                      {  
-                          "name":"DIY & 招聘",
-                          "sub_button":[
-                          {
-                              "type":"view",
-                              "name":"蛋糕DIY预约",
-                              "url":"http://red-space.cn/diy-mobile2016/index.php"
-                          },
-                          {
-                              "type":"view",
-                              "name":"人才招募",
-                              "url":"http://red-space.cn/recruitment/index.php"
-                          }]
+                        "type":"view",
+                        "name":"中奖名单",
+                        "url":"http://mp.weixin.qq.com/s/0ZqtBp4TucwCOlrqSEDrUw"
                     }]
                }
