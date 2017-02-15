@@ -113,7 +113,10 @@ switch( EVENT_TYPE )
             }
             case 'customMenuKey12' :
             {
-                define("CONTENT", 'Hi，直接在公众号对话框输入问题，召唤人工客服（在线时间9:00-17:00)为您解答。也可直接拨打400-0376-558咨询。');
+                define("CONTENT", 'Hi，直接在公众号对话框输入问题，召唤人工客服（在线时间9:00-17:00)为您解答。也可直接拨打400-0376-558咨询。' . "\n\n"
+				. '常见问题请点击蓝色文字直接查看' . "\n\n"
+				. '<a href="https://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503273325&idx=1&sn=9bf41fd1f8304c3bebf12ecdaa0194ec&chksm=3ed45f9309a3d68541e737f62f0320f06d27ac296eeaaeb617cb3c848a9b2dd43d334f54b00b&mpshare=1&scene=1&srcid=0213lxDHDc7Ujxd3nTjBByO3&pass_ticket=4ah1rIIN04hA7C9W0LPGoxwXgMG9bVTJXZ5S3nXg2pBSa1rhTadiTt2b6UWNmWoK#rd">1、配送范围</a>' . "\n\n"
+				. '<a href="http://red-space.cn/list/index.php">2、门店电话</a>');
                 $messageManager->responseMsg( 'text' );
                 break; 
             }
