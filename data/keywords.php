@@ -94,7 +94,28 @@
 	
 	function noKeyWordMatch($messageManager)
 	{	
-		if( date('G')>(OFF_DUTY_TIME-1) || date('G')<ON_DUTY_TIME)//客服下班时间，自动回复客服已下班
+		$luckyCode = trim(CONTENT_FROM_USER);
+		if( is_numeric($luckyCode) && is_int((int)$luckyCode) && strlen($luckyCode)>17 )
+		{	
+			require "class/MySQLiController.class.php";
+			$MySQLiController = new MySQLiController( $dbr );
+			$where = 'code="' .$luckyCode. '"';
+			$result = $MySQLiController->getRow('lijunshouzuo', $where);
+			file_put_contents("err.txt", json_encode($result) );
+			$rows = $result->fetch_array();
+			
+			if( $rows && $rows["openid"]===USERID )
+			{
+				require "class/CardMessager.class.php";
+				$CardMessager = new CardMessager;
+				$CardMessager->sendCardByOpenID( 'pkV_gjlHClGvWRGMyx3a7ICit_IE', USERID);
+				
+			}
+			$messageManager->responseMsg( 'null' );
+			$dbr->close();
+			
+		}
+		elseif( date('G')>(OFF_DUTY_TIME-1) || date('G')<ON_DUTY_TIME)//客服下班时间，自动回复客服已下班
 		{	
 			include('manage/manager.php');
 			$manager = new Manager();
