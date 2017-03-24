@@ -108,7 +108,7 @@
 			{
 				require "class/CardMessager.class.php";
 				$CardMessager = new CardMessager;
-				$CardMessager->sendCardByOpenID( 'pkV_gjlHClGvWRGMyx3a7ICit_IE', USERID);
+				$CardMessager->sendCardByOpenID( 'pkV_gjtENaCZaQYgYo4T0-e0k_yw', USERID);
 				
 			}
 			$messageManager->responseMsg( 'null' );
