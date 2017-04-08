@@ -1,4 +1,4 @@
-﻿<pre><?php
+<?php
 
 
 include('../configuration.php'); // 公众号配置文件
@@ -25,7 +25,32 @@ if( $_GET["act"] === 'sendCard' && !empty($_GET['openid']) && !empty($_GET['card
 	$result = $CardMessager->sendCardByOpenID($_GET['cardid'], $_GET['openid']);
 	echo json_encode($result );
 }
-file_put_contents(PROJECT_ROOT."api/apiMointor.txt", date('Y-m-d H:i')."\n", FILE_APPEND);
 
 
-?></pre>
+if( $_GET["act"] === 'product_group' )
+{
+	require "../class/ProductManager.class.php";
+	$ProductManager = new ProductManager();
+	$result = $ProductManager->getProductGroupArray();
+	echo json_encode( $result );
+}
+
+if( $_GET["act"] === 'product_group_info' &&  $_GET['product_group_id'] )
+{
+	require "../class/ProductManager.class.php";
+	$ProductManager = new ProductManager();
+	$result = $ProductManager->getGroupInfo( $_GET['product_group_id'] );
+	echo json_encode( $result );
+}
+
+
+if( $_GET["act"] === 'historical_order' &&  $_GET['open_id'] )
+{
+	require "../class/ProductManager.class.php";
+	$ProductManager = new ProductManager();
+	$result = $ProductManager->historicalOrder(  $_GET['open_id'] );
+	echo json_encode( $result );
+}
+
+
+?>

@@ -234,6 +234,10 @@ class MessageManager
     } 
 
     // 发送客服消息
+	/*
+	 *	默认第二个参数为true，即发送完客服消息后再进行空回复，结束会话
+	 *	如果之后还要发送其他消息，这个参数应该设为false
+	 */
     public function sendCSMessage( $content, $bSendNull=true )
     {   
         $json = '{

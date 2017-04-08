@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 class ProductManager
 {
@@ -89,18 +89,34 @@ class ProductManager
     }
 
     // 获取商品分组
-    protected function getProductGroupArray()
+    public function getProductGroupArray()
     {
         $url = 'https://api.weixin.qq.com/merchant/group/getall?access_token=' . ACCESS_TOKEN;
         return json_decode(httpGet( $url ))->groups_detail;
     }
 
+	// 根据分组ID获取分组信息
+	public function getGroupInfo($nGroupID)
+    {
+        $url = 'https://api.weixin.qq.com/merchant/group/getbyid?access_token=' . ACCESS_TOKEN;
+		$data = '{
+                    "group_id": ' . $nGroupID . '
+                }';
+        $result = request_post($url, $data);
+		file_put_contents("err.txt", $result);
+        return json_decode( $result )->group_detail;
+    }
+	
+	
+	
     // 获取货架
     protected function getShelfArray()
     {
         $url = 'https://api.weixin.qq.com/merchant/shelf/getall?access_token=' . ACCESS_TOKEN;
         return json_decode(httpGet( $url ))->shelves;
     }
+	
+	
 
 
     // 获取指定状态的所有商品的 product_id 及对应 name 组成的数组
@@ -318,6 +334,30 @@ class ProductManager
         $result = request_post($url, $data);
         return $result = ifRefreshAccessTokenAndRePost($result, $urlWithoutAccessToken, $data);
     }
+	
+	
+	
+	
+	// 订单管理 ——————————————————————————————————————————————————————————————————————————————————
+	public function historicalOrder( $openID )
+	{
+		$url = 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=' . ACCESS_TOKEN;
+		$return = request_post($url, '{}');
+		$orderObj = json_decode($return);
+		$orderArr = $orderObj->order_list;
+
+		$userOrderList = array();
+		
+		foreach( $orderArr as $order)
+		{
+			if( $openID === $order->buyer_openid )
+			{
+				$userOrderList[] =  $order;
+			}
+		}
+		
+		return $userOrderList;
+	}
 }
 
 

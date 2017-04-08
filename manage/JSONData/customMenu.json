@@ -30,17 +30,8 @@
                           }]
                      },
                      {  
-                          "name":"DIY & 招聘",
-                          "sub_button":[
-                          {
-                              "type":"view",
-                              "name":"蛋糕DIY预约",
-                              "url":"http://red-space.cn/diy-mobile2016/index.php"
-                          },
-                          {
-                              "type":"view",
-                              "name":"人才招募",
-                              "url":"http://red-space.cn/recruitment/index.php"
-                          }]
+                        "type":"view",
+                        "name":"代言人",
+                        "url":"https://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650757173&idx=1&sn=a057adcd87f95e70ec9f4636c35f1916&chksm=bed450cb89a3d9ddbcb731b9501e80f7cc49b4cebed283aa8ea1aad09815ae8fa99c9fa4b906#rd"
                     }]
                }
