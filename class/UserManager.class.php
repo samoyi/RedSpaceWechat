@@ -21,6 +21,19 @@ class UserManager
         }
     }
 
+	// 获取临时二维码ticket
+	protected function getTempQRCodeTicket($nExpireSeconds, $nSceneID )
+	{
+		$url = 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=' . ACCESS_TOKEN;
+		$data = '{
+			"expire_seconds": ' .$nExpireSeconds. ', 
+			"action_name": "QR_SCENE", 
+			"action_info": {
+								"scene": {"scene_id": ' .$nSceneID. '}
+							}
+		}';
+		return json_decode(request_post($url, $data))->ticket;
+	}
 
 
     // 获取关注者的openID数组，每次最多获得一万条
@@ -228,6 +241,13 @@ class UserManager
         
         return $aOpenIDArray;
     }
+	
+	
+	public function getTempQRCodeURL($nExpireSeconds, $nSceneID)
+	{
+		$ticket = $this->getTempQRCodeTicket($nExpireSeconds, $nSceneID);
+		return 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=' . $ticket ;
+	}
 
 }
 

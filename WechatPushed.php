@@ -25,6 +25,8 @@ define("HOSTID", $userMessage['hostID']); // 公众号id
 define("CONTENT_FROM_USER", $userMessage['userSentMessageContent']); // 用户发送的内容
 define("MESSAGE_TYPE", $userMessage['userSentMessageType']); // 用户发送的消息类型 MsgType
 define("EVENT_TYPE", $postedEvent['eventType']); // 推送的事件类型 Event
+define("EVENT_KEY", $postedEvent['eventKey']); // 事件KEY
 define("ORDERID", $postedEvent['orderID']); // 订单事件推送时的订单ID
+
 
 ?>

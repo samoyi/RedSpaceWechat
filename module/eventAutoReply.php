@@ -162,6 +162,13 @@ switch( EVENT_TYPE )
 		
         break;	
     }
+	case 'SCAN':
+	{
+		
+		define("CONTENT", EVENT_KEY);
+		$messageManager->responseMsg( 'text' );
+		break;	
+	}
     default :
     {
         $messageManager->responseMsg( 'null' );

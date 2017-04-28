@@ -40,6 +40,13 @@
 			file_put_contents('manage/autoReplyState.json', json_encode($JSONObj) );
 			break;
 		}
+		case '测试':
+		{	
+			include('class/UserManager.class.php');
+			$UserManager = new UserManager;
+			file_put_contents("QRCode.txt", $UserManager->getTempQRCodeURL(3000, 2233 ) ); 
+			break;
+		}
 		case '提货券':
 		{
 			require "plugin/sendKeywordsGetPromotionalCard.php";
