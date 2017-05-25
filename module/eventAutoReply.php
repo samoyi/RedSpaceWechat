@@ -16,18 +16,7 @@ switch( EVENT_TYPE )
         {
             $content .= $value;
         }
-        $messageManager->sendCSMessage($content, false);
-		 
-		$info = array(
-			"title" => "你最爱的红房子，由你代言",
-			"des" => "分享你和红房子的小故事，成为红房子代言人\n\n一等奖（1名）： 1000元VIP卡1张 + 红房子22周年庆代言人\n\n二等奖（3名）： 500元VIP卡1张 + 红房子22周年庆代言人\n\n三等奖（6名）： 300元VIP卡1张 + 红房子22周年庆代言人\n\n红粉奖（100名）： 牛乳蛋糕1个 + 22周年帆布袋1个",
-			"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz_png/fYETicIfkWsV49f0eAKzNkVS5icP7TNMPaywNOj5b1cGSrcT62TNibIKr6icv58hFdRdN2TiaZvIsJypF9OQ4MaJ18g/0?wx_fmt=png",
-			"articleUrl" => "https://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650757173&idx=1&sn=a057adcd87f95e70ec9f4636c35f1916&chksm=bed450cb89a3d9ddbcb731b9501e80f7cc49b4cebed283aa8ea1aad09815ae8fa99c9fa4b906#rd"
-		);
-		$aArticleInfo = array( $info );
-		$messageManager->sendArticalMessage($aArticleInfo); 
-				
-				
+        $messageManager->sendCSMessage($content);		
          break;
     }
     case 'CLICK' :
