@@ -9,20 +9,20 @@ switch( EVENT_TYPE )
 {
     case 'subscribe':
     {
-		
+
         $arr = json_decode( file_get_contents('manage/JSONData/subscribeAutoPlayText.json'));
         $content = '';
         foreach( $arr as $value)
         {
             $content .= $value;
         }
-        $messageManager->sendCSMessage($content);		
+        $messageManager->sendCSMessage($content);
          break;
     }
     case 'CLICK' :
     {
         $fetchedMsgKey = $postedEvent['eventKey'];// 设置自定义菜单时的key值
-        switch($fetchedMsgKey)     
+        switch($fetchedMsgKey)
         {
             case 'customMenuKey10' :
             {
@@ -34,16 +34,16 @@ switch( EVENT_TYPE )
 				);
 				$aArticleInfo = array( $info );
 				$messageManager->sendArticalMessage($aArticleInfo);
-                break; 
+                break;
             }
             case 'customMenuKey11' :
             {
                 //2015-3-1开始
                 $data = '{
-                        "begintime": 1425139200, 
+                        "begintime": 1425139200,
                         "endtime": ' . time() . '
                         }';
-                        
+
                 $url = 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=' . ACCESS_TOKEN;
                 $return = request_post($url, $data);
                 $orderObj = json_decode($return);
@@ -78,7 +78,7 @@ switch( EVENT_TYPE )
                         $productSku = str_replace("$", "\n", $order->product_sku);
                         $productSku = str_replace(";", "", $productSku);
                         $productSku = str_replace(":\n", "：", $productSku);
-                        $des .= "时间：" . date('Y-m-d H:i', $order->order_create_time) . "\n名称：" . $order->product_name . $productSku . "\n总价：" . ($order->order_total_price)/100 . "元\n状态：" . $orderStatus .  "\n收货人：" . $order->receiver_name ." ". $order->receiver_mobile.  "\n收货地址：" .$order->receiver_address . "\n\n"; 	  
+                        $des .= "时间：" . date('Y-m-d H:i', $order->order_create_time) . "\n名称：" . $order->product_name . $productSku . "\n总价：" . ($order->order_total_price)/100 . "元\n状态：" . $orderStatus .  "\n收货人：" . $order->receiver_name ." ". $order->receiver_mobile.  "\n收货地址：" .$order->receiver_address . "\n\n";
                     }
                 }
                 if( empty($des) )
@@ -88,7 +88,7 @@ switch( EVENT_TYPE )
                 else
                 {
                 	$des .= $toomuchOrderCue . "\n";
-                }    
+                }
 
                 include('class/MaterialManager.class.php');
                 $materialManager = new MaterialManager();
@@ -110,7 +110,7 @@ switch( EVENT_TYPE )
 				);
 				$aArticleInfo = array( $info );
 				$messageManager->sendArticalMessage($aArticleInfo);
-                break; 
+                break;
             }
             case 'customMenuKey12' :
             {
@@ -119,7 +119,7 @@ switch( EVENT_TYPE )
 				. '<a href="https://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503273325&idx=1&sn=9bf41fd1f8304c3bebf12ecdaa0194ec&chksm=3ed45f9309a3d68541e737f62f0320f06d27ac296eeaaeb617cb3c848a9b2dd43d334f54b00b&mpshare=1&scene=1&srcid=0213lxDHDc7Ujxd3nTjBByO3&pass_ticket=4ah1rIIN04hA7C9W0LPGoxwXgMG9bVTJXZ5S3nXg2pBSa1rhTadiTt2b6UWNmWoK#rd">1、配送范围</a>' . "\n\n"
 				. '<a href="http://red-space.cn/list/index.php">2、门店电话</a>');
                 $messageManager->responseMsg( 'text' );
-                break; 
+                break;
             }
         }
         break;
@@ -130,15 +130,15 @@ switch( EVENT_TYPE )
         break;
     }
     case 'merchant_order' :
-    {               
+    {
         include('class/OrderManager.class.php');
         $orderManager = new OrderManager();
         $orderDetail = $orderManager->getOrderDetail(ORDERID);
-        $messageManager->sendTemplateMessage($orderDetail, '', ''); // 购买成功消息
+        $messageManager->sendTemplateMessage($orderDetail, USERID, '', ''); // 购买成功消息
 
 		// 记录订单信息
-		$orderManager->noteOrderInfo($orderDetail); 
-		
+		$orderManager->noteOrderInfo($orderDetail);
+
 		// 邮件提醒
 		$sendOrdermail_orderDetail = $orderDetail;
 		require "manage/sendOrderMail.php";
@@ -147,16 +147,16 @@ switch( EVENT_TYPE )
 		 * 本来想把 manage/sendOrderMail.php 中的代码封装为一个函数，并把 $orderDetail 作为参数传入，
 		 * 但是这样做导致无法发送邮件
 		 */
-		
-		
-        break;	
+
+
+        break;
     }
 	case 'SCAN':
 	{
-		
+
 		define("CONTENT", EVENT_KEY);
 		$messageManager->responseMsg( 'text' );
-		break;	
+		break;
 	}
     default :
     {
