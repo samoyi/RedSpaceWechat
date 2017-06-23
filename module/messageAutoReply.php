@@ -9,7 +9,11 @@
 /* 以下为数据区域 */
 	define(ON_DUTY_TIME, 9);
 	define(OFF_DUTY_TIME, 17); 
+	
 	define(OFF_DUTY_AUTOREPLY, file_get_contents("manage/offDutyAutoreplyText.json")); 
+	//define(OFF_DUTY_AUTOREPLY, "您的留言已被标记，客服将在上午九点后回复您。\n\n红房子门店营业时间7:00~22:00\n微信小店24小时自助下单，当天17：00之后的订单在第二天10：00之后可提货\n投诉电话：18637627906"); 
+	
+
 // TODO 这里常量定义如果放在keywords文件中，非关键字消息会自动回复 'OFF_DUTY_AUTOREPLY'
 
 

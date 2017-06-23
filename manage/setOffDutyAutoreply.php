@@ -4,5 +4,4 @@
 		file_put_contents('offDutyAutoreplyText.json', $_POST["off_duty_auto_reply_text"]);
 	}
 	
-
 ?>

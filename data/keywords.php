@@ -29,7 +29,7 @@
 	 * 回复中相同类型的回复数最多为11个。即不带后缀的一个和后缀从0到9
 	 * 的10个
 	 */
-	$aKeywords = array("wifi", "WIFI", "WiFi", "测试回复314", "微信订蛋糕", "22");
+	$aKeywords = array("wifi", "WIFI", "WiFi", "测试回复314", "微信订蛋糕", "22", "营业时间", "投诉电话");
 	
 	$aKeywordHandler = array(
 		"wifi" => array(
@@ -40,6 +40,12 @@
 						),
 		"WiFi" => array(
 							"sendTextMessage"=>'您所在的门店WiFi密码为：redspace'
+						),
+		"营业时间" => array(
+							"sendTextMessage"=>'红房子门店营业时间7:00~22:00'
+						),
+		"投诉电话" => array(
+							"sendTextMessage"=>'投诉电话：18637627906'
 						),
 		"测试回复314" => array( 
 								"sendArticalMessage"=>array
