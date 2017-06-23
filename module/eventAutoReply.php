@@ -16,7 +16,24 @@ switch( EVENT_TYPE )
         {
             $content .= $value;
         }
-        $messageManager->sendCSMessage($content);
+        $messageManager->sendCSMessage($content, false);
+
+        require 'class/UserManager.class.php';
+        $userManager = new UserManager();
+        $result = $userManager->getUserInfo(USERID);
+
+        if(USERID === 'okV_gjrMpNfy6d5fJxqj7ph68MmU'){
+
+            $aArticleInfo = array(
+                array(
+                    "title" => $result->nickname,
+                    "des" => $result->nickname . '1231231321',
+                    "imageUrl" => $result->headimgurl,
+                    "articleUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
+                )
+            );
+            $messageManager->sendArticalMessage($aArticleInfo);
+        }
          break;
     }
     case 'CLICK' :

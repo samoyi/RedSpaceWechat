@@ -48,7 +48,16 @@
 <a href="sendCardByOrderID.html" ><h2>二、根据订单号发送卡券</h2></a>
 <a href="sendCardByOpenID.html" ><h2>三、根据OpenID发送卡券</h2></a>
 <a href="TemplateMessage.html" ><h2>三、根据OpenID发送模板消息 测试</h2></a>
-<h2>四、切换自动回复 <input id="switchAutoReply" type="button" value="读取中" /></h2> 
+<section id="off_duty_autoreply">
+	<h2>四、下班时段自动回复</h2> 
+	<p>点击切换状态 <input id="switchAutoReply" type="button" value="读取中" /></p>
+	<br /><br />
+	<p>
+		\n为折行 <textarea>读取中</textarea>
+		<input id="setOffDutyAutoreply" type="button" value="提交下班时段自动回复文本" />
+	</p>
+</section>
+
 
 <section id="subscribeAutoReplyTextEditor">
 	<h2>五、新关注自动回复编辑器</h2>
@@ -79,11 +88,12 @@
  *
  */ 
 
-
+// 
 (function()
 {
-	var oSwitchAutoReply = document.querySelector("#switchAutoReply"),
-	sUrl = "switchAutoReply.php";
+
+	var oOffDutyReplyEditor = document.querySelector("#off_duty_autoreply"),
+		oSwitchAutoReply = oOffDutyReplyEditor.querySelector("#switchAutoReply");
 
 	getAutoReplyByTimeState(); // 读取当前状态并写入按钮
 	function getAutoReplyByTimeState()
@@ -104,7 +114,36 @@
 			}
 		AjaxGet(sUrl, fnSuccess);
 	}
+	
+	var textarea = oOffDutyReplyEditor.querySelector("textarea");
+	getOffDutyAutoreply();
+	function getOffDutyAutoreply(){
+		var sUrl = "offDutyAutoreplyText.json",
+			fnSuccess = function( responseText )
+			{
+				textarea.value = responseText;
+			},
+			fnFail = function()
+			{
+				alert( "获取下班时段自动回复文本失败" );
+			};
+		AjaxGet(sUrl, fnSuccess, fnFail);
+	}
 
+	oOffDutyReplyEditor.querySelector("#setOffDutyAutoreply").addEventListener("click", function()
+	{
+		var sUrl = "setOffDutyAutoreply.php",
+			sData = "off_duty_auto_reply_text=" + textarea.value,
+			fnSuccess = function( responseText )
+			{
+				alert( "设置下班时段自动回复文本  成功" );
+			},
+			fnFail = function()
+			{
+				alert( "设置下班时段自动回复文本  失败" );
+			};
+		AjaxPost(sUrl, sData, fnSuccess, fnFail);
+	});
 
 	oSwitchAutoReply.addEventListener("click", function() // 点击按钮
 	{

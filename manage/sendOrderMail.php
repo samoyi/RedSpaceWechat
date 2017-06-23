@@ -2,7 +2,8 @@
 
 	$receivers = array( // 接收人邮箱
 		'funcaservice@163.com',
-		'601610407@qq.com'
+		'601610407@qq.com',
+		'276739812@qq.com'
 	);
 	$mail_subject = '红房子微信小店新订单提醒';// 邮件标题	
 	
