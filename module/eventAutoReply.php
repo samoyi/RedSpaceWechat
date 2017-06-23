@@ -148,6 +148,13 @@ switch( EVENT_TYPE )
 		 * 但是这样做导致无法发送邮件
 		 */
 
+		// // 邮件提醒
+		// require "plugin/sendmail.php";
+		// $mail_to = '601610407@qq.com';//接收人邮箱
+		// $mail_subject = '红房子微信小店新订单提醒';//邮件标题
+		// $mail_message = '红房子微信小店新订单提醒';//邮件内容
+		// sendmail($mail_to, $mail_subject, $mail_message);
+
 
         break;
     }
