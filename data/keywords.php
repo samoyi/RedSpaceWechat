@@ -1,6 +1,6 @@
 <?php
-	
-	
+
+
 	/*
 	 * 如果检测到消息类型是文字，则加载该文件
 	 *
@@ -11,12 +11,12 @@
 	 *
 	 * 发送图文消息是时的数组中必须按照 title des imageUrl articleUrl 的顺序
 	 */
-	
-	
 
 
-	// 以下为关键词区域 
-	/* 
+
+
+	// 以下为关键词区域
+	/*
 	 * $aKeywords是关键词列表，$aKeywordHandler是真正的关键词处理方法
 	 * 只有出现在$aKeywords中的关键词才会进行处理。也就是说可以将暂时
 	 * 不进行处理但以后还会处理的关键词在$aKeywordHandler中保留，但在
@@ -30,7 +30,7 @@
 	 * 的10个
 	 */
 	$aKeywords = array("wifi", "WIFI", "WiFi", "测试回复314", "微信订蛋糕", "22", "营业时间", "投诉电话", "投诉");
-	
+
 	$aKeywordHandler = array(
 		"wifi" => array(
 							"sendTextMessage"=>'您所在的门店wifi密码为：redspace'
@@ -50,7 +50,7 @@
 		"投诉" => array(
 							"sendTextMessage"=>'投诉电话：18637627906'
 						),
-		"测试回复314" => array( 
+		"测试回复314" => array(
 								"sendArticalMessage"=>array
 								(
 									array
@@ -64,17 +64,17 @@
 									(
 										"title" => "红房子微信订蛋糕指南2",
 										"des" => "红房子蛋糕 美味空间新灵感",
-										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",							
+										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
 										"articleUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
 									),
 									array
 									(
 										"title" => "红房子微信订蛋糕指南3",
 										"des" => "红房子蛋糕 美味空间新灵感",
-										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",							
+										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
 										"articleUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
 									)
-								), 
+								),
 								"sendTextMessage"=>'test',
 								"sendArticalMessage1"=>array
 								(
@@ -112,18 +112,18 @@
 								)
 							)
 	);
-	
+
 	function noKeyWordMatch($messageManager)
-	{	
+	{
 		$luckyCode = trim(CONTENT_FROM_USER);
 		if( is_numeric($luckyCode) && is_int((int)$luckyCode) )
-		{	
+		{
 			require "class/MySQLiController.class.php";
 			$MySQLiController = new MySQLiController( $dbr );
 			$where = 'code="' .$luckyCode. '"';
 			$result = $MySQLiController->getRow('50draw_temp', $where);
 			$row = $result->fetch_array();
-			
+
 			if( $row  )
 			{
 				if( $row['used']==='no' || $row['used']===USERID ){
@@ -140,42 +140,39 @@
 			}
 			else{
 				$messageManager->responseMsg( 'null' );
-			}	
-			
+			}
+
 			$dbr->close();
-			
+
 		}
 		elseif( date('G')>(OFF_DUTY_TIME-1) || date('G')<ON_DUTY_TIME)//客服下班时间，自动回复客服已下班
-		{	
+		{
 			include('manage/manager.php');
 			$manager = new Manager();
 			// 查看客服是否开启了下班时间自动回复功能
-			
+
 			$autoReplyByTimeState = $manager->getAutoReplyByTimeState();
-			
+
 			if( 'on' === $autoReplyByTimeState )
 			{
 				define("CONTENT", OFF_DUTY_AUTOREPLY);
-				
+
 				$messageManager->responseMsg( 'text' );
 			}
 			else
-			{	
+			{
 				$messageManager->responseMsg( 'null' );
 			}
 		}
 		else
-		{	
+		{
 			$messageManager->responseMsg( 'null' );
 		}
 	}
-	
+
 	$aCustomKeywords = array(
 					'刷新接口',
 					'切换自动回复314',
-					'测试',
-					'提货券',
-					'罐子蛋糕',
-					'蛋糕罐子'
+					'测试'
 				);
 ?>
