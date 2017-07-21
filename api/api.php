@@ -53,4 +53,28 @@ if( $_GET["act"] === 'historical_order' &&  $_GET['open_id'] )
 }
 
 
+if( $_GET["act"] === 'historical_order' &&  $_GET['open_id'] )
+{
+	require "../class/ProductManager.class.php";
+	$ProductManager = new ProductManager();
+	$result = $ProductManager->historicalOrder(  $_GET['open_id'] );
+	echo json_encode( $result );
+}
+
+if( $_GET["act"] === 'user_card_status' && !empty($_GET['openid']) && !empty($_GET['cardid']) )
+{
+	require "../class/CardMessager.class.php";
+	$CardMessager = new CardMessager();
+	$result = $CardMessager->queryCode($_GET['openid'], $_GET['cardid']);
+	echo json_encode($result );
+}
+
+if( $_POST["act"] === 'consume_card' && !empty($_POST['openid']) && !empty($_POST['cardid']) )
+{
+	require "../class/CardMessager.class.php";
+	$CardMessager = new CardMessager();
+	$result = $CardMessager->consumeCard($_GET['openid'], $_GET['cardid']);
+	echo json_encode($result );
+}
+
 ?>

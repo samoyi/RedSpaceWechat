@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 class CardMessager
 {
@@ -117,7 +117,7 @@ class CardMessager
 
     // 核销相关 ————————————————————————————————————————————————————————————————
 
-    // 返回用户一种卡券的所有具体卡券厄状态组成的数组
+    // 返回用户一种卡券的所有具体卡券状态组成的数组
     // 对用官网文档中的查询code接口
     public function queryCode( $sOpenID, $card_id )
     {
