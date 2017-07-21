@@ -29,7 +29,7 @@
 	 * 回复中相同类型的回复数最多为11个。即不带后缀的一个和后缀从0到9
 	 * 的10个
 	 */
-	$aKeywords = array("wifi", "WIFI", "WiFi", "测试回复314", "微信订蛋糕", "22", "营业时间", "投诉电话", "投诉");
+	$aKeywords = array("wifi", "WIFI", "WiFi", "测试回复314", "微信订蛋糕", "22", "营业时间", "投诉电话", "投诉", "少女心");
 
 	$aKeywordHandler = array(
 		"wifi" => array(
@@ -96,6 +96,18 @@
 										"des" => "红房子蛋糕 美味空间新灵感",
 										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
 										"articleUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
+									)
+								)
+							),
+		"少女心" => array(
+								"sendArticalMessage"=>array
+								(
+									array
+									(
+										"title" => "2017-07-18澳洲粉牛蛋糕【中奖名单】查询",
+										"des" => "中奖名单",
+										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz_jpg/fYETicIfkWsUWvTalGvJaqrQica0l7HlXlgBSPchJ4UXFKR10CAbxjn35cnJNkPq3ZeSCeo9qR3Z46wvyKKEmYYA/0?wx_fmt=jpeg",
+										"articleUrl" => "http://mp.weixin.qq.com/s/EXNxQ3GTfNo2dRns4SHlIQ"
 									)
 								)
 							),
