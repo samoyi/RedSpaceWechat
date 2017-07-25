@@ -5,16 +5,16 @@
  */
 
 function refreshAccessToken()//刷新access_token
-{   
+{
     $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' . APPID . '&secret=' . APPSECRET;
-        $jsoninfo = json_decode(httpGet($url), true);
-        
+    $jsoninfo = json_decode(httpGet($url), true);
+
         $new_access_token =  $jsoninfo["access_token"];
 
         $configurationJSON->last_access_token = $new_access_token;
 
         $configurationJSON->last_access_token_time = time();
-        
+
         //file_put_contents('access_token.json', json_encode($configurationJSON) );
         //将本次获得的access_token存入文件，并记录获得时间
         file_put_contents(PROJECT_ROOT . 'access_token.json', json_encode($configurationJSON) );
@@ -22,21 +22,20 @@ function refreshAccessToken()//刷新access_token
 }
 
 function getAccessToken()//获取access_token
-{   
+{
     //$configurationJSON = json_decode( file_get_contents('access_token.json') );
     $configurationJSON = json_decode( file_get_contents(PROJECT_ROOT . 'access_token.json') );
     $last_access_token_time = $configurationJSON->last_access_token_time;//读取上次调用接口取得access_token的时间
     $sLastAccessToken = $configurationJSON->last_access_token;
-	
     if( (time()-$last_access_token_time<3600) && isset($sLastAccessToken)  )//如果没到保质期7200秒，直接返回旧的
     {   /*
-		 * 之前出现过距离7200秒很远就不能用的情况，所以这里改成3600秒	
+		 * 之前出现过距离7200秒很远就不能用的情况，所以这里改成3600秒
 		 * 之所以加第二个判断，是因为出现过一次返回的access token 是 NULL，导致在时间没到之前不会刷新为正确的。
 		 */
         return $sLastAccessToken;
     }
     else//如果马上或已经到了保质期，重新获取，然后记录本次获取的时间和access_token。
-    {   
+    {
         return refreshAccessToken();
     }
 }
@@ -47,11 +46,11 @@ function ifRefreshAccessTokenAndRePost( $result, $urlWithoutACCESS_TOKEN, $data)
 {
     $resultObj = json_decode($result);
     if( 40001 == $resultObj->errcode )// 如果返回值的错误代码是40001，代表AccessToken已失效，
-    {   
+    {
         file_put_contents("monitor.txt", "AccessToken Timeout : " . date('Y-m-d H:i', time()) . "\n", FILE_APPEND);
         $url = $urlWithoutACCESS_TOKEN . refreshAccessToken(); // 刷新AccessToken并重发请求
         return request_post($url, $data); // 返回请求结果
-    } 
+    }
     else
     {
         return $result;
@@ -67,10 +66,10 @@ function httpGet($url)//发送GET请求
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $output = curl_exec($ch);
     curl_close($ch);
-    
+
     $resultObj = json_decode($output);
     if( 40001 == $resultObj->errcode )// 如果返回值的错误代码是40001，代表AccessToken已失效，
-    {   
+    {
         file_put_contents("monitor.txt", "AccessToken Timeout : " . date('Y-m-d H:i', time()) . "\n", FILE_APPEND);
         $urlWithoutACCESS_TOKEN = strtok($url, "access_token=") . "access_token=";
         $url = $urlWithoutACCESS_TOKEN . refreshAccessToken(); // 刷新AccessToken并重发请求
@@ -83,7 +82,7 @@ function httpGet($url)//发送GET请求
         $output = curl_exec($ch);
         curl_close($ch);
         return $output;
-    } 
+    }
     else
     {
         return $output;
@@ -91,10 +90,10 @@ function httpGet($url)//发送GET请求
 }
 function request_post($url, $data)//发送POST请求
 {
-    $curl = curl_init(); 
-    curl_setopt($curl, CURLOPT_URL, $url); 
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); 
-    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); 
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
     curl_setopt($curl, CURLOPT_POST, 1);
     curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
