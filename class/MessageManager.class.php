@@ -390,6 +390,26 @@ class MessageManager
         $result = ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $template );
 		return $result;
     }
+
+    // 发送订阅消息
+    public function sendSubscribeMessage($nScene, $sOpenID, $sTitle, $sMessage, $sFontColor, $sTemplateID, $sRedirectURL=''){
+        $url_post = "https://api.weixin.qq.com/cgi-bin/message/template/subscribe?access_token=" . ACCESS_TOKEN;
+        $data = array(
+                    "touser"=> $sOpenID,
+                    "template_id"=> $sTemplateID,
+                    "url"=> $sRedirectURL,
+                    "scene"=> $nScene,
+                    "title"=> $sTitle,
+                    "data"=> array(
+                        "content"=> array(
+                            "value"=> $sMessage,
+                            "color"=> $sFontColor
+                        )
+                    )
+                );
+        $result = request_post($url_post, json_encode($data));
+        return json_decode($result);
+    }
 }
 
 
