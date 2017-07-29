@@ -49,7 +49,7 @@
 			// $messageManager->responseMsg( 'text' );
 
 			$nScene = 0;
-			$sOpenID = 'okV_gjsL9OkddcC9LKrx4R3SjrYk';
+			$sOpenID = 'o-0vY04FMoh-iVk29K9cqxHmAmjA';
 			$sTitle = '生日提醒';
 			$sMessage = '从数据库里查到你订阅的生日快到了，点击本消息购买蛋糕，有优惠';
 			$sFontColor = '#17919f';
