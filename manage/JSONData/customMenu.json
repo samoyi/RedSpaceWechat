@@ -1,5 +1,10 @@
 {
                    "button":[
+                   {
+                        "type":"view",
+                        "name":"🎂 蛋糕订购",
+                        "url":"http://waimai.meituan.com/restaurant/144725877839863506"
+                    },
                     {
                          "name":"帮助中心",
                          "sub_button":[

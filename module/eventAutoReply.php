@@ -47,7 +47,7 @@ switch( EVENT_TYPE )
 					"title" => "红房子配送范围扩大，直击你的区域！",
 					"des" => "红房子蛋糕 美味空间新灵感",
 					"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
-					"articleUrl" => "https://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503273325&idx=1&sn=9bf41fd1f8304c3bebf12ecdaa0194ec&chksm=3ed45f9309a3d68541e737f62f0320f06d27ac296eeaaeb617cb3c848a9b2dd43d334f54b00b&mpshare=1&scene=1&srcid=0213lxDHDc7Ujxd3nTjBByO3&pass_ticket=4ah1rIIN04hA7C9W0LPGoxwXgMG9bVTJXZ5S3nXg2pBSa1rhTadiTt2b6UWNmWoK#rd"
+					"articleUrl" => "http://mp.weixin.qq.com/s/NoV2O46KoxP0vt_1YCft4g"
 				);
 				$aArticleInfo = array( $info );
 				$messageManager->sendArticalMessage($aArticleInfo);
