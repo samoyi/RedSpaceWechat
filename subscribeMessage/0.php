@@ -1,3 +1,7 @@
+<?php
+    file_put_contents('zywid.txt', $_GET['openid']);
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
