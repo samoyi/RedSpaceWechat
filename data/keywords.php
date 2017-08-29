@@ -9,7 +9,7 @@
 	 * 三个一组的关键词。在关键词接收逻辑处，会先看输入的关键词是否在这一组关键词里面，如果没有，才进入该文件继续搜索是否有
 	 * 对应关键词。因此也可以使用同名自定义关键词来覆盖基础关键词
 	 *
-	 * 发送图文消息是时的数组中必须按照 title des imageUrl articleUrl 的顺序
+	 * 发送图文消息时的数组中必须按照 title des imageUrl articleUrl 的顺序
 	 */
 
 
@@ -29,7 +29,7 @@
 	 * 回复中相同类型的回复数最多为11个。即不带后缀的一个和后缀从0到9
 	 * 的10个
 	 */
-	$aKeywords = array("wifi", "WIFI", "WiFi", "测试回复314", "微信订蛋糕", "22", "营业时间", "投诉电话", "投诉", "少女心");
+	$aKeywords = array("wifi", "WIFI", "WiFi", "测试回复314", "微信订蛋糕", "营业时间", "投诉电话", "投诉");
 
 	$aKeywordHandler = array(
 		"wifi" => array(
@@ -98,89 +98,67 @@
 										"articleUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
 									)
 								)
-							),
-		"少女心" => array(
-								"sendArticalMessage"=>array
-								(
-									array
-									(
-										"title" => "2017-07-18澳洲粉牛蛋糕【中奖名单】查询",
-										"des" => "中奖名单",
-										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz_jpg/fYETicIfkWsUWvTalGvJaqrQica0l7HlXlgBSPchJ4UXFKR10CAbxjn35cnJNkPq3ZeSCeo9qR3Z46wvyKKEmYYA/0?wx_fmt=jpeg",
-										"articleUrl" => "http://mp.weixin.qq.com/s/EXNxQ3GTfNo2dRns4SHlIQ"
-									)
-								)
-							),
-		"22" => array(
-								"sendArticalMessage"=>array
-								(
-									array
-									(
-										"title" => "你最爱的红房子，由你代言",
-										"des" => "分享你和红房子的小故事，成为红房子代言人\n\n一等奖（1名）： 1000元VIP卡1张 + 红房子22周年庆代言人\n\n二等奖（3名）： 500元VIP卡1张 + 红房子22周年庆代言人\n\n三等奖（6名）： 300元VIP卡1张 + 红房子22周年庆代言人\n\n红粉奖（100名）： 牛乳蛋糕1个 + 22周年帆布袋1个",
-										"imageUrl" => "https://mmbiz.qlogo.cn/mmbiz_png/fYETicIfkWsV49f0eAKzNkVS5icP7TNMPaywNOj5b1cGSrcT62TNibIKr6icv58hFdRdN2TiaZvIsJypF9OQ4MaJ18g/0?wx_fmt=png",
-										"articleUrl" => "https://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=2650757173&idx=1&sn=a057adcd87f95e70ec9f4636c35f1916&chksm=bed450cb89a3d9ddbcb731b9501e80f7cc49b4cebed283aa8ea1aad09815ae8fa99c9fa4b906#rd"
-									)
-								)
 							)
 	);
 
-	function noKeyWordMatch($messageManager)
-	{
-		$luckyCode = trim(CONTENT_FROM_USER);
-		if( is_numeric($luckyCode) && is_int((int)$luckyCode) )
-		{
-			require "class/MySQLiController.class.php";
-			$MySQLiController = new MySQLiController( $dbr );
-			$where = 'code="' .$luckyCode. '"';
-			$result = $MySQLiController->getRow('50draw_temp', $where);
-			$row = $result->fetch_array();
 
-			if( $row  )
-			{
-				if( $row['used']==='no' || $row['used']===USERID ){
-					require "class/CardMessager.class.php";
-					$CardMessager = new CardMessager;
-					$CardMessager->sendCardByOpenID( 'pkV_gjm4Sc4gqPzLlXue4dqY3NzM', USERID);
-					$MySQLiController->updateData('50draw_temp', array('used'), array(USERID), $where);
-					$messageManager->responseMsg( 'null' );
-				}
-				else{
-					define("CONTENT", '该兑奖码已使用');
-					$messageManager->responseMsg( 'text' );
-				}
-			}
-			else{
-				$messageManager->responseMsg( 'null' );
-			}
 
-			$dbr->close();
-
-		}
-		elseif( date('G')>(OFF_DUTY_TIME-1) || date('G')<ON_DUTY_TIME)//客服下班时间，自动回复客服已下班
-		{
-			include('manage/manager.php');
-			$manager = new Manager();
-			// 查看客服是否开启了下班时间自动回复功能
-
-			$autoReplyByTimeState = $manager->getAutoReplyByTimeState();
-
-			if( 'on' === $autoReplyByTimeState )
-			{
-				define("CONTENT", OFF_DUTY_AUTOREPLY);
-
-				$messageManager->responseMsg( 'text' );
-			}
-			else
-			{
-				$messageManager->responseMsg( 'null' );
-			}
-		}
-		else
-		{
-			$messageManager->responseMsg( 'null' );
-		}
-	}
+	// function noKeyWordMatch($messageManager)
+	// {
+	// 	$luckyCode = trim(CONTENT_FROM_USER);
+	// 	if( is_numeric($luckyCode) && is_int((int)$luckyCode) )
+	// 	{
+	// 		require "class/MySQLiController.class.php";
+	// 		$MySQLiController = new MySQLiController( $dbr );
+	// 		$where = 'code="' .$luckyCode. '"';
+	// 		$result = $MySQLiController->getRow('50draw_temp', $where);
+	// 		$row = $result->fetch_array();
+	//
+	// 		if( $row  )
+	// 		{
+	// 			if( $row['used']==='no' || $row['used']===USERID ){
+	// 				require "class/CardMessager.class.php";
+	// 				$CardMessager = new CardMessager;
+	// 				$CardMessager->sendCardByOpenID( 'pkV_gjm4Sc4gqPzLlXue4dqY3NzM', USERID);
+	// 				$MySQLiController->updateData('50draw_temp', array('used'), array(USERID), $where);
+	// 				$messageManager->responseMsg( 'null' );
+	// 			}
+	// 			else{
+	// 				define("CONTENT", '该兑奖码已使用');
+	// 				$messageManager->responseMsg( 'text' );
+	// 			}
+	// 		}
+	// 		else{
+	// 			$messageManager->responseMsg( 'null' );
+	// 		}
+	//
+	// 		$dbr->close();
+	//
+	// 	}
+	// 	elseif( date('G')>(OFF_DUTY_TIME-1) || date('G')<ON_DUTY_TIME)//客服下班时间，自动回复客服已下班
+	// 	{
+	// 		include('manage/manager.php');
+	// 		$manager = new Manager();
+	// 		// 查看客服是否开启了下班时间自动回复功能
+	//
+	// 		$autoReplyByTimeState = $manager->getAutoReplyByTimeState();
+	//
+	// 		if( 'on' === $autoReplyByTimeState )
+	// 		{
+	// 			define("CONTENT", OFF_DUTY_AUTOREPLY);
+	//
+	// 			$messageManager->responseMsg( 'text' );
+	// 		}
+	// 		else
+	// 		{
+	// 			$messageManager->responseMsg( 'null' );
+	// 		}
+	// 	}
+	// 	else
+	// 	{
+	// 		$messageManager->responseMsg( 'null' );
+	// 	}
+	// }
 
 	$aCustomKeywords = array(
 					'刷新接口',

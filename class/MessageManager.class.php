@@ -27,7 +27,8 @@ class MessageManager
         public function responseMsg( $MsgType, $media_id="" )
         {
             //get post data, May be due to the different environments
-            $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+            // $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+            $postStr = file_get_contents('php://input');
 
 
             //extract post data
@@ -167,7 +168,8 @@ class MessageManager
     public function getUserMessage()
     {
 
-        $fetchedMsg = $GLOBALS["HTTP_RAW_POST_DATA"];
+        // $fetchedMsg = $GLOBALS["HTTP_RAW_POST_DATA"];
+        $fetchedMsg = file_get_contents('php://input');
         $fetchedMsgXML = simplexml_load_string($fetchedMsg, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         $userMessage = array('userOpenID'=> $fetchedMsgXML->FromUserName,
@@ -182,7 +184,8 @@ class MessageManager
     public function getPostedEvent()
     {
 
-        $fetchedMsg = $GLOBALS["HTTP_RAW_POST_DATA"];
+        // $fetchedMsg = $GLOBALS["HTTP_RAW_POST_DATA"];
+        $fetchedMsg = file_get_contents('php://input');
         $fetchedMsgXML = simplexml_load_string($fetchedMsg, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         $postedEvent = array('userOpenID'=> $fetchedMsgXML->FromUserName,

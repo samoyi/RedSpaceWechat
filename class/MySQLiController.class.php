@@ -20,7 +20,7 @@ class MySQLiController
 {
 	private $dbr;
     function __construct($dbr)
-    {	
+    {
         $this->dbr = $dbr;
 		mysqli_query($this->dbr,"set names utf8");
     }
@@ -51,7 +51,7 @@ class MySQLiController
     }
 
     //整体操作——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    
+
     //创建表
     /*本文件只需要设置 $tableMode 变量即可，参考以下格式
         '(
@@ -70,9 +70,9 @@ class MySQLiController
         }
         else
         {
-            
+
             return false;
-        }   
+        }
     }
 
     // 删除表
@@ -105,7 +105,7 @@ class MySQLiController
         mysqli_query( $this->dbr, "SET NAMES `utf8` COLLATE `utf8_general_ci`"  ); // Unicode
 
         if($tables == '*')//get all of the tables
-        { 
+        {
             $tables = array();
             $result = mysqli_query( $this->dbr, "SHOW TABLES");
             while($row = $result->fetch_row())
@@ -122,14 +122,14 @@ class MySQLiController
         {
             $data.= "\n/*---------------------------------------------------------------".
                     "\n  TABLE: `{$table}`".
-                    "\n  ---------------------------------------------------------------*/\n";           
+                    "\n  ---------------------------------------------------------------*/\n";
             $data.= "DROP TABLE IF EXISTS `{$table}`;\n";
             $res = mysqli_query( $this->dbr, "SHOW CREATE TABLE `{$table}`");
             $row = $res->fetch_row();
             $data.= $row[1].";\n";
 
             $result = mysqli_query( $this->dbr, "SELECT * FROM `{$table}`");
-            $num_rows = mysqli_num_rows($result);    
+            $num_rows = mysqli_num_rows($result);
 
             if($num_rows>0)
             {
@@ -140,22 +140,22 @@ class MySQLiController
                     $vals[$z]="(";
                     for($j=0; $j<count($items); $j++)
                     {
-                        if (isset($items[$j])) 
-                        { 
-                            $vals[$z].= "'".$this->dbr->real_escape_string( $items[$j] )."'"; 
-                        } 
-                        else 
-                        { 
-                            $vals[$z].= "NULL"; 
+                        if (isset($items[$j]))
+                        {
+                            $vals[$z].= "'".$this->dbr->real_escape_string( $items[$j] )."'";
+                        }
+                        else
+                        {
+                            $vals[$z].= "NULL";
                         }
                         if ($j<(count($items)-1))
-                        { 
-                            $vals[$z].= ","; 
+                        {
+                            $vals[$z].= ",";
                         }
                     }
                     $vals[$z].= ")"; $z++;
                 }
-                $data.= "INSERT INTO `{$table}` VALUES ";      
+                $data.= "INSERT INTO `{$table}` VALUES ";
                 $data .= "  ".implode(";\nINSERT INTO `{$table}` VALUES ", $vals).";\n";
             }
         }
@@ -205,7 +205,7 @@ class MySQLiController
     {
         $query = 'ALTER TABLE ' . $tableName . ' ADD INDEX ' . $colName . ' (' . $colName . ')' ;
         echo $query . '<br />';
-        //return 
+        //return
         mysqli_query($this->dbr, $query);
         var_dump( $this->dbr->error ) ;
     }
@@ -218,26 +218,26 @@ class MySQLiController
         var_dump( $this->dbr->error ) ;
     }
     */
-    
+
 
     //权限操作——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
     //创建管理员。获得当前数据库的所有权限。
     public function createAdministrator($username, $password)
-    {  
+    {
         $query = ' GRANT ALL ON ' . DB_NAME . '.* TO "' . $username . '" IDENTIFIED BY "' . $password . '" WITH GRANT OPTION';
         return mysqli_query($this->dbr, $query);
     }
 
     //创建只读权限用户。只能读取当前数据库的信息
     public function createReadOnlyUser($username, $password)
-    {  
+    {
         $query = ' GRANT SELECT ON ' . DB_NAME . '.* TO "' . $username . '" IDENTIFIED BY "' . $password . '"';
         return mysqli_query($this->dbr, $query);
     }
-    
+
 
     //读取区域——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-    
+
     //表结构相关——————————————————————————————————————————————————————————————————
 
     // 获得某列信息
@@ -253,7 +253,7 @@ class MySQLiController
 
 
 
-    
+
     // 内容行相关——————————————————————————————————————————————————————————————————
 
 
@@ -267,7 +267,7 @@ class MySQLiController
 
 
 
-    
+
     //查找重复
     //返回一个两项数组。
     //如果有重复的，第一项是查询结果数组，可以通过fetch_array来循环查看重复项；第二项是有多少种重复。
@@ -396,14 +396,14 @@ class MySQLiController
         }
     }
 
-    
+
 
 
 
     //写入区域----------------------------------------------------------------------------------------------
 	//插入新列  参数为新列模式字符串。类似于 'id INT UNSIGNED NOT NULL'
-	public function insertColumn($tableName, $sColMode) 
-	{	
+	public function insertColumn($tableName, $sColMode)
+	{
 		$query = 'ALTER TABLE ' . $tableName . ' ADD COLUMN ' . $sColMode;
 		$result = $this->dbr->query( $query );
 		if( $result )
@@ -411,14 +411,14 @@ class MySQLiController
 			return true;
 		}
 		else
-		{    
+		{
 			return false;
 		}
 	}
 
 	//删除列
 	public function dropColumn($tableName, $sColName)
-	{	
+	{
 
 		$query = 'ALTER TABLE ' . $tableName . ' DROP ' . $sColName;
 		$result = $this->dbr->query( $query );
@@ -451,11 +451,11 @@ class MySQLiController
 
 	//插入新行。第二个参数是列名数组，第三个参数是相应的值数组
 	public function insertRow($tableName, $aCol, $aValue)
-	{	
+	{
 		$len = count( $aCol );
 		$keys = '';
 		$values = '';
-		
+
 		for($i=0; $i<$len; $i++)
 		{
 			if( $i !== $len-1 )
@@ -478,10 +478,10 @@ class MySQLiController
 		else
 		{
 			return false;
-		} 
+		}
 	}
-	
- 
+
+
 	//删除行。参数是数组，包含一个或者多个项，每个项是一个WHERE子句
 	public function deleteRow($tableName, $aWhere)
 	{
@@ -504,16 +504,16 @@ class MySQLiController
     public function setUniqueByColumn($tableName, $col )
     {
         $primaryKey = $this->getPrimaryKey();
-        $query = 'DELETE FROM ' . $tableName . ' USING ' . $tableName . ',' . $tableName . ' e1 WHERE ' . $tableName . '.' . $primaryKey . ' > e1.' . $primaryKey . ' AND ' . $tableName . '.' . $col . ' = e1.' . $col . '  ';  
+        $query = 'DELETE FROM ' . $tableName . ' USING ' . $tableName . ',' . $tableName . ' e1 WHERE ' . $tableName . '.' . $primaryKey . ' > e1.' . $primaryKey . ' AND ' . $tableName . '.' . $col . ' = e1.' . $col . '  ';
         $result = $this->dbr->query( $query );
         if( $result )
         {
-            print "<p>duplicates has been delete</p>";   
-            
+            print "<p>duplicates has been delete</p>";
+
         }
         else
         {
-            print "<p>could not delete duplicates</p>";   
+            print "<p>could not delete duplicates</p>";
         }
     }
 
@@ -535,7 +535,7 @@ class MySQLiController
 		}
 	}*/
     public function updateData($tableName, $aLocValueCol, $aNewValue, $where)
-    {	
+    {
         if( sizeof($aLocValueCol) !== sizeof($aNewValue))
         {
             throw new Exception('要更改的列数和提供的更改值数目不对应');
@@ -564,8 +564,8 @@ class MySQLiController
             return false;
         }
     }
-	
-	
+
+
 	// 将一列改为同一个值
 	public function unifyColumn($tableName, $sCol, $value)
 	{

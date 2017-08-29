@@ -8,23 +8,23 @@ function refreshAccessToken()//刷新access_token
 {
     $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' . APPID . '&secret=' . APPSECRET;
     $jsoninfo = json_decode(httpGet($url), true);
+    $new_access_token =  $jsoninfo["access_token"];
+    $configurationJSON->last_access_token = $new_access_token;
+    $configurationJSON->last_access_token_time = time();
 
-        $new_access_token =  $jsoninfo["access_token"];
-
-        $configurationJSON->last_access_token = $new_access_token;
-
-        $configurationJSON->last_access_token_time = time();
-
-        //file_put_contents('access_token.json', json_encode($configurationJSON) );
-        //将本次获得的access_token存入文件，并记录获得时间
-        file_put_contents(PROJECT_ROOT . 'access_token.json', json_encode($configurationJSON) );
-        return $new_access_token;
+    //将本次获得的access_token存入文件，并记录获得时间
+    file_put_contents(PROJECT_ROOT . 'access_token.json', json_encode($configurationJSON) );
+    return $new_access_token;
 }
 
 function getAccessToken()//获取access_token
 {
     //$configurationJSON = json_decode( file_get_contents('access_token.json') );
     $configurationJSON = json_decode( file_get_contents(PROJECT_ROOT . 'access_token.json') );
+    if(empty($configurationJSON->last_access_token)){
+        return refreshAccessToken();
+    }
+
     $last_access_token_time = $configurationJSON->last_access_token_time;//读取上次调用接口取得access_token的时间
     $sLastAccessToken = $configurationJSON->last_access_token;
     if( (time()-$last_access_token_time<3600) && isset($sLastAccessToken)  )//如果没到保质期7200秒，直接返回旧的
@@ -56,6 +56,30 @@ function ifRefreshAccessTokenAndRePost( $result, $urlWithoutACCESS_TOKEN, $data)
         return $result;
     }
 }
+
+// 根据插件配置文件加载插件
+function requirePlugin($pluginName){
+    require PROJECT_ROOT . 'plugin/config.php';
+    $err = array(
+        'err'=> 0,
+        'errMsg'=> ''
+    );
+    if( array_key_exists($pluginName, $pluginConfig) ){
+        if( $pluginConfig[$pluginName] ){
+            require PROJECT_ROOT . 'plugin/' . $pluginName . '/index.php';
+        }
+        else{
+            $err[`err`] = 2;
+            $err[`errMsg`] = 'This plugin is not available';
+        }
+    }
+    else{
+        $err[`err`] = 1;
+        $err[`errMsg`] = 'No this plugin';
+    }
+    return $err;
+}
+
 
 function httpGet($url)//发送GET请求
 {
