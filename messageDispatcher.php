@@ -29,7 +29,7 @@ switch(MESSAGE_TYPE)
 {
     case "text":
     {
-        require 'module/textHandler.php';
+        require 'module/textDispatcher.php';
 		break;
     }
     case 'event':

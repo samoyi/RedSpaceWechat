@@ -7,7 +7,7 @@
 	 *
 	 *
 	 */
-
+file_put_contents('comp.txt', CONTENT_FROM_USER);
 
 	switch( CONTENT_FROM_USER )
 	{
@@ -40,13 +40,6 @@
 		}
 		case '测试':
 		{
-			// include('class/CardMessager.class.php');
-			// $CardMessager = new CardMessager;
-			// file_put_contents('err.txt',' $result');
-			// $result = $CardMessager->consumeCard( USERID, 'pkV_gjr_Qr4I_FdLKj_yuR01mk44' );
-			// file_put_contents('err.txt', $result);
-			// define("CONTENT", '测试5');
-			// $messageManager->responseMsg( 'text' );
 
 			$nScene = 0;
 			$sOpenID = 'o-0vY04FMoh-iVk29K9cqxHmAmjA';

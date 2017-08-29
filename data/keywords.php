@@ -102,64 +102,6 @@
 	);
 
 
-
-	// function noKeyWordMatch($messageManager)
-	// {
-	// 	$luckyCode = trim(CONTENT_FROM_USER);
-	// 	if( is_numeric($luckyCode) && is_int((int)$luckyCode) )
-	// 	{
-	// 		require "class/MySQLiController.class.php";
-	// 		$MySQLiController = new MySQLiController( $dbr );
-	// 		$where = 'code="' .$luckyCode. '"';
-	// 		$result = $MySQLiController->getRow('50draw_temp', $where);
-	// 		$row = $result->fetch_array();
-	//
-	// 		if( $row  )
-	// 		{
-	// 			if( $row['used']==='no' || $row['used']===USERID ){
-	// 				require "class/CardMessager.class.php";
-	// 				$CardMessager = new CardMessager;
-	// 				$CardMessager->sendCardByOpenID( 'pkV_gjm4Sc4gqPzLlXue4dqY3NzM', USERID);
-	// 				$MySQLiController->updateData('50draw_temp', array('used'), array(USERID), $where);
-	// 				$messageManager->responseMsg( 'null' );
-	// 			}
-	// 			else{
-	// 				define("CONTENT", '该兑奖码已使用');
-	// 				$messageManager->responseMsg( 'text' );
-	// 			}
-	// 		}
-	// 		else{
-	// 			$messageManager->responseMsg( 'null' );
-	// 		}
-	//
-	// 		$dbr->close();
-	//
-	// 	}
-	// 	elseif( date('G')>(OFF_DUTY_TIME-1) || date('G')<ON_DUTY_TIME)//客服下班时间，自动回复客服已下班
-	// 	{
-	// 		include('manage/manager.php');
-	// 		$manager = new Manager();
-	// 		// 查看客服是否开启了下班时间自动回复功能
-	//
-	// 		$autoReplyByTimeState = $manager->getAutoReplyByTimeState();
-	//
-	// 		if( 'on' === $autoReplyByTimeState )
-	// 		{
-	// 			define("CONTENT", OFF_DUTY_AUTOREPLY);
-	//
-	// 			$messageManager->responseMsg( 'text' );
-	// 		}
-	// 		else
-	// 		{
-	// 			$messageManager->responseMsg( 'null' );
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		$messageManager->responseMsg( 'null' );
-	// 	}
-	// }
-
 	$aCustomKeywords = array(
 					'刷新接口',
 					'切换自动回复314',

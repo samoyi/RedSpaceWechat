@@ -1,7 +1,8 @@
 <?php
 
     $pluginConfig = array(
-        "recordOpenID"=>true
+        "recordOpenID"=>true,
+        "offDutyAutoReply"=>true
     );
 
 ?>
