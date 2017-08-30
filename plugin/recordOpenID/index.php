@@ -13,7 +13,7 @@
 	$sFinalUrl = $sScriptUrl . "?" .  $sTokenArg . "&" . $sUserOpenID . "&"
 				. $sHostIDArg . "&" . $sUserSentMessageContentArg . "&"
 				. $sUserSentMessageTypeArg . "&" . $sEventTypeArg;
-	$result = httpGet($sFinalUrl);
+	$result = HTTP_GET($sFinalUrl);
 
 
 ?>

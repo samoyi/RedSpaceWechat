@@ -1,4 +1,9 @@
 <?php
+/*
+ * 公共函数
+ *
+ */
+
 
 
 // 刷新 access token
@@ -50,7 +55,7 @@ function getAccessToken()
  *     https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=
  * 第三个参数是该请求发送的数据
  */
-function __ifExpirationRefreshAccessTokenAndRePost( $result, $urlWithoutACCESS_TOKEN, $data)
+function ifRefreshAccessTokenAndRePost( $result, $urlWithoutACCESS_TOKEN, $data)
 {
     $resultObj = json_decode($result);
     if( 40001 == $resultObj->errcode ) // access token 过期
@@ -63,8 +68,9 @@ function __ifExpirationRefreshAccessTokenAndRePost( $result, $urlWithoutACCESS_T
         return $result;
     }
 }
-// get版本
-function __ifExpirationRefreshAccessTokenAndReGet( $result, $urlWithoutACCESS_TOKEN)
+
+
+function ifRefreshAccessTokenAndReGet( $result, $urlWithoutACCESS_TOKEN)
 {
     $resultObj = json_decode($result);
     if( 40001 == $resultObj->errcode )
@@ -91,9 +97,8 @@ function request_get($url)
     curl_close($ch);
 
     $urlWithoutACCESS_TOKEN = strtok($url, "access_token=") . "access_token=";
-    return $output = __ifExpirationRefreshAccessTokenAndReGet( $output, $urlWithoutACCESS_TOKEN);
+    return $output = ifRefreshAccessTokenAndReGet( $output, $urlWithoutACCESS_TOKEN);
 }
-
 
 // 标准 GET 请求
 function HTTP_GET($url)
@@ -123,9 +128,8 @@ function request_post($url, $data)
     curl_close($curl);
 
     $urlWithoutACCESS_TOKEN = strtok($url, "access_token=") . "access_token=";
-    return $output = __ifExpirationRefreshAccessTokenAndRePost( $output, $urlWithoutACCESS_TOKEN, $data);
+    return $output = ifRefreshAccessTokenAndRePost( $output, $urlWithoutACCESS_TOKEN, $data);
 }
-
 
 // 标准 POST 请求
 function HTTP_POST($url, $data)
@@ -144,7 +148,6 @@ function HTTP_POST($url, $data)
 
 
 // 根据插件配置文件加载插件
-// 只有在插件配置文件里设定为true的插件才能成功加载
 function requirePlugin($pluginName){
     require PROJECT_ROOT . 'plugin/config.php';
     $err = array(
@@ -165,6 +168,17 @@ function requirePlugin($pluginName){
         $err[`errMsg`] = 'No this plugin';
     }
     return $err;
+}
+
+
+function decodeUnicode($str)
+{
+    return preg_replace_callback('/\\\\u([0-9a-f]{4})/i',
+        create_function(
+            '$matches',
+            'return mb_convert_encoding(pack("H*", $matches[1]), "UTF-8", "UCS-2BE");'
+        ),
+        $str);
 }
 
 ?>

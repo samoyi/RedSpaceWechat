@@ -41,7 +41,7 @@ class UserManager
     {
         $sNextOpenIDPara = $sNextOpenID ? "&next_openid=$sNextOpenID" : "";
         $url = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token=' . ACCESS_TOKEN . $sNextOpenIDPara;
-        return json_decode( $result = httpGet($url) );
+        return json_decode( $result = request_get($url) );
     }
 
 	// 获取用户总数
@@ -162,7 +162,7 @@ class UserManager
     public function getUserInfo($sOpenID)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=' . ACCESS_TOKEN . '&openid=' . $sOpenID . '&lang=zh_CN';
-        return json_decode( $result = httpGet($url) );
+        return json_decode( $result = request_get($url) );
     }
 
     // 批量获取用户信息

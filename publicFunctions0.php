@@ -1,4 +1,9 @@
 <?php
+/*
+ * 公共函数
+ *
+ */
+
 
 
 // 刷新 access token
@@ -6,7 +11,7 @@ function refreshAccessToken()
 {
     // 调用微信接口请求 access token
     $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' . APPID . '&secret=' . APPSECRET;
-    $arr = json_decode(HTTP_GET($url), true);
+    $arr = json_decode(httpGet($url), true);
     $newAccessToken =  $arr["access_token"];
 
     // 读取之前保存的 access token 信息，并将其修改为最新的
@@ -50,7 +55,7 @@ function getAccessToken()
  *     https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=
  * 第三个参数是该请求发送的数据
  */
-function __ifExpirationRefreshAccessTokenAndRePost( $result, $urlWithoutACCESS_TOKEN, $data)
+function ifRefreshAccessTokenAndRePost( $result, $urlWithoutACCESS_TOKEN, $data)
 {
     $resultObj = json_decode($result);
     if( 40001 == $resultObj->errcode ) // access token 过期
@@ -63,53 +68,42 @@ function __ifExpirationRefreshAccessTokenAndRePost( $result, $urlWithoutACCESS_T
         return $result;
     }
 }
-// get版本
-function __ifExpirationRefreshAccessTokenAndReGet( $result, $urlWithoutACCESS_TOKEN)
+
+
+// 发送GET请求
+function httpGet($url)
 {
-    $resultObj = json_decode($result);
-    if( 40001 == $resultObj->errcode )
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    $output = curl_exec($ch);
+    curl_close($ch);
+
+    $resultObj = json_decode($output);
+    if( 40001 == $resultObj->errcode )// 如果返回值的错误代码是40001，代表AccessToken已失效，
     {
-        $url = $urlWithoutACCESS_TOKEN . refreshAccessToken();
-        return request_get($url, $data);
+        $urlWithoutACCESS_TOKEN = strtok($url, "access_token=") . "access_token=";
+        $url = $urlWithoutACCESS_TOKEN . refreshAccessToken(); // 刷新AccessToken并重发请求
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
     }
     else
     {
-        return $result;
+        return $output;
     }
 }
 
 
-// 附带验证 access token 的 GET 请求
-function request_get($url)
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-    // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $output = curl_exec($ch);
-    curl_close($ch);
-
-    $urlWithoutACCESS_TOKEN = strtok($url, "access_token=") . "access_token=";
-    return $output = __ifExpirationRefreshAccessTokenAndReGet( $output, $urlWithoutACCESS_TOKEN);
-}
-
-
-// 标准 GET 请求
-function HTTP_GET($url)
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-    // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $output = curl_exec($ch);
-    curl_close($ch);
-    return $output;
-}
-
-
-// 附带验证 access token 的 POST 请求
+//发送POST请求
 function request_post($url, $data)
 {
     $curl = curl_init();
@@ -123,28 +117,12 @@ function request_post($url, $data)
     curl_close($curl);
 
     $urlWithoutACCESS_TOKEN = strtok($url, "access_token=") . "access_token=";
-    return $output = __ifExpirationRefreshAccessTokenAndRePost( $output, $urlWithoutACCESS_TOKEN, $data);
-}
-
-
-// 标准 POST 请求
-function HTTP_POST($url, $data)
-{
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-    curl_setopt($curl, CURLOPT_POST, 1);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    $output = curl_exec( $curl );
-    curl_close($curl);
+    $output = ifRefreshAccessTokenAndRePost( $output, $urlWithoutACCESS_TOKEN, $data);
     return $output;
 }
 
 
 // 根据插件配置文件加载插件
-// 只有在插件配置文件里设定为true的插件才能成功加载
 function requirePlugin($pluginName){
     require PROJECT_ROOT . 'plugin/config.php';
     $err = array(
@@ -165,6 +143,17 @@ function requirePlugin($pluginName){
         $err[`errMsg`] = 'No this plugin';
     }
     return $err;
+}
+
+
+function decodeUnicode($str)
+{
+    return preg_replace_callback('/\\\\u([0-9a-f]{4})/i',
+        create_function(
+            '$matches',
+            'return mb_convert_encoding(pack("H*", $matches[1]), "UTF-8", "UCS-2BE");'
+        ),
+        $str);
 }
 
 ?>

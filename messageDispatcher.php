@@ -19,10 +19,6 @@ define("HOSTID", $userMessage['hostID']); // 公众号id
 
 
 
-// 插件：记录OpenID -------------------------------------------------------------
-requirePlugin('recordOpenID');
-
-
 
 // 根据消息类型调用不同的模块 ---------------------------------------------------
 switch(MESSAGE_TYPE)
@@ -43,5 +39,10 @@ switch(MESSAGE_TYPE)
         require 'module/defaultHandler.php';
     }
 }
+
+
+
+// 插件：记录OpenID -------------------------------------------------------------
+requirePlugin('recordOpenID');
 
 ?>

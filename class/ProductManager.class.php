@@ -11,7 +11,6 @@ class ProductManager
                     "cate_id": ' . $nCateID . '
                 }';
         $result = request_post($url, $data);
-        $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/category/getsub?access_token=', $data);
         return json_decode( $result )->cate_list;
 
         // 相机 537874913
@@ -20,13 +19,12 @@ class ProductManager
 
     // 获取指定分类的所有属性
     public function getPropertyListArray($nCateID)
-    {   
+    {
         $url = 'https://api.weixin.qq.com/merchant/category/getproperty?access_token=' . ACCESS_TOKEN;
         $data = '{
                     "cate_id": ' . $nCateID . '
                 }';
         $result = request_post($url, $data);
-        $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/category/getproperty?access_token=', $data);
         return json_decode( $result )->properties;
     }
 
@@ -80,7 +78,7 @@ class ProductManager
 
         // 根据$aCategoryName，将当前商品
         foreach($aCategoryList as $value)
-        {   
+        {
             $aPropertyValue = $this->getPropertyValueIDArray($nCategoryID, $value->id);
             $value->vid = $aPropertyValue[$value->vid];
             $value->id = $aProperty[$value->id];
@@ -92,7 +90,7 @@ class ProductManager
     public function getProductGroupArray()
     {
         $url = 'https://api.weixin.qq.com/merchant/group/getall?access_token=' . ACCESS_TOKEN;
-        return json_decode(httpGet( $url ))->groups_detail;
+        return json_decode(request_get( $url ))->groups_detail;
     }
 
 	// 根据分组ID获取分组信息
@@ -106,30 +104,29 @@ class ProductManager
 		file_put_contents("err.txt", $result);
         return json_decode( $result )->group_detail;
     }
-	
-	
-	
+
+
+
     // 获取货架
     protected function getShelfArray()
     {
         $url = 'https://api.weixin.qq.com/merchant/shelf/getall?access_token=' . ACCESS_TOKEN;
-        return json_decode(httpGet( $url ))->shelves;
+        return json_decode(request_get( $url ))->shelves;
     }
-	
-	
+
+
 
 
     // 获取指定状态的所有商品的 product_id 及对应 name 组成的数组
     // 参数 0 代表所有商品，1 代表已上架商品， 2 代表未上架商品
     public function queryProductIDs( $nStatus = 0)
-    {   
+    {
         $url = 'https://api.weixin.qq.com/merchant/getbystatus?access_token=' . ACCESS_TOKEN;
         $data = '{
                     "status": ' . $nStatus . '
                 }';
         $result = request_post($url, $data);
-        $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/getbystatus?access_token=', $data);
-        
+
         $aProducts = json_decode($result)->products_info; // 所有商品
 
         $aIDs = array();
@@ -149,26 +146,24 @@ class ProductManager
                     "product_id": "' . $sProductID . '"
                 }';
         $result = request_post($url, $data);
-        $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/get?access_token=', $data);
         return json_decode($result)->product_info;
     }
 
 
     // 获取指定状态的所有商品
     public function queryProductArray( $nStatus = 0)
-    {   
+    {
         $url = 'https://api.weixin.qq.com/merchant/getbystatus?access_token=' . ACCESS_TOKEN;
         $data = '{
                     "status": ' . $nStatus . '
                 }';
         $result = request_post($url, $data);
-        $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/getbystatus?access_token=', $data);
-        $aProducts = json_decode($result)->products_info;    
-        return $aProducts; 
+        $aProducts = json_decode($result)->products_info;
+        return $aProducts;
     }
 
 
-    
+
     // 获取商品 sku_info
     public function querySkuInfoArray( $sProductID )
     {
@@ -176,7 +171,7 @@ class ProductManager
     }
 
 
-    // 修改商品 
+    // 修改商品
     // 未完成 TODO 。获得了POST数据中未修改的内容。如果要修改某一部分，把未修改的和修改的拼接为完整的POST数据
     // 修改时提交的数据中比queryProductInfo获得的数据中多出了一项status
     /* TODO 必须手动先给 价格&库存 每个大的行添加一张图片才行。如果没有，则获得的icon_url是空字符串，但提交的时候该属性又不允许是空字符串
@@ -192,14 +187,13 @@ class ProductManager
         {
             $value->quantity = 25;
         }
-        
+
         unset( $oldProduct_info->status );
         $oldProduct_info->product_base->name = 'testProduct';
-        
+
         $aProperty = $oldProduct_info->product_base->property;
-        
-        $data = json_encode( $oldProduct_info ); 
-        $data = decodeUnicode($data);
+
+        $data = json_encode( $oldProduct_info, JSON_UNESCAPED_UNICODE );
         $data = str_replace('\\/', '/', $data);
         $data = str_replace('\"', '"', $data);
 
@@ -208,11 +202,10 @@ class ProductManager
         file_put_contents("err.txt", $data);
         //file_put_contents("err.txt", json_encode($data) . "\n\n\n\n", FILE_APPEND);
 
-        
+
 
         $url = 'https://api.weixin.qq.com/merchant/update?access_token=' . ACCESS_TOKEN;
         $result = request_post($url, $data);
-        return $result = ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/update?access_token=', $data);
 
         /*$oldProductBase = $oldProduct_info->product_base;
         $oldSkuList = $oldProduct_info->sku_list;
@@ -222,10 +215,10 @@ class ProductManager
 
     // 修改某项sku_info.
     // 第二个参数是该项的id，第三个参数是该id对应的vid数组
-    
+
     //public function modifySkuInfo( $sProductID, $sID, $aVID ) TODO
     public function modifySkuInfo()
-    {   
+    {
         $sProductID = 'pkV_gjsTaeMWcNxzoVNWLXBRQlhM';
         $oldProduct_info = $this->queryProductInfo( $sProductID );
         $oldProductBase = $oldProduct_info->product_base;
@@ -236,7 +229,7 @@ class ProductManager
         $oldSkuInfo = $oldProductBase->sku_info;
 
         $newVID = array("\$大前天", "\$大后天");
-        
+
         $oldSkuInfo[0]->vid = $newVID;
         $oldSkuList[0]->sku_id = "\$发货日期:\$大前天;";
         $oldSkuList[1]->sku_id = "\$发货日期:\$大后天;";
@@ -253,22 +246,11 @@ class ProductManager
             }
         }*/
 
-        function decodeUnicode($str)
-        {
-            return preg_replace_callback('/\\\\u([0-9a-f]{4})/i',
-                create_function(
-                    '$matches',
-                    'return mb_convert_encoding(pack("H*", $matches[1]), "UTF-8", "UCS-2BE");'
-                ),
-                $str);
 
-        }
 
         $url = 'https://api.weixin.qq.com/merchant/update?access_token=' . ACCESS_TOKEN;
-        $data = json_encode( $oldProduct_info );
+        $data = json_encode( $oldProduct_info, JSON_UNESCAPED_UNICODE);
         $data = str_replace('\"', '"', $data);
-        $data = decodeUnicode( $data );
-        
         $data = str_replace('\\/', '/', $data);
 
         $url = 'https://api.weixin.qq.com/merchant/update?access_token=' . ACCESS_TOKEN;
@@ -280,13 +262,12 @@ class ProductManager
             'ISO-8859-13', 'ISO-8859-14', 'ISO-8859-15', 'ISO-8859-16',
             'Windows-1251', 'Windows-1252', 'Windows-1254',
             );
-        $encode = mb_detect_encoding($data, $codeArray); 
+        $encode = mb_detect_encoding($data, $codeArray);
         $data = mb_convert_encoding($data, 'UTF-8', $encode);*/
 
-        //$data = iconv("ISO-8859-1", "UTF-8", $data); 
+        //$data = iconv("ISO-8859-1", "UTF-8", $data);
 
         $result = request_post($url, $data);
-        $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/update?access_token=', $data);
         return $result;
     }
 
@@ -294,9 +275,8 @@ class ProductManager
     public function addProduct( $data )
     {
         $url = 'https://api.weixin.qq.com/merchant/create?access_token=' . ACCESS_TOKEN;
-        
+
         $result = request_post($url, $data);
-        $result = ifRefreshAccessTokenAndRePost( $result, 'https://api.weixin.qq.com/merchant/create?access_token=', $data);
         return $result;
     }
 
@@ -307,7 +287,6 @@ class ProductManager
     {
         $url = 'https://api.weixin.qq.com/merchant/update?access_token=' . ACCESS_TOKEN;
         $result = request_post($url, $data);
-        return $result = ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/update?access_token=', $data);
     }
 
 
@@ -318,7 +297,7 @@ class ProductManager
     {
         if( $nDelta > 0 )
         {
-            $urlWithoutAccessToken = 'https://api.weixin.qq.com/merchant/stock/add?access_token=';    
+            $urlWithoutAccessToken = 'https://api.weixin.qq.com/merchant/stock/add?access_token=';
         }
         else
         {
@@ -327,17 +306,16 @@ class ProductManager
         }
         $url = $urlWithoutAccessToken . ACCESS_TOKEN;
         $data = '{
-                    "product_id": "' . $sProductID . '", 
-                    "sku_info": "", 
+                    "product_id": "' . $sProductID . '",
+                    "sku_info": "",
                     "quantity": ' . $nDelta . '
                 }';
         $result = request_post($url, $data);
-        return $result = ifRefreshAccessTokenAndRePost($result, $urlWithoutAccessToken, $data);
     }
-	
-	
-	
-	
+
+
+
+
 	// 订单管理 ——————————————————————————————————————————————————————————————————————————————————
 	public function historicalOrder( $openID )
 	{
@@ -347,7 +325,7 @@ class ProductManager
 		$orderArr = $orderObj->order_list;
 
 		$userOrderList = array();
-		
+
 		foreach( $orderArr as $order)
 		{
 			if( $openID === $order->buyer_openid )
@@ -355,7 +333,7 @@ class ProductManager
 				$userOrderList[] =  $order;
 			}
 		}
-		
+
 		return $userOrderList;
 	}
 }

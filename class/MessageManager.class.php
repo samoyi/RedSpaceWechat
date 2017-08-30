@@ -253,7 +253,6 @@ class MessageManager
                 }';
         $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
         $result = request_post($url, $json);
-        ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $json );
         if( $bSendNull )
         {
             $this->responseMsg( 'null' );
@@ -292,7 +291,7 @@ class MessageManager
 
 	// 发送图文客服消息（最多8条）
 	public function sendArticalCSMessage($sOpenID, $aArticleInfo)
-	{	file_put_contents("err.txt", $sOpenID . "   ", FILE_APPEND);
+	{	
 		$nArticleAmount = count( $aArticleInfo );
 		$aArticles = array();
 		foreach( $aArticleInfo as $item )
@@ -304,16 +303,14 @@ class MessageManager
 					"picurl"=>$item["imageUrl"]
 			);
 		}
-		file_put_contents("err.txt", $nArticleAmount . "   ", FILE_APPEND);
 		$data = '{
 					"touser":"' . $sOpenID . '",
 					"msgtype":"news",
 					"news":{
-						"articles": '. decodeUnicode(json_encode($aArticles)) .'
+						"articles": '. json_encode($aArticles, JSON_UNESCAPED_UNICODE) .'
 					}
 				}';
 		$url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
-		file_put_contents("err.txt", $data . "   ", FILE_APPEND);
 		return $result = request_post($url, $data);
 	}
 
@@ -390,7 +387,6 @@ class MessageManager
         );
         $url_post = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . ACCESS_TOKEN;
         $result = request_post($url_post, json_encode($template));
-        $result = ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/merchant/order/getbyfilter?access_token=', $template );
 		return $result;
     }
 

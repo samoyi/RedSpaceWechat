@@ -7,7 +7,6 @@ class CardMessager
     {
         $data = '{"card_id": "' . $card_id . '"}';
         $result =  request_post('https://api.weixin.qq.com/card/get?access_token=' . ACCESS_TOKEN, $data);
-        //ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=', $data );
         $resultorderObj = json_decode($result);
 		$baseInfo = $resultorderObj->{'card'};
         return $baseInfo;
@@ -27,7 +26,6 @@ class CardMessager
                     }
                 ';
         $result =  request_post('https://api.weixin.qq.com/card/batchget?access_token=' . ACCESS_TOKEN, $data);
-        //ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/card/batchget?access_token=', $data );
         $resultorderObj = json_decode($result);
         return $aCardID = $resultorderObj->{'card_id_list'};
     }
@@ -110,7 +108,6 @@ class CardMessager
                     }';
         $url = 'https://api.weixin.qq.com/card/modifystock?access_token=' . ACCESS_TOKEN;
         $result =  request_post($url, $data) ;
-        //ifRefreshAccessTokenAndRePost($result, 'https://api.weixin.qq.com/card/modifystock?access_token=', $data );
         return $result;
     }
 
