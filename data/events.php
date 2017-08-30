@@ -54,7 +54,7 @@
 		}
 	}
 	
-	$aCustomKeywords = array(
+	$aComplicatedKeywords = array(
 					'刷新接口',
 					'切换自动回复314'
 				);
