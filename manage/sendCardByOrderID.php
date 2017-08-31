@@ -1,4 +1,8 @@
 <?php
+	session_start();
+	if (  !isset($_SESSION['valid']) || !($_SESSION['valid'] === true) ){
+		header('location:login.php');
+	}
 
 	$order_id = trim( $_POST["order_id"] );
 	$card_id = trim( $_POST["card_id"] );

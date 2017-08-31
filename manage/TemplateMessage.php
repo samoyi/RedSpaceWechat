@@ -1,4 +1,9 @@
 <?php
+	session_start();
+	if (  !isset($_SESSION['valid']) || !($_SESSION['valid'] === true) ){
+		header('location:login.php');
+	}
+
 	$open_id = trim( $_POST["open_id"] );
 	$message = trim( $_POST["message"] );
 
@@ -13,6 +18,6 @@
 		'order_create_time'=>time()
 	);
 
-	$result = $messageManager->sendTemplateMessage($orderDetail, $open_id);	
+	$result = $messageManager->sendTemplateMessage($orderDetail, $open_id);
 	echo json_encode($result);
 ?>

@@ -1,4 +1,9 @@
 <?php
+	session_start();
+	if (  !isset($_SESSION['valid']) || !($_SESSION['valid'] === true) ){
+		header('location:login.php');
+	}
+
 	$order_id = trim( $_POST["order_id"] );
 	$message = trim( $_POST["message"] );
 
@@ -7,5 +12,5 @@
 	include('../messageDispatcher.php'); // 获取微信后台推送信息
 
 	$messageManager = new MessageManager();
-	echo $messageManager->sendCustomMessage($order_id, $message);	
+	echo $messageManager->sendCustomMessage($order_id, $message);
 ?>
