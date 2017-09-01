@@ -1,10 +1,12 @@
 <?php
     session_start();
 
+    require '../configuration.php';
+
     if (  isset($_SESSION['valid']) && $_SESSION['valid'] === true ){
         header('location:index.php');
     }
-    else if ( isset($_POST['ur']) && $_POST['ur'] === '123' )
+    else if ( isset($_POST['ur']) && $_POST['ur'] === MANAGE_PASSWORD )
     {
         $_SESSION['valid'] = true;
         header('location:index.php');

@@ -20,7 +20,7 @@
 			include('manage/manager.php');
 			$manager = new Manager();
 			$autoReplyByTimeState = $manager->getAutoReplyByTimeState();
-			$JSONObj = json_decode( file_get_contents('manage/autoReplyState.json') );
+			$JSONObj = json_decode( file_get_contents('manage/switchAutoReply/autoReplyState.json') );
 			if( 'on' === $autoReplyByTimeState )
 			{
 				$JSONObj->autoReplyByTime = 'off';
@@ -31,7 +31,7 @@
 				$JSONObj->autoReplyByTime = 'on';
 				define("CONTENT", '下班时段自动回复已打开');
 			}
-
+			file_put_contents('manage/switchAutoReply/autoReplyState.json', json_encode($JSONObj));
 			$messageManager->responseMsg( 'text' );
 			break;
 		}

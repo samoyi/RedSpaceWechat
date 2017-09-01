@@ -51,10 +51,11 @@
 </head>
 <body>
 
-<a href="CsMessage.html" ><h2>一、根据订单号发送客服消息</h2></a>
-<a href="sendCardByOrderID.html" ><h2>二、根据订单号发送卡券</h2></a>
-<a href="sendCardByOpenID.html" ><h2>三、根据OpenID发送卡券</h2></a>
-<a href="TemplateMessage.html" ><h2>三、根据OpenID发送模板消息 测试</h2></a>
+<a href="sendCsMessageByOpenID/sendCsMessageByOpenID.html" ><h2>一、根据OpenID发送客服消息</h2></a>
+<a href="sendCsMessageByOrderID/sendCsMessageByOrderID.html" ><h2>二、根据订单号发送客服消息</h2></a>
+<a href="sendCardByOrderID/sendCardByOrderID.html" ><h2>三、根据订单号发送卡券</h2></a>
+<a href="sendCardByOpenID/sendCardByOpenID.html" ><h2>四、根据OpenID发送卡券</h2></a>
+<a href="sendTemplateMessageByOpenID/TemplateMessage.html" ><h2>五、根据OpenID发送模板消息 测试</h2></a>
 <section id="off_duty_autoreply">
 	<h2>四、下班时段自动回复</h2>
 	<p>点击切换状态 <input id="switchAutoReply" type="button" value="读取中" /></p>
@@ -105,7 +106,7 @@
 	getAutoReplyByTimeState(); // 读取当前状态并写入按钮
 	function getAutoReplyByTimeState()
 	{
-		var sUrl = "autoReplyState.json",
+		var sUrl = "switchAutoReply/autoReplyState.json",
 			fnSuccess = function( responseText )
 			{
 				var oManageConfiguration = JSON.parse( responseText ),
@@ -154,7 +155,7 @@
 
 	oSwitchAutoReply.addEventListener("click", function() // 点击按钮
 	{
-		var sUrl = "switchAutoReply.php",
+		var sUrl = "switchAutoReply/switchAutoReply.php",
 			fnSuccess = function( responseText )
 			{
 				oSwitchAutoReply.value = responseText;
@@ -334,7 +335,7 @@
 	{
 		oSubscribeAutoReplyTextEditor.querySelector(".copyPrevious").addEventListener("click", function()
 		{
-			AjaxGet("subscribeAutoReply.php?command=copySubscribeAutoReplyJSON",
+			AjaxGet("subscribeAutoReply/subscribeAutoReply.php?command=copySubscribeAutoReplyJSON",
 				function(resonseText)
 				{
 					if( 'success' === resonseText.trim() )
@@ -401,7 +402,7 @@
 					}
 				});
 
-				AjaxPost("subscribeAutoReply.php", "newJSON="+encodeURIComponent(JSON.stringify(aJSON)), function(responseText)
+				AjaxPost("subscribeAutoReply/subscribeAutoReply.php", "newJSON="+encodeURIComponent(JSON.stringify(aJSON)), function(responseText)
 				{
 					if( 'success' === responseText.trim() )
 					{

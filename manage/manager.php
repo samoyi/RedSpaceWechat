@@ -1,6 +1,6 @@
 <?php
 
-	
+
 
 class Manager
 
@@ -10,7 +10,7 @@ class Manager
 
 	{
 
-		$JSONObj = json_decode( file_get_contents('manage/autoReplyState.json'));
+		$JSONObj = json_decode( file_get_contents('manage/switchAutoReply/autoReplyState.json'));
 
 		return $JSONObj->autoReplyByTime;
 
@@ -18,9 +18,8 @@ class Manager
 
 }
 
-	
 
-	
+
+
 
 ?>
-

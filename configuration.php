@@ -18,5 +18,6 @@ define('DB_PASSWORD', 'ur010894');//数据库密码
 define('DB_NAME', 'hdm1240996_db');//数据库名称
 define('DB_TABLE', 'Wechat_OpenID');
 
+define('MANAGE_PASSWORD', 123); // 管理功能的验证密码 安全性能不高
 
 ?>

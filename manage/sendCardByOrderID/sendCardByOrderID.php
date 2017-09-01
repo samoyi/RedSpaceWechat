@@ -1,17 +1,17 @@
 <?php
 	session_start();
 	if (  !isset($_SESSION['valid']) || !($_SESSION['valid'] === true) ){
-		header('location:login.php');
+		header('location:../login.php');
 	}
 
 	$order_id = trim( $_POST["order_id"] );
 	$card_id = trim( $_POST["card_id"] );
 
-	include('../configuration.php'); // 公众号配置文件
-	include('../publicFunctions.php'); // 公共函数  TODO 这个文件依赖configuration.php
-	include('../messageDispatcher.php'); // 获取微信后台推送信息
+	require '../../configuration.php';
+	require '../../publicFunctions.php';
+	define("ACCESS_TOKEN", getAccessToken());
 
-	include('../class/OrderManager.class.php');
+	include('../../class/OrderManager.class.php');
 
 	$OrderManager = new OrderManager();
 	$buyer_openid = $OrderManager->getOPENIDbyORDERID($order_id);

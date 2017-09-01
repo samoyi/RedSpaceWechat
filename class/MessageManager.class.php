@@ -115,7 +115,6 @@ class MessageManager
                 //    注释了下面一段，因为自定义菜单的click推送是没有keyword的，而且这个keyword好像也没什么用。else似乎也不会发生
                 /*if(!empty( $keyword ))
                 {
-                    file_put_contents('err.txt', $keyword . $textTpl, FILE_APPEND  );
                     $msgType = "text";
                     $contentStr = "Welcome to wechat world!";
 
@@ -291,7 +290,7 @@ class MessageManager
 
 	// 发送图文客服消息（最多8条）
 	public function sendArticalCSMessage($sOpenID, $aArticleInfo)
-	{	
+	{
 		$nArticleAmount = count( $aArticleInfo );
 		$aArticles = array();
 		foreach( $aArticleInfo as $item )

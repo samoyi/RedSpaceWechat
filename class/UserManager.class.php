@@ -71,7 +71,7 @@ class UserManager
 			require PROJECT_ROOT . 'class/MySQLiController.class.php';
 		}
         $MySQLiController = new MySQLiController( $dbr );
-        $type = EVENT_TYPE ? EVENT_TYPE : MESSAGE_TYPE;
+        $type = defined('EVENT_TYPE') ? EVENT_TYPE : MESSAGE_TYPE;
 
 		$where = 'openID="' . USERID . '"';
 

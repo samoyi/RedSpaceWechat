@@ -6,7 +6,8 @@ class CustomMenu
     public function createMenu( $customMenuData)
     {
         $url =  'https://api.weixin.qq.com/cgi-bin/menu/create?access_token=' . ACCESS_TOKEN;
-        $result = request_post($url, $customMenuData);
+        $result = request_post($url, json_encode($customMenuData, JSON_UNESCAPED_UNICODE) );
+        return $result;
     }
 }
 

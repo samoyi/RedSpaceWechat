@@ -101,7 +101,6 @@ class ProductManager
                     "group_id": ' . $nGroupID . '
                 }';
         $result = request_post($url, $data);
-		file_put_contents("err.txt", $result);
         return json_decode( $result )->group_detail;
     }
 
@@ -199,8 +198,6 @@ class ProductManager
 
         /*$data = str_replace('大前天', '后天', $data);
         $data = str_replace('大后天', '明天', $data);*/
-        file_put_contents("err.txt", $data);
-        //file_put_contents("err.txt", json_encode($data) . "\n\n\n\n", FILE_APPEND);
 
 
 

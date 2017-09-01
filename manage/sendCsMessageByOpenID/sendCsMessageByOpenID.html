@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<title>根据订单号发送客服消息</title>
+<title>根据OpenID发送客服消息</title>
 </head>
 <body>
-<h1>根据订单号发送客服消息</h1>
-<form action="CsMessage.php" method="post">
-	<input name="order_id" type="text" placeholder="订单ID" />
+<h1>根据OpenID发送客服消息</h1>
+<form action="sendCsMessageByOpenID.php" method="post">
+	<input name="open_id" type="text" placeholder="OpenID" />
 	<input name="message" type="text" placeholder="消息内容" />
 	<input type="submit" />
 </form>
