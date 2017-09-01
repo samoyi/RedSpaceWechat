@@ -17,11 +17,8 @@
 		}
 		case '切换自动回复314' :
 		{
-			include('manage/manager.php');
-			$manager = new Manager();
-			$autoReplyByTimeState = $manager->getAutoReplyByTimeState();
 			$JSONObj = json_decode( file_get_contents('manage/switchAutoReply/autoReplyState.json') );
-			if( 'on' === $autoReplyByTimeState )
+			if( 'on' === $JSONObj->autoReplyByTime )
 			{
 				$JSONObj->autoReplyByTime = 'off';
 				define("CONTENT", '下班时段自动回复已关闭');
