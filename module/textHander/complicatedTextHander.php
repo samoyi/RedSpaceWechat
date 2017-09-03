@@ -34,7 +34,10 @@
 		}
 		case '测试':
 		{
-			define("CONTENT", 'ccc');
+			require 'class/CardMessager.class.php';
+			$CardMessager = new CardMessager;
+			$result = $CardMessager->changeQuantity('p-0vY0x0PeBdfUIOPeMycDC5LnWA', 1, 0, 'GENERAL_COUPON');
+			define("CONTENT", json_encode($result));
 			$messageManager->responseMsg( 'text' );
 
 			// $nScene = 0;

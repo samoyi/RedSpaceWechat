@@ -16,11 +16,9 @@
 	$OrderManager = new OrderManager();
 	$buyer_openid = $OrderManager->getOPENIDbyORDERID($order_id);
 
-	$data = '{
-                "touser":"' . $buyer_openid . '",
-                "msgtype":"wxcard",
-                "wxcard":{ "card_id":"' . $card_id . '" }
-                }';
-    $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . ACCESS_TOKEN;
-    echo $result = request_post($url, $data);
+	include('../../class/CardMessager.class.php');
+	$CardMessager = new CardMessager();
+	$result = $CardMessager->sendCard($card_id, $buyer_openid);
+	echo json_encode($result);
+
 ?>

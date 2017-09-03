@@ -72,7 +72,7 @@
 
             include('class/MaterialManager.class.php');
             $materialManager = new MaterialManager();
-            $latestNews = $materialManager->getMaterials("news", 2);
+            $latestNews = $materialManager->getMaterials("news", 1);
             $latestNewsItem = $latestNews->item;
             $latestNewsContentItem = $latestNewsItem[0]->content->news_item;
             $latestNewsTitle = $latestNewsContentItem[0]->title;

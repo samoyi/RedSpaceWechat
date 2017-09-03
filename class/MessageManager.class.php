@@ -3,163 +3,103 @@
 class MessageManager
 {
 
-    //protected
-    //获得推送信息
-    //protected $userOpenID;
+
+    public function responseMsg( $MsgType, $media_id="" )
+    {
+        // 获得微信服务器推送的信息
+        $postStr = file_get_contents('php://input');
 
 
-    //class wechatCallbackapiTest
-    //{
-        public function valid()
+        // 如果调用该方法传入字符串 null，则不回复内容
+        if (!empty($postStr) && ( 'null' !== $MsgType ))
         {
-
-            $echoStr = $_GET["echostr"];
-
-            //valid signature , option
-
-            if($this->checkSignature()){
-                /*echo $echoStr;
-                exit;*/
-            }
-
-        }
-
-        public function responseMsg( $MsgType, $media_id="" )
-        {
-            //get post data, May be due to the different environments
-            // $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
-            $postStr = file_get_contents('php://input');
-
-
-            //extract post data
-            if (!empty($postStr) && ( 'null' !== $MsgType ))
+            /* libxml_disable_entity_loader is to prevent XML external Entity Injection,
+               the best way is to check the validity of xml by yourself */
+            libxml_disable_entity_loader(true); // prevent XXE attack
+            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+            // $fromUsername = $postObj->FromUserName;
+            // $toUsername = $postObj->ToUserName;
+            // $keyword = trim($postObj->Content);
+            $time = time();
+            if( 'text' === $MsgType )
             {
-                /* libxml_disable_entity_loader is to prevent XML eXternal Entity Injection,
-                   the best way is to check the validity of xml by yourself */
-                libxml_disable_entity_loader(true);
-                $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-                $fromUsername = $postObj->FromUserName;
-                $toUsername = $postObj->ToUserName;
-                $keyword = trim($postObj->Content);
-                $time = time();
-                if( 'text' === $MsgType )
-                {
-                    $textTpl = "<xml>
-                                <ToUserName><![CDATA[" . USERID . "]]></ToUserName>
-                                <FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
-                                <CreateTime>12345678</CreateTime>
-                                <MsgType><![CDATA[text]]></MsgType>
-                                <Content><![CDATA[" .CONTENT. "]]></Content>
-                            </xml>";
-                }
-                elseif( 'image' === $MsgType )//图片消息
-                {
-                	$textTpl = "<xml>
-									<ToUserName><![CDATA[" . USERID . "]]></ToUserName>
-                                	<FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
-									<CreateTime>12345678</CreateTime>
-									<MsgType><![CDATA[image]]></MsgType>
-									<Image>
-										<MediaId><![CDATA[" . $media_id . "]]></MediaId>
-									</Image>
-								</xml>";
-                }
-                elseif( 'news' === $MsgType )//图文消息
-                {
-                    $textTpl = "<xml>
-                                <ToUserName><![CDATA[" . USERID . "]]></ToUserName>
-                                <FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
-                                <CreateTime>12345678</CreateTime>
-                                <MsgType><![CDATA[news]]></MsgType>
-                                <ArticleCount>1</ArticleCount>
-                                <Articles>
-                                <item>
-                                <Title><![CDATA[" . NEWSTITLE . "]]></Title>
-                                <Description><![CDATA[" . NEWSDESCRIPTION . "]]></Description>
-                                <PicUrl><![CDATA[" . NEWSPICURL . "]]></PicUrl>
-                                <Url><![CDATA[" . NEWSURL . "]]></Url>
-                                </item>
-                                </Articles>
-                                </xml> ";
-                }
-				elseif( 'newsss' === $MsgType )//图文消息
-				{
-					$textTpl = "<xml>
+                $textTpl = "<xml>
+                            <ToUserName><![CDATA[" . USERID . "]]></ToUserName>
+                            <FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
+                            <CreateTime>12345678</CreateTime>
+                            <MsgType><![CDATA[text]]></MsgType>
+                            <Content><![CDATA[" .CONTENT. "]]></Content>
+                        </xml>";
+            }
+            elseif( 'image' === $MsgType )//图片消息
+            {
+            	$textTpl = "<xml>
 								<ToUserName><![CDATA[" . USERID . "]]></ToUserName>
-								<FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
+                            	<FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
 								<CreateTime>12345678</CreateTime>
-								<MsgType><![CDATA[news]]></MsgType>
-								<ArticleCount>2</ArticleCount>
-								<Articles>
-								<item>
-								<Title><![CDATA[" . NEWSTITLE . "]]></Title>
-								<Description><![CDATA[" . NEWSDESCRIPTION . "]]></Description>
-								<PicUrl><![CDATA[" . NEWSPICURL . "]]></PicUrl>
-								<Url><![CDATA[" . NEWSURL . "]]></Url>
-								</item>
-								<item>
-								<Title><![CDATA[" . NEWSTITLE . "2]]></Title>
-								<Description><![CDATA[" . NEWSDESCRIPTION . "]]></Description>
-								<PicUrl><![CDATA[" . NEWSPICURL . "]]></PicUrl>
-								<Url><![CDATA[" . NEWSURL . "]]></Url>
-								</item>
-								</Articles>
-								</xml> ";
-				}
-
-
-                $msgType = "text";
-                $contentStr = "Welcome to wechat world!";
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-                echo $resultStr;
-                //    注释了下面一段，因为自定义菜单的click推送是没有keyword的，而且这个keyword好像也没什么用。else似乎也不会发生
-                /*if(!empty( $keyword ))
-                {
-                    $msgType = "text";
-                    $contentStr = "Welcome to wechat world!";
-
-                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-
-                    echo $resultStr;
-
-                }
-                else
-                {
-                    echo "Input something...";
-                }*/
+								<MsgType><![CDATA[image]]></MsgType>
+								<Image>
+									<MediaId><![CDATA[" . $media_id . "]]></MediaId>
+								</Image>
+							</xml>";
             }
-            else
+            elseif( 'news' === $MsgType )//图文消息
             {
-                ob_clean();//微信的例子中没有这个，但没有这个就会报错。据说是之前有我没发现的输出内容，所以输出的就不是空字符串。
-                echo '';
-                exit;
+                $textTpl = "<xml>
+                            <ToUserName><![CDATA[" . USERID . "]]></ToUserName>
+                            <FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
+                            <CreateTime>12345678</CreateTime>
+                            <MsgType><![CDATA[news]]></MsgType>
+                            <ArticleCount>1</ArticleCount>
+                            <Articles>
+                            <item>
+                            <Title><![CDATA[" . NEWSTITLE . "]]></Title>
+                            <Description><![CDATA[" . NEWSDESCRIPTION . "]]></Description>
+                            <PicUrl><![CDATA[" . NEWSPICURL . "]]></PicUrl>
+                            <Url><![CDATA[" . NEWSURL . "]]></Url>
+                            </item>
+                            </Articles>
+                            </xml> ";
             }
-        }
 
-        private function checkSignature()
+
+            $msgType = "text";
+            $contentStr = "Welcome to wechat world!";
+            $resultStr = sprintf($textTpl, USERID1, HOSTID, $time, $msgType, $contentStr);
+            echo $resultStr;
+        }
+        else
         {
-            // you must define TOKEN by yourself
-            if (!defined("TOKEN")) {
-                throw new Exception('TOKEN is not defined!');
-            }
-
-            $signature = $_GET["signature"];
-            $timestamp = $_GET["timestamp"];
-            $nonce = $_GET["nonce"];
-
-            $token = TOKEN;
-            $tmpArr = array($token, $timestamp, $nonce);
-            // use SORT_STRING rule
-            sort($tmpArr, SORT_STRING);
-            $tmpStr = implode( $tmpArr );
-            $tmpStr = sha1( $tmpStr );
-
-            if( $tmpStr == $signature ){
-                return true;
-            }else{
-                return false;
-            }
+            ob_clean();//微信的例子中没有这个，但没有这个就会报错。据说是之前有我没发现的输出内容，所以输出的就不是空字符串。
+            echo '';
+            exit;
         }
+    }
+
+    private function checkSignature()
+    {
+        // you must define TOKEN by yourself
+        if (!defined("TOKEN")) {
+            throw new Exception('TOKEN is not defined!');
+        }
+
+        $signature = $_GET["signature"];
+        $timestamp = $_GET["timestamp"];
+        $nonce = $_GET["nonce"];
+
+        $token = TOKEN;
+        $tmpArr = array($token, $timestamp, $nonce);
+        // use SORT_STRING rule
+        sort($tmpArr, SORT_STRING);
+        $tmpStr = implode( $tmpArr );
+        $tmpStr = sha1( $tmpStr );
+
+        if( $tmpStr == $signature ){
+            return true;
+        }else{
+            return false;
+        }
+    }
     //}
 
 
@@ -196,13 +136,13 @@ class MessageManager
         return $postedEvent;
     }
 
-    //发送文本消息
+    // 回复文本消息
     public function sendTextMessage()//TODO 这个没用了？
     {
         $wechatObj->responseMsg( 'text' );
     }
 
-    //发送图片
+    // 回复图片消息
     public function sendImage( $media_id )
     {
     	$result = $this->responseMsg( 'image', $media_id);

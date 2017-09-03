@@ -9,7 +9,6 @@
 require 'class/MessageManager.class.php';
 $messageManager = new MessageManager();
 
-$messageManager->valid(); // TODO 为什么接入成功就不能再调用了
 
 $userMessage = $messageManager->getUserMessage(); // 获得消息
 define("MESSAGE_TYPE", $userMessage['userSentMessageType']); // 用户发送的消息类型 MsgType

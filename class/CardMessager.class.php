@@ -2,120 +2,28 @@
 
 class CardMessager
 {
-    //获取卡券信息
+
+    // 查询相关 ————————————————————————————————————————————————————————————————
+
+    //获取卡券详情
+    /*
+     * 调用微信【查看卡券详情】接口
+     * 返回值为该接口返回数据的 card 属性值
+     */
     public function getBaseInfo($card_id)
     {
         $data = '{"card_id": "' . $card_id . '"}';
         $result =  request_post('https://api.weixin.qq.com/card/get?access_token=' . ACCESS_TOKEN, $data);
         $resultorderObj = json_decode($result);
-		$baseInfo = $resultorderObj->{'card'};
+		$baseInfo = $resultorderObj->card;
         return $baseInfo;
     }
 
-    // 批量查询卡券ID列表
-    /*
-	 *	参数为查询的卡券数量,最多支持50.
-	 */
-    public function batchGetCard( $nBatchCount )
-    {
-        $nBatchCount = $nBatchCount>50 ? 50 : $nBatchCount;
-        $data = '{
-                    "offset": 0,
-                    "count" : ' . $nBatchCount . ',
-                    "status_list":  ["CARD_STATUS_VERIFY_OK", "CARD_STATUS_DISPATCH"]
-                    }
-                ';
-        $result =  request_post('https://api.weixin.qq.com/card/batchget?access_token=' . ACCESS_TOKEN, $data);
-        $resultorderObj = json_decode($result);
-        return $aCardID = $resultorderObj->{'card_id_list'};
-    }
 
-    //自动回复卡券
-    public function sendCard( $card_id )
-    {
-        $data = '{
-                "touser":"' . USERID . '",
-                "msgtype":"wxcard",
-                "wxcard":{ "card_id":"' . $card_id . '" }
-                }';
-        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . ACCESS_TOKEN;
-        $result = request_post($url, $data);
-    }
-
-    //根据OpenID发送卡券
+    // 返回用户一种卡券的所有具体卡券的状态组成的数组
     /*
-     *  第三个可选参数可以传入一个文件地址，记录每次发送的结果以及卡券ID、openID和发送时间
+     * 调用微信【查询Code接口】接口
      */
-	public function sendCardByOpenID( $card_id, $sOpenID, $sSendCardNoteUrl="")
-    {
-        $data = '{
-                "touser":"' . $sOpenID  . '",
-                "msgtype":"wxcard",
-                "wxcard":{ "card_id":"' . $card_id . '" }
-                }';
-        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . ACCESS_TOKEN;
-        $result = request_post($url, $data);
-        $resultObj = json_decode($result);
-        if( !empty($sSendCardNoteUrl) )
-        {
-			file_put_contents($sSendCardNoteUrl, $result .' '. $card_id .' '. $sOpenID .' '. date("Y-m-d G:i:s") . "\n", FILE_APPEND);
-        }
-        return $resultObj;
-    }
-
-	// 获取用户已领取的卡券（包括领取后已经使用的）
-	/*
-	 * 包括正常状态和未生效状态
-	 * 不写第二个参数则是所有的卡券，第二个参数传入某款卡券ID，则只包含该款卡券的列表
-	 * 在指定卡券ID的情况下，返回值得card_list是该款卡券的数组列表，如果为空数组则表示没有该款卡券
-	 */
-	public function getUserCardList($sOpenID, $sCardID="")
-	{
-		$url = 'https://api.weixin.qq.com/card/user/getcardlist?access_token=' . ACCESS_TOKEN;
-		if( isset($sCardID) )
-		{
-			$data = '{
-			  "openid": "' . $sOpenID . '",
-			  "card_id": "' . $sCardID . '"
-			}';
-		}
-		else
-		{
-			$data = '{
-			  "openid": "' . $sOpenID . '"
-			}';
-		}
-
-		$result = request_post($url, $data);
-		return json_decode($result);
-	}
-
-
-    // 修改卡券数量
-    // 如果要增加，则第二个参数写增加的个数，第三个参数不写或写0；如果要减少，则第二个参数写0，第三个写减少的个数
-    // 如果要清空该卡券，第二个参数写0，第三个参数写“all”
-    // 如果卡券类型不是general_coupon，则填写第四个参数。
-    public function changeQuantity( $card_id, $increase_stock_value=0, $reduce_stock_value=0, $card_type='general_coupon')
-    {
-        if( 'all' === trim($reduce_stock_value) )
-        {
-            $reduce_stock_value = $this->getBaseInfo($card_id)->$card_type->base_info->sku->quantity;
-        }
-        $data = '{
-                        "card_id": "' . $card_id . '",
-                        "increase_stock_value": ' . $increase_stock_value . ',
-                        "reduce_stock_value": ' . $reduce_stock_value . '
-                    }';
-        $url = 'https://api.weixin.qq.com/card/modifystock?access_token=' . ACCESS_TOKEN;
-        $result =  request_post($url, $data) ;
-        return $result;
-    }
-
-
-    // 核销相关 ————————————————————————————————————————————————————————————————
-
-    // 返回用户一种卡券的所有具体卡券状态组成的数组
-    // 对用官网文档中的查询code接口
     public function queryCode( $sOpenID, $card_id )
     {
         // 获取指定用户的指定卡券
@@ -142,10 +50,128 @@ class CardMessager
         return $cardInfo;
     }
 
+
+    // 批量查询卡券ID列表
+    /*
+     * 调用微信【批量查询卡券列表】接口
+	 * 第一个参数为查询的卡券数量,最多支持50.
+     * 第二个参数是一个数组，表示要查询哪些状态的卡券
+     *     'CARD_STATUS_NOT_VERIFY'    待审核
+     *     'CARD_STATUS_VERIFY_FAIL'   审核失败
+     *     'CARD_STATUS_VERIFY_OK'     通过审核待投放
+     *     'CARD_STATUS_DELETE'        已被商户删除
+     *     'CARD_STATUS_DISPATCH'      已投放
+     *   该参数默认只查询通过审核待投放和已投放两种状态的卡券
+	 */
+    public function batchGetCard( $nBatchCount, $aState = array('CARD_STATUS_VERIFY_OK', 'CARD_STATUS_DISPATCH') )
+    {
+        $nBatchCount = $nBatchCount>50 ? 50 : $nBatchCount;
+        $data = '{
+                    "offset": 0,
+                    "count" : ' . $nBatchCount . ',
+                    "status_list":  '. json_encode($aState) .'
+                    }
+                ';
+        $result =  request_post('https://api.weixin.qq.com/card/batchget?access_token=' . ACCESS_TOKEN, $data);
+        $resultorderObj = json_decode($result);
+        return $aCardID = $resultorderObj->card_id_list;
+    }
+
+
+
+	// 获取用户已领取的卡券（包括领取后已经使用的）
+	/*
+     * 调用微信【获取用户已领取卡券接口】接口
+	 * 包括正常状态和未生效状态
+	 * 不写第二个参数则返回所有的卡券，第二个参数传入某款卡券ID，则只包含该款卡券的列表
+	 */
+	public function getUserCardList($sOpenID, $sCardID="")
+	{
+		$url = 'https://api.weixin.qq.com/card/user/getcardlist?access_token=' . ACCESS_TOKEN;
+		if( empty($sCardID) )
+		{
+			$data = '{
+			  "openid": "' . $sOpenID . '"
+			}';
+		}
+		else
+		{
+			$data = '{
+			  "openid": "' . $sOpenID . '",
+			  "card_id": "' . $sCardID . '"
+			}';
+		}
+
+		$result = request_post($url, $data);
+		return json_decode($result);
+	}
+
+
+
+    // 修改相关 ————————————————————————————————————————————————————————————————
+
+    // 修改卡券数量
+    /*
+     * 调用微信【修改库存接口】接口
+     * 如果要增加，则第二个参数写增加的个数，第三个参数不写或写0；如果要减少，则第二个参数写0，第三个写减少的个数
+     * 如果要清空该卡券，第二个参数写0，第三个参数写“all”
+     * 如果卡券类型不是general_coupon，则填写第四个参数。
+     * 卡券类型：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025272
+     */
+    public function changeQuantity( $card_id, $increase_stock_value=0, $reduce_stock_value=0, $card_type='general_coupon')
+    {
+        if( 'all' === trim($reduce_stock_value) )
+        {
+            $reduce_stock_value = $this->getBaseInfo($card_id)->$card_type->base_info->sku->quantity;
+        }
+        $data = '{
+                        "card_id": "' . $card_id . '",
+                        "increase_stock_value": ' . $increase_stock_value . ',
+                        "reduce_stock_value": ' . $reduce_stock_value . '
+                    }';
+        $url = 'https://api.weixin.qq.com/card/modifystock?access_token=' . ACCESS_TOKEN;
+        $result = request_post($url, $data) ;
+        return json_decode($result);
+    }
+
+
+
+    // 发送相关 ————————————————————————————————————————————————————————————————
+
+    // 发送卡券
+    /*
+     * 调用微信【客服接口-发消息】接口
+     * 第三个可选参数可以传入一个文件地址，记录每次发送的结果以及卡券ID、openID和发送时间
+     */
+	public function sendCard( $card_id, $sOpenID, $sSendCardNoteUrl="")
+    {
+        $data = '{
+                "touser":"' . $sOpenID  . '",
+                "msgtype":"wxcard",
+                "wxcard":{ "card_id":"' . $card_id . '" }
+                }';
+        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . ACCESS_TOKEN;
+        $result = request_post($url, $data);
+        $resultObj = json_decode($result);
+        if( !empty($sSendCardNoteUrl) )
+        {
+			file_put_contents($sSendCardNoteUrl, $result .' '. $card_id .' '. $sOpenID .' '. date("Y-m-d G:i:s") . "\n", FILE_APPEND);
+        }
+        return $resultObj;
+    }
+
+
+
+    // 核销相关 ————————————————————————————————————————————————————————————————
+
     // 核销用户某一种卡券中的其中（如果有多张）一张
-    // 对应官网文档中的核销code接口
-    // 如果是自定义code的卡券，则第4个参数传true
-    public function consumeCard($sOpenID, $card_id, $bIsCustomCode=false){
+    /*
+     * 调用微信【查询Code接口】接口
+     * 如果返回false，则说明用户没有可核销的该类卡券
+     * 如果是自定义code的卡券，则第4个参数传true
+     */
+    public function consumeCard($sOpenID, $card_id, $bIsCustomCode=false)
+    {
         $url = 'https://api.weixin.qq.com/card/code/consume?access_token=' . ACCESS_TOKEN;
         $aData = array();
         if($bIsCustomCode){
@@ -154,16 +180,14 @@ class CardMessager
 
         $codes = $this->queryCode( $sOpenID, $card_id );
 
-        $result = "no can consume card";
+        $result = false;
         for($i=0; $i<count($codes); $i++){
             if($codes[$i]->can_consume === true){
                 $aData["code"] = $codes[$i]->card->code;
-                file_put_contents('test.txt', json_encode($aData) . "\n\n", FILE_APPEND);
                 $result = request_post($url, json_encode($aData));
                 break;
             }
         }
-
         return $result;
     }
 }

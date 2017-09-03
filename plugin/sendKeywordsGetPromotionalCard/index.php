@@ -56,7 +56,7 @@ function sendKeywordsGetPromotionalCard($aProductNameToCardID, $sNoOrderTip)
 					include('class/CardMessager.class.php');
 				}
 				$cardMessager = new CardMessager();
-				$cardMessager->sendCardByOpenID($value, USERID, 'manage/sendCardResult.txt' );
+				$cardMessager->sendCard($value, USERID, 'manage/sendCardResult.txt' );
 				$isSend = true;
 			}
 		}

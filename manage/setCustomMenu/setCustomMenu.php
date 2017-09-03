@@ -12,11 +12,9 @@ require '../../configuration.php';
 require '../../publicFunctions.php';
 define("ACCESS_TOKEN", getAccessToken());
 
-include('../../class/CustomMenu.class.php');
-$customMenu = new CustomMenu();
-
 $customMenuData = file_get_contents("customMenu.json");
 
-echo $customMenu->createMenu( json_decode($customMenuData) );   // 设置自定义菜单
+$url =  'https://api.weixin.qq.com/cgi-bin/menu/create?access_token=' . ACCESS_TOKEN;
+echo $result = request_post($url, $customMenuData);
 
 ?>
