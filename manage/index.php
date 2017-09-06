@@ -191,7 +191,7 @@
 				let linkHrefPattern = /<a href='(.+)'>/;
 				sEditorUlHtml += "<li class='subscribeAutoReply_link'><input class='subscribeAutoReply_edit' type='button' value='行编辑' /> <span class='type'>链接文本：</span><input class='linkTextInput' type='text' value='" + item.match(linkTextPattern)[1] + "' /> 链接地址：<input class='linkInput' type='text' value='" + item.match(linkHrefPattern)[1] + "' /></li>";
 			}
-			else if( "\\n" === item ) // 换行
+			else if( "\n" === item ) // 换行
 			{
 				sEditorUlHtml += "<li class='subscribeAutoReply_newline'><input class='subscribeAutoReply_edit' type='button' value='行编辑' /> <input type='text' disabled='disabled' value='换行' /></li>";
 			}

@@ -86,7 +86,7 @@
                                         "title" => "红房子微信订蛋糕指南",
                                         "des" => "红房子蛋糕 美味空间新灵感",
                                         "imageUrl" => "https://mmbiz.qlogo.cn/mmbiz/fYETicIfkWsWicnYhDqAjfYl0QuCBl9esrEqPKQbtibM1MEPMWbHy9puVfVfZ2h8IQbunL7KicPicUs8qGicUQ74EmAg/0?wx_fmt=jpeg",
-                                        "articleUrl" => "http://mp.weixin.qq.com/s?__biz=MjM5NzA2OTIwMQ==&mid=503272296&idx=1&sn=e27544828b2c12bbdbca9a95b88b150e#rd"
+                                        "articleUrl" => "http://www.red-space.cn/H5/2017/directToMeituan/index.html"
                                     )
                                 )
                             )

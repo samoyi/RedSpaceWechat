@@ -1,4 +1,11 @@
 <?php
+    function isSecure() {
+      return
+        (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || $_SERVER['SERVER_PORT'] == 443;
+    }
+
+    session_set_cookie_params(0, './', '', isSecure(), true);
     session_start();
 
     require '../configuration.php';

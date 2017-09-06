@@ -15,8 +15,8 @@ class MessageManager
         {
             /* libxml_disable_entity_loader is to prevent XML external Entity Injection,
                the best way is to check the validity of xml by yourself */
-            libxml_disable_entity_loader(true); // prevent XXE attack
-            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+            // libxml_disable_entity_loader(true); // prevent XXE attack
+            // $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             // $fromUsername = $postObj->FromUserName;
             // $toUsername = $postObj->ToUserName;
             // $keyword = trim($postObj->Content);
@@ -63,10 +63,10 @@ class MessageManager
             }
 
 
-            $msgType = "text";
-            $contentStr = "Welcome to wechat world!";
-            $resultStr = sprintf($textTpl, USERID1, HOSTID, $time, $msgType, $contentStr);
-            echo $resultStr;
+            // $msgType = "text";
+            // $contentStr = "Welcome to wechat world!";
+            // $resultStr = sprintf($textTpl, USERID1, HOSTID, $time, $msgType, $contentStr);
+            echo $textTpl;
         }
         else
         {
@@ -103,6 +103,7 @@ class MessageManager
     //}
 
 
+
     //取得用户发送
     public function getUserMessage()
     {
@@ -136,17 +137,19 @@ class MessageManager
         return $postedEvent;
     }
 
+
+
     // 回复文本消息
-    public function sendTextMessage()//TODO 这个没用了？
-    {
-        $wechatObj->responseMsg( 'text' );
-    }
+    // public function responseTextMsg()
+    // {
+    //     $wechatObj->responseMsg( 'text' );
+    // }
 
     // 回复图片消息
-    public function sendImage( $media_id )
-    {
-    	$result = $this->responseMsg( 'image', $media_id);
-    }
+    // public function sendImage( $media_id )
+    // {
+    // 	$result = $this->responseMsg( 'image', $media_id);
+    // }
 
 	// 发送图文消息。不超过十条
     public function sendArticalMessage($aArticleInfo)
