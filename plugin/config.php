@@ -2,7 +2,8 @@
 
     $pluginConfig = array(
         "recordOpenID"=>true,
-        "offDutyAutoReply"=>true
+        "offDutyAutoReply"=>true,
+        "noteOrderInfo"=>true
     );
 
 ?>
