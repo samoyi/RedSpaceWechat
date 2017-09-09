@@ -1,0 +1,5 @@
+<?php
+
+	requirePlugin('offDutyAutoReply');
+
+?>
