@@ -3,113 +3,11 @@
 class MessageManager
 {
 
-
-    public function responseMsg( $MsgType, $media_id="" )
-    {
-        // 获得微信服务器推送的信息
-        $postStr = file_get_contents('php://input');
-
-
-        // 如果调用该方法传入字符串 null，则不回复内容
-        if (!empty($postStr) && ( 'null' !== $MsgType ))
-        {
-            /* libxml_disable_entity_loader is to prevent XML external Entity Injection,
-               the best way is to check the validity of xml by yourself */
-            // libxml_disable_entity_loader(true); // prevent XXE attack
-            // $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-            // $fromUsername = $postObj->FromUserName;
-            // $toUsername = $postObj->ToUserName;
-            // $keyword = trim($postObj->Content);
-            $time = time();
-            if( 'text' === $MsgType )
-            {
-                $textTpl = "<xml>
-                            <ToUserName><![CDATA[" . USERID . "]]></ToUserName>
-                            <FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
-                            <CreateTime>12345678</CreateTime>
-                            <MsgType><![CDATA[text]]></MsgType>
-                            <Content><![CDATA[" .CONTENT. "]]></Content>
-                        </xml>";
-            }
-            elseif( 'image' === $MsgType )//图片消息
-            {
-            	$textTpl = "<xml>
-								<ToUserName><![CDATA[" . USERID . "]]></ToUserName>
-                            	<FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
-								<CreateTime>12345678</CreateTime>
-								<MsgType><![CDATA[image]]></MsgType>
-								<Image>
-									<MediaId><![CDATA[" . $media_id . "]]></MediaId>
-								</Image>
-							</xml>";
-            }
-            elseif( 'news' === $MsgType )//图文消息
-            {
-                $textTpl = "<xml>
-                            <ToUserName><![CDATA[" . USERID . "]]></ToUserName>
-                            <FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
-                            <CreateTime>12345678</CreateTime>
-                            <MsgType><![CDATA[news]]></MsgType>
-                            <ArticleCount>1</ArticleCount>
-                            <Articles>
-                            <item>
-                            <Title><![CDATA[" . NEWSTITLE . "]]></Title>
-                            <Description><![CDATA[" . NEWSDESCRIPTION . "]]></Description>
-                            <PicUrl><![CDATA[" . NEWSPICURL . "]]></PicUrl>
-                            <Url><![CDATA[" . NEWSURL . "]]></Url>
-                            </item>
-                            </Articles>
-                            </xml> ";
-            }
-
-
-            // $msgType = "text";
-            // $contentStr = "Welcome to wechat world!";
-            // $resultStr = sprintf($textTpl, USERID1, HOSTID, $time, $msgType, $contentStr);
-            echo $textTpl;
-        }
-        else
-        {
-            ob_clean();//微信的例子中没有这个，但没有这个就会报错。据说是之前有我没发现的输出内容，所以输出的就不是空字符串。
-            echo '';
-            exit;
-        }
-    }
-
-    private function checkSignature()
-    {
-        // you must define TOKEN by yourself
-        if (!defined("TOKEN")) {
-            throw new Exception('TOKEN is not defined!');
-        }
-
-        $signature = $_GET["signature"];
-        $timestamp = $_GET["timestamp"];
-        $nonce = $_GET["nonce"];
-
-        $token = TOKEN;
-        $tmpArr = array($token, $timestamp, $nonce);
-        // use SORT_STRING rule
-        sort($tmpArr, SORT_STRING);
-        $tmpStr = implode( $tmpArr );
-        $tmpStr = sha1( $tmpStr );
-
-        if( $tmpStr == $signature ){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    //}
-
-
-
     //取得用户发送
     public function getUserMessage()
     {
-
-        // $fetchedMsg = $GLOBALS["HTTP_RAW_POST_DATA"];
         $fetchedMsg = file_get_contents('php://input');
+        libxml_disable_entity_loader(true); // prevent XXE attack
         $fetchedMsgXML = simplexml_load_string($fetchedMsg, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         $userMessage = array('userOpenID'=> $fetchedMsgXML->FromUserName,
@@ -123,9 +21,8 @@ class MessageManager
     //取得事件推送
     public function getPostedEvent()
     {
-
-        // $fetchedMsg = $GLOBALS["HTTP_RAW_POST_DATA"];
         $fetchedMsg = file_get_contents('php://input');
+        libxml_disable_entity_loader(true); // prevent XXE attack
         $fetchedMsgXML = simplexml_load_string($fetchedMsg, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         $postedEvent = array('userOpenID'=> $fetchedMsgXML->FromUserName,
@@ -138,20 +35,54 @@ class MessageManager
     }
 
 
+    // 结束会话，不回复内容
+    public function responseNull(){
+        ob_clean();//微信的例子中没有这个，但没有这个就会报错。据说是之前有我没发现的输出内容，所以输出的就不是空字符串。
+        echo '';
+        exit;
+    }
+
 
     // 回复文本消息
-    // public function responseTextMsg()
-    // {
-    //     $wechatObj->responseMsg( 'text' );
-    // }
+    public function responseTextMsg($sContent)
+    {
+        $msg = "<xml>
+                    <ToUserName><![CDATA[" . USERID . "]]></ToUserName>
+                    <FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
+                    <CreateTime>" .time(). "</CreateTime>
+                    <MsgType><![CDATA[text]]></MsgType>
+                    <Content><![CDATA[" .$sContent. "]]></Content>
+                </xml>";
+        echo $msg;
+    }
 
     // 回复图片消息
-    // public function sendImage( $media_id )
-    // {
-    // 	$result = $this->responseMsg( 'image', $media_id);
-    // }
+    public function sendImage( $media_id )
+    {
+        $msg = "<xml>
+                        <ToUserName><![CDATA[" . USERID . "]]></ToUserName>
+                        <FromUserName><![CDATA[" . HOSTID . "]]></FromUserName>
+                        <CreateTime>" .time(). "</CreateTime>
+                        <MsgType><![CDATA[image]]></MsgType>
+                        <Image>
+                            <MediaId><![CDATA[" . $media_id . "]]></MediaId>
+                        </Image>
+                    </xml>";
+        echo $msg;
+    }
 
-	// 发送图文消息。不超过十条
+	// 回复图文消息
+    /*
+     * 一次不超过十条
+     * $aArticleInfo是一个二维数组。每个数组项是一个图文消息的信息，为一个4项关联
+     *   数组，如下示例
+     *      array(
+     *          "title"=>"图文消息标题",
+     *         "des"=>"图文消息描述",
+     *         "articleUrl"=>"", // 图文消息链接
+     *         "imageUrl"=>"" // 图文消息缩略图
+     *      )
+     */
     public function sendArticalMessage($aArticleInfo)
     {
 		$nArticleAmount = count( $aArticleInfo );
@@ -178,31 +109,14 @@ class MessageManager
 		echo $textTpl = $textTplFront . $textTplBehind;
     }
 
-    // 发送客服消息
-	/*
-	 *	默认第二个参数为true，即发送完客服消息后再进行空回复，结束会话
-	 *	如果之后还要发送其他消息，这个参数应该设为false
-	 */
-    public function sendCSMessage( $content, $bSendNull=true )
-    {
-        $json = '{
-                    "touser": "' . USERID . '",
-                    "msgtype":"text",
-                    "text":
-                    {
-                           "content":"' . $content . '"
-                    }
-                }';
-        $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
-        $result = request_post($url, $json);
-        if( $bSendNull )
-        {
-            $this->responseMsg( 'null' );
-        }
-    }
 
-	// 发送文字客服消息
-	public function sendTextCSMessage($sOpenID, $sContent)
+	// 客服消息发送文字
+    /*
+     * 调用微信【客服接口-发消息】接口
+	 * 默认第三个参数为true，即发送完客服消息后再进行空回复，结束会话
+	 * 如果之后还要发送其他消息，这个参数应该设为false
+	 */
+	public function sendTextCSMessage($sOpenID, $sContent, $bSendNull=true)
 	{
 		$url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
 		$data = '{
@@ -213,10 +127,19 @@ class MessageManager
 						 "content":"' . $sContent . '"
 					}
 				}';
-		return $result = request_post($url, $data);
+		$result = request_post($url, $data);
+        if( $bSendNull )
+        {
+            $this->responseNull();
+        }
+        return $result;
 	}
 
-	// 发送图片客服消息
+
+	// 客服消息发送图片
+    /*
+     * 调用微信【客服接口-发消息】接口
+	 */
 	public function sendImageCSMessage($sOpenID, $sMediaID)
 	{
 		$url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
@@ -228,10 +151,16 @@ class MessageManager
 						 "media_id":"' . $sMediaID . '"
 					}
 				}';
-		return $result = request_post($url, $data);
+        return request_post($url, $data);
 	}
 
-	// 发送图文客服消息（最多8条）
+
+	// 客服消息发送图文
+    /*
+     * 调用微信【客服接口-发消息】接口
+     * 一次最多8条
+	 * 参数参考 sendArticalMessage
+	 */
 	public function sendArticalCSMessage($sOpenID, $aArticleInfo)
 	{
 		$nArticleAmount = count( $aArticleInfo );
@@ -253,25 +182,14 @@ class MessageManager
 					}
 				}';
 		$url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
-		return $result = request_post($url, $data);
+		return request_post($url, $data);
 	}
 
-	// 发送单条图文客服消息（根据素材ID）
-	public function sendNewsCSMessage($sOpenID, $sMediaID)
-	{
-		$url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
-		$data = '{
-					"touser":"' . $sOpenID . '",
-					"msgtype":"mpnews",
-					"mpnews":
-					{
-						 "card_id":"' . $sMediaID . '"
-					}
-				}';
-		return $result = request_post($url, $data);
-	}
 
-	// 发送卡券客服消息
+	// 客服消息发送卡券
+    /*
+     * 调用微信【客服接口-发消息】接口
+	 */
 	public function sendCardCSMessage($sOpenID, $sCardID)
 	{
 		$url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=' . ACCESS_TOKEN;
@@ -283,36 +201,27 @@ class MessageManager
 						 "card_id":"' . $sCardID . '"
 					}
 				}';
-		return $result = request_post($url, $data);
+		return request_post($url, $data);
 	}
+
 
     //根据订单号发送文字客服消息
     public function sendCustomMessage( $order_id, $msg )
     {
-        include('OrderManager.class.php');
+        require PROJECT_ROOT . 'class/OrderManager.class.php';
         $orderManager = new OrderManager();
         $openid = $orderManager->getOPENIDbyORDERID( $order_id );
 
-        $data = '{
-            "touser" :"' . $openid . '",
-            "msgtype":"text",
-            "text":{"content":"' . $msg . '"}
-        }';
-        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . ACCESS_TOKEN;
-        $result = request_post($url, $data);
+        $result = $this->sendTextCSMessage($sOpenID, $sContent, false);
         exit( $result ) ;
     }
 
 
-    //发送卡券领取消息
-    public function sendCardReceivedMessage( $txt)
-    {
-        define("CONTENT", $txt);
-        $this->responseMsg( 'text' );
-    }
-
     //发送模板消息
-    // 参数$orderDetail为订单详情数组
+    /*
+     * 调用微信【发送模板消息】接口
+     * 参数$orderDetail为订单详情数组
+	 */
 	public function sendTemplateMessage($orderDetail, $sOpenID, $ad="", $detailUrl="")
     {
         $template = array(
@@ -328,16 +237,26 @@ class MessageManager
             )
         );
         $url_post = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . ACCESS_TOKEN;
-        $result = request_post($url_post, json_encode($template));
-		return $result;
+        return request_post($url_post, json_encode($template));
     }
 
+
     // 发送订阅消息
-    public function sendSubscribeMessage($nScene, $sOpenID, $sTitle, $sMessage, $sFontColor, $sTemplateID, $sRedirectURL=''){
+    /*
+     * 调用微信【一次性订阅消息】接口
+     * $sSceneName 为通过 subscribeMessage\generate.php 生成新场景时使用的场景名
+     * 如果返回false，则说明之前没有设定该名为$sSceneName的场景
+	 */
+    public function sendSubscribeMessage($sSceneName, $sOpenID, $sTitle, $sMessage, $sFontColor, $sRedirectURL=''){
         $url_post = "https://api.weixin.qq.com/cgi-bin/message/template/subscribe?access_token=" . ACCESS_TOKEN;
+        $aSceneMap = json_decode(file_get_contents(PROJECT_ROOT.'subscribeMessage/sceneMap.json'));
+        $nScene = array_search($sSceneName, $aSceneMap, true);
+        if( $nScene===false ){
+            return false;
+        }
         $data = array(
                     "touser"=> $sOpenID,
-                    "template_id"=> $sTemplateID,
+                    "template_id"=> SUB_MSG_TEMPLATE_ID,
                     "url"=> $sRedirectURL,
                     "scene"=> $nScene,
                     "title"=> $sTitle,

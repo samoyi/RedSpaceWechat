@@ -33,7 +33,7 @@ function sendKeywordsGetPromotionalCard($aProductNameToCardID, $sNoOrderTip)
 {
 	if( !class_exists("MySQLiController", false) )
 	{
-		require PROJECT_ROOT . 'class/MySQLiController.class.php';
+		require PROJECT_ROOT . 'plugin/MySQLiController.class.php';
 	}
 	$MySQLiController = new MySQLiController( $dbr );
 	$tableName = 'Wechat_Order';
@@ -69,17 +69,15 @@ function sendKeywordsGetPromotionalCard($aProductNameToCardID, $sNoOrderTip)
 	$messageManager = new messageManager;
 	if( $orderNum===0 )
 	{
-		 define("CONTENT", '没有查询到您的购买记录');
-		 $messageManager->responseMsg( 'text' );
+		 $messageManager->responseTextMsg('没有查询到您的购买记录');
 	}
 	elseif( $isSend )
 	{
-		$messageManager->responseMsg( 'null' );
+		$messageManager->responseNull();
 	}
 	else
 	{
-		define("CONTENT", $sNoOrderTip);
-		$messageManager->responseMsg( 'text' );
+		$messageManager->responseTextMsg($sNoOrderTip);
 	}
 }
 

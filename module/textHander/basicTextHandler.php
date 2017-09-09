@@ -116,8 +116,7 @@
             {
                 case 'sendTextMessage':
                 {
-                    define("CONTENT", $value);
-                    $messageManager->responseMsg( 'text' );
+                    $messageManager->responseTextMsg($value);
                     break;
                 }
                 case 'sendArticalMessage':
@@ -134,7 +133,7 @@
             {
                 case 'sendTextMessage':
                 {
-                    $messageManager->sendTextCSMessage(USERID, $value);
+                    $messageManager->sendTextCSMessage(USERID, $value, false);
                     break;
                 }
                 case 'sendArticalMessage':

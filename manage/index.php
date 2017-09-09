@@ -179,7 +179,7 @@
 	let aSubscribeAutoReplyEditButton = []; // XXX 这个变量定义的比较全局
 
 	// 读取现在的自动回复内容
-	AjaxGet("JSONData/subscribeAutoPlayText.json", function(responseText)
+	AjaxGet("subscribeAutoReply/subscribeAutoPlayText.json", function(responseText)
 	{
 		let aSubscribeAutoReplyText = JSON.parse( responseText ),
 			sEditorUlHtml = "";

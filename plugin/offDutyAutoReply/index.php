@@ -13,17 +13,16 @@ if( date('G')>(OFF_DUTY_TIME-1) || date('G')<ON_DUTY_TIME)//客服下班时间�
 	$JSONObj = json_decode( file_get_contents(PROJECT_ROOT . 'manage/switchAutoReply/autoReplyState.json'));
 	if( 'on' === $JSONObj->autoReplyByTime )
 	{
-		define("CONTENT", OFF_DUTY_AUTOREPLY);
-		$messageManager->responseMsg( 'text' );
+		$messageManager->responseTextMsg(OFF_DUTY_AUTOREPLY);
 	}
 	else
 	{
-		$messageManager->responseMsg( 'null' );
+		$messageManager->responseNull();
 	}
 }
 else
 {
-	$messageManager->responseMsg( 'null' );
+	$messageManager->responseNull();
 }
 
 

@@ -1,10 +1,10 @@
 <?php
 
-    $arr = json_decode( file_get_contents('manage/JSONData/subscribeAutoPlayText.json'));
+    $arr = json_decode( file_get_contents('manage/subscribeAutoReply/subscribeAutoPlayText.json'));
     $content = '';
     foreach( $arr as $value){
         $content .= $value;
     }
-    $messageManager->sendCSMessage($content, false);
+    $messageManager->sendTextCSMessage(USERID, $content);
 
 ?>

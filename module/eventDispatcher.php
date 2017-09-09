@@ -36,7 +36,7 @@ switch( EVENT_TYPE )
 	}
     default :
     {
-        $messageManager->responseMsg( 'null' );
+        $messageManager->responseNull();
         // 这里会发送空字符串，也就是不回复。但是要注意这之后不能再发送其他东西，包
         // 括修改自定义菜单之类的，否则发送的就不是空字符串，且也不是合理的回复格式，
         // 就会显示无法服务。

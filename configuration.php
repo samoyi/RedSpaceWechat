@@ -1,23 +1,27 @@
 <?php
-/*
- * 公众号配置 和 项目设置
- *
- */
 
-define("TOKEN", "RedSpace");
-define("APPID", "wx2e87611162aae7f4");
-define("APPSECRET", "9aef7e06d6c0cf735762e2982fa755ca");
+
+// 必填配置 ---------------------------------------------------------------------
+
+// 公众号配置
+define("TOKEN", ""); // 自定义。与公众平台网页上填写的相同。参考 开发文档——接入指南
+define("APPID", ""); // 公众平台开发者ID
+define("APPSECRET", ""); // 公众平台开发者密码
+
 
 // 某些地方需要使用绝对路径
-// 结尾的斜线不能省略
+// 如下示例， 结尾的斜线不能省略
 define("PROJECT_ROOT", "/data/home/hmu196265/htdocs/wechat/");
 
-define('DB_ADDRESS', 'hdm-124.hichina.com');//数据库连接地址
-define('DB_USER', 'hdm1240996');//数据库用户名
-define('DB_PASSWORD', 'ur010894');//数据库密码
-define('DB_NAME', 'hdm1240996_db');//数据库名称
-define('DB_TABLE', 'Wechat_OpenID');
 
-define('MANAGE_PASSWORD', 123); // 管理功能的验证密码 安全性能不高
+ // 管理功能的验证密码 安全性能不高
+define('MANAGE_PASSWORD', 123);
+
+
+// 选填配置 ---------------------------------------------------------------------
+
+ // 一次性订阅消息模板。如果需要使用该功能则填写
+define('SUB_MSG_TEMPLATE_ID', '');
+
 
 ?>

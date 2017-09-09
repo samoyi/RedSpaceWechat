@@ -7,7 +7,7 @@
 
 
     // 插件：记记录订单信息 ------------------------------------------------------
-    requirePlugin('recordOpenID');
+    requirePlugin('noteOrderInfo');
     noteOrderInfo($orderDetail);
 
 

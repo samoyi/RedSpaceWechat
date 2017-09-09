@@ -7,7 +7,7 @@
 		{
 			case 'copySubscribeAutoReplyJSON':
 			{
-				if( copy('../JSONData/subscribeAutoPlayText.json', '../JSONData/subscribeAutoPlayText_copy.json') )
+				if( copy('subscribeAutoPlayText.json', 'subscribeAutoPlayText_copy.json') )
 				{
 					echo 'success';
 				}
@@ -19,7 +19,7 @@
 	if( isset($_POST['newJSON']) )
 	{
 		$sNewJSON = stripslashes(urldecode($_POST['newJSON']));
-		if( file_put_contents('../JSONData/subscribeAutoPlayText.json', $sNewJSON) )
+		if( file_put_contents('subscribeAutoPlayText.json', $sNewJSON) )
 		{
 			echo 'success';
 		}
