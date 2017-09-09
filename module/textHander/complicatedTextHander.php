@@ -16,7 +16,7 @@
 		}
 		case '切换自动回复314' :
 		{
-			$JSONObj = json_decode( file_get_contents('manage/switchAutoReply/autoReplyState.json') );
+			$JSONObj = json_decode( file_get_contents('plugin/offDutyAutoReply/autoReplyState.json') );
 			if( 'on' === $JSONObj->autoReplyByTime )
 			{
 				$JSONObj->autoReplyByTime = 'off';
@@ -27,7 +27,7 @@
 				$JSONObj->autoReplyByTime = 'on';
 				define("CONTENT", '下班时段自动回复已打开');
 			}
-			file_put_contents('manage/switchAutoReply/autoReplyState.json', json_encode($JSONObj));
+			file_put_contents('plugin/offDutyAutoReply/autoReplyState.json', json_encode($JSONObj));
 			$messageManager->responseTextMsg(CONTENT);
 			break;
 		}

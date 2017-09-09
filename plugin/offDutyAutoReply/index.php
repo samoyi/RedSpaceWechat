@@ -10,7 +10,7 @@ $messageManager = new MessageManager();
 if( date('G')>(OFF_DUTY_TIME-1) || date('G')<ON_DUTY_TIME)//客服下班时间，自动回复客服已下班
 {
 	// 查看客服是否开启了下班时间自动回复功能
-	$JSONObj = json_decode( file_get_contents(PROJECT_ROOT . 'manage/switchAutoReply/autoReplyState.json'));
+	$JSONObj = json_decode( file_get_contents(PROJECT_ROOT . 'plugin/offDutyAutoReply/autoReplyState.json'));
 	if( 'on' === $JSONObj->autoReplyByTime )
 	{
 		$messageManager->responseTextMsg(OFF_DUTY_AUTOREPLY);

@@ -56,19 +56,13 @@
 <a href="sendCardByOrderID/sendCardByOrderID.html" ><h2>三、根据订单号发送卡券</h2></a>
 <a href="sendCardByOpenID/sendCardByOpenID.html" ><h2>四、根据OpenID发送卡券</h2></a>
 <a href="sendTemplateMessageByOpenID/TemplateMessage.html" ><h2>五、根据OpenID发送模板消息 测试</h2></a>
-<section id="off_duty_autoreply">
-	<h2>四、下班时段自动回复</h2>
-	<p>点击切换状态 <input id="switchAutoReply" type="button" value="读取中" /></p>
-	<br /><br />
-	<p>
-		\n为折行 <textarea>读取中</textarea>
-		<input id="setOffDutyAutoreply" type="button" value="提交下班时段自动回复文本" />
-	</p>
+<section id="setCustomMenu">
+    <h2>六、自定义菜单的备份和设置</h2>
+    <input class="copy" type="button" value="备份现有自定义菜单json文件" />
+    <input class="set" type="button" value="按照现有自定义菜单json数据设置自定义菜单" />
 </section>
-
-
 <section id="subscribeAutoReplyTextEditor">
-	<h2>五、新关注自动回复编辑器</h2>
+	<h2>七、新关注自动回复编辑器</h2>
 	<p class="noticeText">只支持无格式文本(包括Unicode符号文本)和链接</p>
 	<ul></ul>
 	<div id="subscribeAutoReply_editBox">
@@ -89,86 +83,44 @@
 </body>
 <script>
 
-/*
- * TODO
- * 1.
- *
- *
- */
-
-//
-(function()
+// 自定义菜单
 {
-
-	var oOffDutyReplyEditor = document.querySelector("#off_duty_autoreply"),
-		oSwitchAutoReply = oOffDutyReplyEditor.querySelector("#switchAutoReply");
-
-	getAutoReplyByTimeState(); // 读取当前状态并写入按钮
-	function getAutoReplyByTimeState()
-	{
-		var sUrl = "switchAutoReply/autoReplyState.json",
-			fnSuccess = function( responseText )
-			{
-				var oManageConfiguration = JSON.parse( responseText ),
-				sAutoReplyByTimeState = oManageConfiguration.autoReplyByTime;
-				if( 'on' === sAutoReplyByTimeState )
-				{
-					oSwitchAutoReply.value = responseText = '下班时段自动回复已打开';
-				}
-				else
-				{
-					oSwitchAutoReply.value = responseText = '下班时段自动回复已关闭';
-				}
-			}
-		AjaxGet(sUrl, fnSuccess);
-	}
-
-	var textarea = oOffDutyReplyEditor.querySelector("textarea");
-	getOffDutyAutoreply();
-	function getOffDutyAutoreply(){
-		var sUrl = "offDutyAutoreplyText.json",
-			fnSuccess = function( responseText )
-			{
-				textarea.value = responseText;
-			},
-			fnFail = function()
-			{
-				alert( "获取下班时段自动回复文本失败" );
-			};
-		AjaxGet(sUrl, fnSuccess, fnFail);
-	}
-
-	oOffDutyReplyEditor.querySelector("#setOffDutyAutoreply").addEventListener("click", function()
-	{
-		var sUrl = "setOffDutyAutoreply.php",
-			sData = "off_duty_auto_reply_text=" + textarea.value,
-			fnSuccess = function( responseText )
-			{
-				alert( "设置下班时段自动回复文本  成功" );
-			},
-			fnFail = function()
-			{
-				alert( "设置下班时段自动回复文本  失败" );
-			};
-		AjaxPost(sUrl, sData, fnSuccess, fnFail);
-	});
-
-	oSwitchAutoReply.addEventListener("click", function() // 点击按钮
-	{
-		var sUrl = "switchAutoReply/switchAutoReply.php",
-			fnSuccess = function( responseText )
-			{
-				oSwitchAutoReply.value = responseText;
-			},
-			fnFail = function()
-			{
-				alert( "切换失败" );
-			};
-		AjaxGet(sUrl, fnSuccess, fnFail);
-	}, false);
-
-})();
-
+    let oSetCustomMenu = document.querySelector('#setCustomMenu'),
+        oCopyBtn = oSetCustomMenu.querySelector('.copy'),
+        oSetBtn = oSetCustomMenu.querySelector('.set');
+    oCopyBtn.addEventListener('click', function(){
+        let sUrl = 'setCustomMenu/setCustomMenu.php',
+            sData = 'act=copy',
+            fnSuccess = function(res){
+                if(res === 'true'){
+                    alert('备份成功');
+                }
+                else if(res === 'false'){
+                    alert('备份失败');
+                }
+            },
+            fnFail = function(status){
+                alert('备份失败：' + status);
+            };
+        AjaxPost(sUrl, sData, fnSuccess, fnFail);
+    });
+    oSetBtn.addEventListener('click', function(){
+        let sUrl = 'setCustomMenu/setCustomMenu.php',
+            sData = 'act=set',
+            fnSuccess = function(res){
+                if(res === 'true'){
+                    alert('设置成功');
+                }
+                else{
+                    alert('设置失败：'+res);
+                }
+            },
+            fnFail = function(status){
+                alert('设置失败：' + status);
+            };
+        AjaxPost(sUrl, sData, fnSuccess, fnFail);
+    });
+}
 
 // 新关注自动回复编辑器
 // TODO  用户输入格式化和过滤
