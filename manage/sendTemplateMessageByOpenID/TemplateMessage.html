@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>根据OpenID发送模板消息</title>
+</head>
+<body>
+<h1>根据OpenID发送模板消息</h1>
+<form action="TemplateMessage.php" method="post">
+	<input name="open_id" type="text" placeholder="OpenID" />
+	<input name="message" type="text" placeholder="消息内容" />
+	<input type="submit" />
+</form>
+<p>如果返回﻿如下字符则表示发送成功：﻿﻿{"errcode":0,"errmsg":"ok"}</p>
+</body>
+</html>

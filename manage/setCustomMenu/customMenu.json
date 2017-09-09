@@ -1,0 +1,37 @@
+{
+                   "button":[
+                   {
+                        "type":"view",
+                        "name":"🎂 蛋糕订购",
+                        "url":"http://www.red-space.cn/H5/2017/directToMeituan/index.html"
+                    },
+                    {
+                         "name":"帮助中心",
+                         "sub_button":[
+                          {
+                             "type":"click",
+                             "name":"配送范围",
+                             "key":"customMenuKey10"
+                          },
+                          {
+                                "type":"click",
+                                "name":"订单查询",
+                                "key":"customMenuKey11"
+                          },
+                          {
+                                "type":"click",
+                                "name":"在线客服",
+                                "key":"customMenuKey12"
+                          },
+                          {
+                             "type":"view",
+                             "name":"门店电话",
+                             "url":"http://red-space.cn/list/index.php"
+                          }]
+                     },
+                     {
+                        "type":"view",
+                        "name":"人才招募",
+                        "url":"http://red-space.cn/recruitment/index.php"
+                    }]
+               }
