@@ -287,21 +287,22 @@
 	{
 		oSubscribeAutoReplyTextEditor.querySelector(".copyPrevious").addEventListener("click", function()
 		{
-			AjaxGet("subscribeAutoReply/subscribeAutoReply.php?command=copySubscribeAutoReplyJSON",
-				function(resonseText)
+			AjaxPost("subscribeAutoReply/subscribeAutoReply.php",
+                'act=copy',
+				function(res)
 				{
-					if( 'success' === resonseText.trim() )
+					if( 'true' === res.trim() )
 					{
 						alert("拷贝成功");
 					}
-					else
+					else if( 'false' === res.trim() )
 					{
 						alert("拷贝失败");
 					}
 				},
 				function(status)
 				{
-					alert("拷贝失败。错误码：" + status);
+					alert("拷贝失败 " + status);
 				});
 		});
 	}
@@ -354,19 +355,19 @@
 					}
 				});
 
-				AjaxPost("subscribeAutoReply/subscribeAutoReply.php", "newJSON="+encodeURIComponent(JSON.stringify(aJSON)), function(responseText)
+				AjaxPost("subscribeAutoReply/subscribeAutoReply.php", "act=set&newJSON="+encodeURIComponent(JSON.stringify(aJSON)), function(res)
 				{
-					if( 'success' === responseText.trim() )
+					if( 'true' === res.trim() )
 					{
 						alert("修改成功");
 					}
-					else
+					else if( 'false' === res.trim() )
 					{
 						alert("修改失败");
 					}
 				}, function()
 				{
-					alert("修改失败。错误码：" + status);
+					alert("修改失败 " + status);
 				});
 			}
 		});

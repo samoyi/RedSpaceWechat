@@ -224,9 +224,10 @@ class MessageManager
 	 */
 	public function sendTemplateMessage($orderDetail, $sOpenID, $ad="", $detailUrl="")
     {
+        file_put_contents('template.txt', $orderDetail['product_name']);
         $template = array(
             'touser'        =>  $sOpenID,
-            'template_id'   =>  "444pldIlaFSHxWzAS7eoG4K7cvGb0vIqm4XY0JBkv60",
+            'template_id'   =>  "_-MiirGkaabk-yTkax4igwEy_UmgPFBK0WNB2XTOohw",
             'url'           =>  $detailUrl,
             'data'          =>  array(
                 'first'     =>  array('value'   =>("订单详情可点击下方 帮助中心-订单查询\n咨询电话：0376-6506386")),

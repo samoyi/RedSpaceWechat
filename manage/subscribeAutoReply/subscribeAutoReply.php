@@ -1,31 +1,20 @@
 <?php
-//date_default_timezone_set("Asia/Hong_Kong");
 
-	if( isset($_GET['command']) )
+	if( $_POST['act'] === 'copy' )
 	{
-		switch( $_GET['command'] )
-		{
-			case 'copySubscribeAutoReplyJSON':
-			{
-				if( copy('subscribeAutoPlayText.json', 'subscribeAutoPlayText_copy.json') )
-				{
-					echo 'success';
-				}
-				break;
-			}
+		if( copy('subscribeAutoPlayText.json', 'subscribeAutoPlayText_copy.json') ){
+			exit('true');
 		}
 	}
 
-	if( isset($_POST['newJSON']) )
+	if( $_POST['act'] === 'set' )
 	{
 		$sNewJSON = stripslashes(urldecode($_POST['newJSON']));
-		if( file_put_contents('subscribeAutoPlayText.json', $sNewJSON) )
-		{
-			echo 'success';
+		if( file_put_contents('subscribeAutoPlayText.json', $sNewJSON) ){
+			exit('true');
 		}
 	}
 
-
-
+	echo 'false';
 
 ?>

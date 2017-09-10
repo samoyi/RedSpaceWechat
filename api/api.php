@@ -1,6 +1,6 @@
 <?php
 
-
+file_put_contents('monintor.txt', $_SERVER['HTTP_REFERER'].'\n', FILE_APPEND);
 include('../configuration.php'); // 公众号配置文件
 include('../publicFunctions.php'); // 公共函数  TODO 这个文件依赖configuration.php
 include('../messageDispatcher.php'); // 获取微信后台推送信息

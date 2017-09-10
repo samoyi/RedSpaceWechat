@@ -67,7 +67,7 @@
 
 
 ***
-## api
+## API
 通过`api`目录下的文件向外提供接口
 
 
@@ -79,7 +79,7 @@
 * 整体整理的时候，一直使用的公众号做了迁移且一直没有重新启用微信小店，所以 `ProductManager.class.php` 和 `OrderManager.class.php `这两个类以及其他页微信小店
 有关的功能无法测试。
 * 完善api文件并添加调用日志
-* manage 和 api 中是否有改用post但用了get的情况
+* api 中是否有该用post但用了get的情况
 
 
 
