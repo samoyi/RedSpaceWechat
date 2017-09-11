@@ -6,7 +6,12 @@
 require '../configuration.php'; // 公众号配置文件
 
 // 验证IP
-if( !in_array($_SERVER['REMOTE_ADDR'], json_decode(WHITE_API_IP)) ){ exit; }
+$ip = $_SERVER['REMOTE_ADDR'];
+if( !in_array($ip, json_decode(WHITE_API_IP)) ){ exit; }
+
+// 记录该IP调用的接口和时间
+file_put_contents('./logs/users/' .$ip. '.txt', date("Y-m-d H:i:s", time()).'     '.$_REQUEST['act']."\n", FILE_APPEND);
+
 
 require '../publicFunctions.php'; // 公共函数  TODO 这个文件依赖configuration.php
 define("ACCESS_TOKEN", getAccessToken()); // 全局 access token
