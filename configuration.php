@@ -14,7 +14,12 @@ define("APPSECRET", ""); // 公众平台开发者密码
 define("PROJECT_ROOT", "/data/home/hmu196265/htdocs/wechat/");
 
 
- // 管理功能的验证密码 安全性能不高
+// manage目录名后缀
+// 自定义字符串，用于隐藏真实路径。需要将manage目录名改为 manage加上该字符串
+// 例如本例，manage目录名应为 manage123qwe
+define('MANAGE_DIR_RAND', '123qwe');
+
+// 管理功能的验证密码 安全性能不高
 define('MANAGE_PASSWORD', 123);
 
 
@@ -22,6 +27,12 @@ define('MANAGE_PASSWORD', 123);
 
  // 一次性订阅消息模板。如果需要使用该功能则填写
 define('SUB_MSG_TEMPLATE_ID', '');
+
+// API调用IP白名单。如果需要对外提供接口则填写
+// 使用JSON数组格式字符串
+define('WHITE_API_IP', '["123.123.123.123", "321.321.321.321"]');
+
+};
 
 
 ?>
