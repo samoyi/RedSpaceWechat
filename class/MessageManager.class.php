@@ -217,31 +217,6 @@ class MessageManager
     }
 
 
-    //发送模板消息
-    /*
-     * 调用微信【发送模板消息】接口
-     * 参数$orderDetail为订单详情数组
-	 */
-	public function sendTemplateMessage($orderDetail, $sOpenID, $ad="", $detailUrl="")
-    {
-        file_put_contents('template.txt', $orderDetail['product_name']);
-        $template = array(
-            'touser'        =>  $sOpenID,
-            'template_id'   =>  "_-MiirGkaabk-yTkax4igwEy_UmgPFBK0WNB2XTOohw",
-            'url'           =>  $detailUrl,
-            'data'          =>  array(
-                'first'     =>  array('value'   =>("订单详情可点击下方 帮助中心-订单查询\n咨询电话：0376-6506386")),
-                'product'   =>  array('value'   =>($orderDetail['product_name']), 'color'=> '#ea386c'),
-                'price'     =>  array('value'   =>("￥".$orderDetail['order_total_price']/100), 'color'=> '#ea386c'),
-                'time'      =>  array('value'   =>(date("Y-m-d H:i:s",$orderDetail['order_create_time'])), 'color'=> '#ea386c'),
-                'remark'    =>  array('value'   =>(" \n$ad"), 'color'=> '#565656')
-            )
-        );
-        $url_post = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" . ACCESS_TOKEN;
-        return request_post($url_post, json_encode($template));
-    }
-
-
     // 发送订阅消息
     /*
      * 调用微信【一次性订阅消息】接口

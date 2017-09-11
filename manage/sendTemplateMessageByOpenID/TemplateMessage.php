@@ -9,16 +9,17 @@
 
 	require '../../configuration.php';
 	require '../../publicFunctions.php';
-	require '../../class/MessageManager.class.php';
+	require '../../class/TemplateMessage.class.php';
 	define("ACCESS_TOKEN", getAccessToken());
 
-	$messageManager = new MessageManager();
+	$templateMessage = new TemplateMessage();
 	$orderDetail = array(
 		'product_name'=>$message,
+		'product_name'=>$message,
+		'order_id'=>'dingdanbianhao',
 		'order_total_price'=>99,
 		'order_create_time'=>time()
 	);
-
-	$result = $messageManager->sendTemplateMessage($orderDetail, $open_id);
+	$result = $templateMessage->orderPaymentNotice($orderDetail, $open_id, '欢迎惠顾');
 	echo json_encode($result);
 ?>
