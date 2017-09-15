@@ -7,8 +7,11 @@ define('DB_ADDRESS', 'hdm-124.hichina.com');//数据库连接地址
 define('DB_USER', 'hdm1240996');//数据库用户名
 define('DB_PASSWORD', 'ur010894');//数据库密码
 define('DB_NAME', 'hdm1240996_db');//数据库名称
+
 $dbr = new mysqli(DB_ADDRESS, DB_USER, DB_PASSWORD, DB_NAME);
-$dbr->select_db( DB_NAME );
+if( $dbr->connect_error ){
+	throw new Exception($dbr->connect_error);
+}
 
 
 
