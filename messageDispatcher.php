@@ -42,6 +42,6 @@ switch(MESSAGE_TYPE)
 
 
 // 插件：记录OpenID -------------------------------------------------------------
-requirePlugin('recordOpenID');
+// requirePlugin('recordOpenID');
 
 ?>

@@ -1,4 +1,3 @@
 <?php
-
-    requirePlugin('offDutyAutoReply');
+    $messageManager->responseNull();
 ?>
