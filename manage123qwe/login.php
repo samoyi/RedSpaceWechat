@@ -20,8 +20,8 @@
     }
     else{
 ?>
-    <form role = "form" action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
-        <input ty ="text" name="ur" required autofocus />
+    <form action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
+        <input type ="text" name="ur" required autofocus />
         <input type="submit" />
     </form>
 <?php
