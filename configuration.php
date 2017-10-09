@@ -20,7 +20,7 @@ define("PROJECT_ROOT", "/data/home/hmu196265/htdocs/wechat/");
 define('MANAGE_DIR_RAND', '123qwe');
 
 // 管理功能的验证密码 安全性能不高
-define('MANAGE_PASSWORD', 123);
+define('MANAGE_PASSWORD', '123');
 
 
 // 选填配置 ---------------------------------------------------------------------
@@ -31,8 +31,6 @@ define('SUB_MSG_TEMPLATE_ID', '');
 // API调用IP白名单。如果需要对外提供接口则填写
 // 使用JSON数组格式字符串
 define('WHITE_API_IP', '["123.123.123.123", "321.321.321.321"]');
-
-};
 
 
 ?>

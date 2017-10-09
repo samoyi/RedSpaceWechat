@@ -13,7 +13,7 @@
     if (  isset($_SESSION['valid']) && $_SESSION['valid'] === true ){
         header('location:index.php');
     }
-    else if ( isset($_POST['ur']) && $_POST['ur'] === MANAGE_PASSWORD )
+    else if ( isset($_POST['ur']) && $_POST['ur'] == MANAGE_PASSWORD )
     {
         $_SESSION['valid'] = true;
         header('location:index.php');
