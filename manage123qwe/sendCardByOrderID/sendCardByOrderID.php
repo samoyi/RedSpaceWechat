@@ -16,9 +16,9 @@
 	$OrderManager = new OrderManager();
 	$buyer_openid = $OrderManager->getOPENIDbyORDERID($order_id);
 
-	include('../../class/CardMessager.class.php');
-	$CardMessager = new CardMessager();
-	$result = $CardMessager->sendCard($card_id, $buyer_openid);
+	include('../../class/CardManager.class.php');
+	$CardManager = new CardManager();
+	$result = $CardManager->sendCard($card_id, $buyer_openid);
 	echo json_encode($result);
 
 ?>

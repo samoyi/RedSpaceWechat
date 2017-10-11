@@ -23,9 +23,9 @@ define("ACCESS_TOKEN", getAccessToken()); // 全局 access token
 // 给某个用户发送某款卡券
 if( $_POST["act"] === 'sendCard' && !empty($_POST['openid']) && !empty($_POST['cardid']) )
 {
-	require "../class/CardMessager.class.php";
-	$CardMessager = new CardMessager();
-	$result = $CardMessager->sendCard($_POST['cardid'], $_POST['openid']);
+	require "../class/CardManager.class.php";
+	$CardManager = new CardManager();
+	$result = $CardManager->sendCard($_POST['cardid'], $_POST['openid']);
 	echo json_encode($result );
 }
 
@@ -63,9 +63,9 @@ if( $_GET["act"] === 'historical_order' &&  $_GET['open_id'] )
 // 查询某个用户某款卡券的状态
 if( $_GET["act"] === 'user_card_status' && !empty($_GET['openid']) && !empty($_GET['cardid']) )
 {
-	require "../class/CardMessager.class.php";
-	$CardMessager = new CardMessager();
-	$result = $CardMessager->queryCode($_GET['openid'], $_GET['cardid']);
+	require "../class/CardManager.class.php";
+	$CardManager = new CardManager();
+	$result = $CardManager->queryCode($_GET['openid'], $_GET['cardid']);
 	echo json_encode($result );
 }
 
@@ -73,9 +73,9 @@ if( $_GET["act"] === 'user_card_status' && !empty($_GET['openid']) && !empty($_G
 // 核销某个用户的某款卡券
 if( $_POST["act"] === 'consume_card' && !empty($_POST['openid']) && !empty($_POST['cardid']) )
 {
-	require "../class/CardMessager.class.php";
-	$CardMessager = new CardMessager();
-	$result = $CardMessager->consumeCard($_GET['openid'], $_GET['cardid']);
+	require "../class/CardManager.class.php";
+	$CardManager = new CardManager();
+	$result = $CardManager->consumeCard($_GET['openid'], $_GET['cardid']);
 	echo json_encode($result );
 }
 

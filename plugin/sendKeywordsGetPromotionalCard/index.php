@@ -51,12 +51,12 @@ function sendKeywordsGetPromotionalCard($aProductNameToCardID, $sNoOrderTip)
 		{
 			if( $sProductNam === $key )
 			{
-				if( !class_exists("CardMessager", false) )
+				if( !class_exists("CardManager", false) )
 				{
-					include('class/CardMessager.class.php');
+					include('class/CardManager.class.php');
 				}
-				$cardMessager = new CardMessager();
-				$cardMessager->sendCard($value, USERID, 'manage' .MANAGE_DIR_RAND. '/sendCardResult.txt' );
+				$cardManager = new CardManager();
+				$cardManager->sendCard($value, USERID, 'manage' .MANAGE_DIR_RAND. '/sendCardResult.txt' );
 				$isSend = true;
 			}
 		}

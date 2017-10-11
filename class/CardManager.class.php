@@ -1,6 +1,6 @@
 <?php
 
-class CardMessager
+class CardManager
 {
 
     // 查询相关 ————————————————————————————————————————————————————————————————
@@ -76,7 +76,6 @@ class CardMessager
         $resultorderObj = json_decode($result);
         return $aCardID = $resultorderObj->card_id_list;
     }
-
 
 
 	// 获取用户已领取的卡券（包括领取后已经使用的）
@@ -190,6 +189,96 @@ class CardMessager
         }
         return $result;
     }
+
+
+
+    // 会员卡相关 ——————————————————————————————————————————————————————————————
+
+    // 更改会员卡信息（不是某张具体的会员卡）
+    // FIXME 数据没有解耦
+    /*
+     * 调用微信【更改会员卡信息接口】接口
+     * 如果返回false，则说明用户没有可核销的该类卡券
+     * 如果是自定义code的卡券，则第4个参数传true
+     */
+    public function updateMemberCardInfo($card_id)
+	{
+		$url = 'https://api.weixin.qq.com/card/update?access_token=' . ACCESS_TOKEN;
+		$data = '{
+			"card_id":"' .$card_id. '",
+			"member_card":
+			{
+               "base_info":
+			   {
+                   "service_phone": "4000328374",
+					"custom_url_name": "会员",
+					"custom_url": "http://www.xxx.com/member",
+					"custom_url_sub_title": "会员中心",
+					"promotion_url_name": "商城",
+					"promotion_url": "http://www.xxx.com/mall"
+               },
+               "activate_url": "http://www.xxx.com/active"
+			}
+		}';
+		/*
+		// 错误47001  格式错误
+		$data = '{
+			"card_id":"pdUqKjt3SR-nR9Bz5VK3r2_pkRus",
+			"member_card":
+			{
+               "base_info":
+			   {
+
+               },
+			   "use_custom_code": true
+			}
+		}'; */
+		return $result =  request_post($url, $data);
+	}
+
+
+    // 解码encrypt_code
+    /*
+     * 调用微信【解码code接口】接口
+     */
+    private function decryptCode($encrypt_code){
+        $url = 'https://api.weixin.qq.com/card/code/decrypt?access_token=' . ACCESS_TOKEN;
+        $data = '{ "encrypt_code":"' .$encrypt_code. '" }';
+        $result = json_decode(request_post($url, $data));
+        if( $result->errcode ){
+            $return = array(
+                'errcode'=> $result->errcode,
+                'errmsg'=> $result->errmsg
+            );
+            return $return;
+        }
+        else{
+            return $result->code;
+        }
+    }
+
+
+    // 接口激活会员卡
+	/*
+     * 调用微信【接口激活】接口
+	 * @para $sMembershipNumber: 用户显示的卡号，可以随便设定（试了一下中文都可以）
+     *                           但不能设定真正的卡号，$sCode。
+     * @$encrypt_code: 通过跳转接收到的code是经过加密的$encrypt_code，直接传入即可
+	 * 在已激活的状态下再次激活也可以修改显示的会员卡号
+	 */
+	public function activate($sCardID, $encrypt_code, $sMembershipNumber)
+	{
+        $code = $this->decryptCode($encrypt_code);
+
+		$url = 'https://api.weixin.qq.com/card/membercard/activate?access_token=' . ACCESS_TOKEN;
+		$data = '{
+			"membership_number": "' . $sMembershipNumber . '",
+			"code": "' . $code . '",
+			"card_id": "' . $sCardID . '"
+		}';
+		$result = request_post($url, $data);
+		return json_decode($result);
+	}
 }
 
 ?>
