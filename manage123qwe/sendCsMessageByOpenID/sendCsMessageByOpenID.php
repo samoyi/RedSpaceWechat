@@ -13,5 +13,5 @@
 	define("ACCESS_TOKEN", getAccessToken());
 
 	$messageManager = new MessageManager();
-	echo $messageManager->sendTextCSMessage($open_id, $message);
+	echo $messageManager->sendTextCSMessage($open_id, $message, false);
 ?>
